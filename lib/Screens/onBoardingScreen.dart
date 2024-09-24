@@ -49,7 +49,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                 "${OnboardingList[index].imagePath}",
                                 fit: BoxFit.cover,
                               )),
-                          SizedBox(height: 30,),
+                          SizedBox(height: 20,),
                           Text(
                             "${OnboardingList[index].title}",
                             style: TextStyle(
