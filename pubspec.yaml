@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   get: ^4.6.6
+  responsive_framework: ^0.1.6
   flutter:
     sdk: flutter
 

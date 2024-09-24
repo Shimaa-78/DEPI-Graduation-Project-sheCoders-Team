@@ -2,29 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:shoppe/Consts.dart';
 
 class CustomButton extends StatelessWidget {
-   CustomButton({super.key,required this.ontap});
+  CustomButton(
+      {super.key,
+      required this.ontap,
+      required this.width,
+      required this.text,
+      required this.height,
+      required this.fontsize});
   VoidCallback ontap;
+  double width;
+  String text;
+  double height;
+  double fontsize;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: ontap,
       child: Container(
-        width: 400,
-        height: 65,
+        width: width,
+        height: height,
         child: Center(
           child: Text(
-            "Let's get started",
+            "$text",
             style: TextStyle(
               color: Colors.white,
               fontFamily: "NunitoSans",
               fontWeight: FontWeight.w300,
-              fontSize: 22,
+              fontSize: this.fontsize,
             ),
           ),
         ),
         decoration: BoxDecoration(
-            color: KPrimeryColor, borderRadius: BorderRadius.circular(20)),
+            color: KPrimeryColor, borderRadius: BorderRadius.circular(10)),
       ),
     );
   }
