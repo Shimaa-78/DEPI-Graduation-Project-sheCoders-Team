@@ -1,34 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoppe/Consts/Consts.dart';
-import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart'; // Fix import
-
+import 'package:shoppe/Widgets/Custom Button Widget.dart'; // Fix import
 import '../Helpers/DioHelper.dart';
-
-import '../Models/ProducModel.dart';
+import '../Models/CartModel.dart';
 import '../Widgets/Methods.dart';
 import '../cubit/cart_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CartScreen extends StatelessWidget {
   CartScreen({super.key});
-  String buttonString = "";
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<CartCubit>();
-
     DioHelper.inint();
-
     cubit.getUserCart();
-
-    final cartProductsList = cubit.cartModel?.cartItems ?? [];
-
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-    buttonString = cartProductsList.isEmpty ? "Go Shopping" : "Check out";
-
-
 
     return BlocListener<CartCubit, CartState>(
       listener: (context, state) {
@@ -45,9 +32,9 @@ class CartScreen extends StatelessWidget {
         backgroundColor: const Color(0xffF2F2F2),
         body: Padding(
           padding: EdgeInsets.only(
-            top: screenHeight * 0.05, // Responsive vertical padding
-            left: screenWidth * 0.05,
-            right: screenWidth * 0.05, // Responsive horizontal padding
+            top: MediaQuery.of(context).size.height * 0.05, // Responsive vertical padding
+            left: MediaQuery.of(context).size.width * 0.05,
+            right: MediaQuery.of(context).size.width * 0.05, // Responsive horizontal padding
           ),
           child: Column(
             children: [
@@ -56,21 +43,28 @@ class CartScreen extends StatelessWidget {
                   const Text(
                     "Cart",
                     style: TextStyle(
-                        fontFamily: "Raleway",
-                        fontWeight: FontWeight.bold,
-                        fontSize: 28),
+                      fontFamily: "Raleway",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28,
+                    ),
                   ),
                   const SizedBox(width: 3),
                   CircleAvatar(
                     radius: 20,
                     backgroundColor: const Color(0xffE5EBFC),
                     child: Center(
-                      child: Text(
-                        cartProductsList.length.toString(),
-                        style: const TextStyle(
-                            fontFamily: "Raleway",
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24),
+                      child: BlocBuilder<CartCubit, CartState>(
+                        builder: (context, state) {
+                          final cartProductsList = cubit.cartModel?.cartItems ?? [];
+                          return Text(
+                            cartProductsList.length.toString(),
+                            style: const TextStyle(
+                              fontFamily: "Raleway",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -84,48 +78,44 @@ class CartScreen extends StatelessWidget {
                       child: CircularProgressIndicator(),
                     );
                   } else if (state is CartSuccess) {
-                    final cartProductsList =
-                        cubit.cartModel?.cartItems ?? []; // Moved here
+                    final cartProductsList = cubit.cartModel?.cartItems ?? [];
+                    String buttonString = cartProductsList.isEmpty ? "Go Shopping" : "Check out";
 
                     return Expanded(
                       child: cartProductsList.isEmpty
                           ? Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CircleLogo(
-                                      "assets/images/Logo_for_emty_Cart.png"),
-                                  const SizedBox(height: 20),
-                                  const Text(
-                                    "Your cart is empty!",
-                                    style: TextStyle(
-                                      color: Color(0xff004BFE),
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: "Raleway",
-                                    ),
-                                  ),
-                                ],
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleLogo("assets/images/Logo_for_emty_Cart.png"),
+                            const SizedBox(height: 20),
+                            const Text(
+                              "Your cart is empty!",
+                              style: TextStyle(
+                                color: Color(0xff004BFE),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "Raleway",
                               ),
-                            )
-                          : ListView.separated(
-                              itemCount: cartProductsList.length,
-                              itemBuilder: (context, index) {
-                                return buildCartItem(
-                                  context,
-                                  cartProductsList[index]
-                                      .product, // Accessing product correctly
-                                  screenWidth,
-                                  screenHeight,
-                                  cartProductsList[index]
-                                      .quantity, // Use the quantity from cart item
-                                );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return const SizedBox(height: 10);
-                              },
                             ),
+                          ],
+                        ),
+                      )
+                          : ListView.separated(
+                        itemCount: cartProductsList.length,
+                        itemBuilder: (context, index) {
+                          return buildCartItem(
+                            context,
+                            cartProductsList[index].product,
+                            MediaQuery.of(context).size.width,
+                            MediaQuery.of(context).size.height,
+                            cartProductsList[index].quantity,
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const SizedBox(height: 10);
+                        },
+                      ),
                     );
                   } else if (state is CartError) {
                     return Center(
@@ -138,7 +128,6 @@ class CartScreen extends StatelessWidget {
                   return Container(); // Default case
                 },
               ),
-
               Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -146,20 +135,26 @@ class CartScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Total \$${ cartProductsList.fold(
-                            0, (sum, item) => sum + (item.product.price * item.quantity))}",
+                        "Total \$${cubit.cartModel?.total ?? 0.0}", // Update this according to your total calculation
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           fontFamily: "Raleway",
                         ),
                       ),
-                      CustomButton(
-                        ontap: () {},
-                        width: 170,
-                        text: buttonString,
-                        height: 50,
-                        fontsize: 16,
+                      BlocBuilder<CartCubit, CartState>(
+                        builder: (context, state) {
+                          final cartProductsList = cubit.cartModel?.cartItems ?? [];
+                          return CustomButton(
+                            ontap: () {}, // Define the onTap function
+                            width: 170,
+                            text: state is CartSuccess
+                                ? (cartProductsList.isEmpty ? "Go Shopping" : "Check out")
+                                : "",
+                            height: 50,
+                            fontsize: 16,
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -191,8 +186,7 @@ class CartScreen extends StatelessWidget {
                     child: Image.network(
                       cartItem.image ?? "", // Handle null image URL safely
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) =>
-                          const Icon(Icons.error), // Fallback for broken image
+                      errorBuilder: (context, error, stackTrace) => const Icon(Icons.error), // Fallback for broken image
                     ),
                   ),
                 ),
@@ -215,15 +209,13 @@ class CartScreen extends StatelessWidget {
                 children: [
                   Text(
                     cartItem.name ?? "", // Handle null description safely
-                    style:
-                        const TextStyle(fontSize: 16, fontFamily: "NutioSans"),
+                    style: const TextStyle(fontSize: 16, fontFamily: "NutioSans"),
                     textAlign: TextAlign.start,
                     maxLines: 2,
                   ),
                   const SizedBox(height: 7),
                   Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start, // Align children to the start
+                    crossAxisAlignment: CrossAxisAlignment.start, // Align children to the start
                     children: [
                       Text(
                         "\$${cartItem.price ?? 0}", // Handle null price safely
@@ -236,8 +228,7 @@ class CartScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment
-                              .end, // Keep the row for quantity controls
+                          mainAxisAlignment: MainAxisAlignment.end, // Keep the row for quantity controls
                           children: [
                             add_remove_FromCart(Icons.remove),
                             const SizedBox(width: 5),
@@ -253,8 +244,7 @@ class CartScreen extends StatelessWidget {
                                 ),
                               ),
                               decoration: BoxDecoration(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(7)),
+                                borderRadius: const BorderRadius.all(Radius.circular(7)),
                                 color: const Color(0xffE5EBFC),
                               ),
                               width: screenWidth * 0.1, // Responsive width
@@ -266,7 +256,7 @@ class CartScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),

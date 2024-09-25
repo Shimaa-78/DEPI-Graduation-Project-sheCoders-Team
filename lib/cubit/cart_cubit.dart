@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:shoppe/Consts/Kpis.dart';
 
 import '../Helpers/DioHelper.dart';
-import '../Models/ProducModel.dart';
+import '../Models/CartModel.dart';
 
 part 'cart_state.dart';
 
@@ -22,7 +22,7 @@ class CartCubit extends Cubit<CartState> {
       print("API Response: ${response.data}");
       if (response.data['status']) {
         cartModel = CartModel.fromJson(response.data);
-
+        print("Total amount: ${cartModel?.total}"); // Accessing the total
         emit(CartSuccess());
       } else {
         emit(CartError("Failed to load cart items"));
@@ -31,6 +31,7 @@ class CartCubit extends Cubit<CartState> {
       emit(CartError("An error occurred: $error"));
     }
   }
+
 
 }
 
