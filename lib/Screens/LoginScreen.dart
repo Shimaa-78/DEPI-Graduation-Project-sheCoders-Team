@@ -9,9 +9,11 @@ class LoginScreen extends StatelessWidget {
        child: Column(
          children: [
            Text(""),
-           Text("Main"),
+           Text("Main"),Text("shimaa"),
          ],
-       ),
+
+
+
       ),
     );
   }
