@@ -1,25 +1,14 @@
 class CartModel {
   final List<CartItem> cartItems;
-  final double total; // New property for total
 
-  CartModel({required this.cartItems, required this.total}); // Include total in constructor
+  CartModel({required this.cartItems,});
 
   factory CartModel.fromJson(Map<String, dynamic> json) {
     var list = json['data']['cart_items'] as List;
     List<CartItem> cartItemsList = list.map((i) => CartItem.fromJson(i)).toList();
-
-    // Ensure this line correctly accesses the total
-    double total = json['data']['total'] != null ? json['data']['total'].toDouble() : 0.0;
-
-    return CartModel(
-      cartItems: cartItemsList,
-      total: total,
-    );
+    return CartModel(cartItems: cartItemsList);
   }
-
 }
-
-
 class CartItem {
   final int id;
   final int quantity;
