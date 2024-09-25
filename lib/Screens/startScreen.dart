@@ -6,8 +6,6 @@ import 'package:shoppe/Consts.dart';
 import 'package:shoppe/Screens/onBoardingScreen.dart';
 import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart';
 
-import '../Widgets/Methods.dart';
-
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
 
@@ -22,7 +20,25 @@ class StartScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Spacer(flex: 4,),
-        CircleLogo("assets/images/Logo.png"),
+        Container(
+          width: 170,
+          height: 170,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(200),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromARGB(255, 236, 232, 232),
+                spreadRadius: 2,
+                blurRadius: 2,
+                offset: Offset(0, 1),
+              ),
+            ],
+          ),
+          child: Image.asset(
+            "assets/images/Logo.png",
+          ),
+        ),
   
 
      SizedBox(height: 20,),
@@ -44,7 +60,7 @@ class StartScreen extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         Spacer(flex: 2,),
-      
+
         CustomButton(
           fontsize: 22,
           height: 60,
@@ -86,7 +102,6 @@ class StartScreen extends StatelessWidget {
             ),
     );
   }
-
 
   
 }

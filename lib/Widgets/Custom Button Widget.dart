@@ -4,11 +4,11 @@ import 'package:shoppe/Consts.dart';
 class CustomButton extends StatelessWidget {
   CustomButton(
       {super.key,
-      required this.ontap,
-      required this.width,
-      required this.text,
-      required this.height,
-      required this.fontsize});
+        required this.ontap,
+        required this.width,
+        required this.text,
+        required this.height,
+        required this.fontsize});
   VoidCallback ontap;
   double width;
   String text;
