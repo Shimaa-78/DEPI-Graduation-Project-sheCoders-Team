@@ -8,8 +8,8 @@ class LoginScreen extends StatelessWidget {
       body: Center(
        child: Column(
          children: [
-           Text(""),
-           Text("Main"),Text("shimaa"),
+           Text("Login"),
+
          ],
 
 
