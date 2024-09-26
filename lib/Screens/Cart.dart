@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:shoppe/Consts/Consts.dart';
 import 'package:shoppe/Widgets/Custom Button Widget.dart'; // Fix import
 import '../Helpers/DioHelper.dart';
-import '../Models/ProducModel.dart';
+import '../Models/CartModel.dart';
 import '../Widgets/BuildItemCart.dart';
 import '../Widgets/Methods.dart';
 import '../cubit/cart_cubit.dart';

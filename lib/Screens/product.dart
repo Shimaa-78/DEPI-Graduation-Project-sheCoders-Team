@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Product extends StatefulWidget {
-  @override
-  _ProductState createState() => _ProductState();
-}
+import '../cubit/cart_cubit.dart';
 
-class _ProductState extends State<Product> {
-  Color buttonColor = Color(0xff004CFF); // اللون الأساسي للزر
-
+class Product extends StatelessWidget {
+  String? ProductId;
+  Product({this.ProductId});
   @override
   Widget build(BuildContext context) {
+    Color buttonColor = Color(0xff004CFF);
+    final cubit = context.read<CartCubit>();
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -86,12 +86,15 @@ class _ProductState extends State<Product> {
             ),
             SizedBox(width: 60,),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                cubit.addOrRemoveFromTheCart(ProductId!);
+              },
               child: Text(
                 "Add to Cart",
                 style: TextStyle(fontSize: 20, color: Colors.white),
               ),
               style: ElevatedButton.styleFrom(
+
                 minimumSize: Size(200, 50), // عرض وارتفاع الزر
                 backgroundColor: buttonColor, // لون الزر
                 shape: RoundedRectangleBorder(
