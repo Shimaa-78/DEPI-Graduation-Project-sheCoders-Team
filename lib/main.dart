@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:shoppe/SCreens/startScreen.dart';
+import 'package:shoppe/Screens/LoginScreen.dart';
 import 'package:shoppe/cubit/cart_cubit.dart';
 
 import 'Helpers/DioHelper.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
 
         home: Scaffold(
-          body: CartScreen(),
+          body: LoginScreen(),
         ),
       ),
     );
