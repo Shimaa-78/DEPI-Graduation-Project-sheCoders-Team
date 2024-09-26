@@ -22,3 +22,8 @@ final class updateCartError extends CartState {
   String? message;
   updateCartError( this.message);
 }
+class CartUpdated extends CartState {
+  final List<CartModel> cartItems;
+
+  CartUpdated(this.cartItems);
+}

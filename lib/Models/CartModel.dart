@@ -11,7 +11,7 @@ class CartModel {
 }
 class CartItem {
   final int id;
-  final int quantity;
+  late final int quantity;
   final Product product;
 
   CartItem({required this.id, required this.quantity, required this.product});
