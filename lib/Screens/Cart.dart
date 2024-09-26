@@ -103,7 +103,7 @@ class CartScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircleLogo("assets/images/Logo_for_empty_Cart.png"),
+          CircleLogo("assets/images/Logo_for_emty_Cart.png"),
           const SizedBox(height: 20),
           const Text(
             "Your cart is empty!",
@@ -124,7 +124,7 @@ class CartScreen extends StatelessWidget {
       itemCount: cartProductsList.length,
       itemBuilder: (context, index) {
         return CartItemWidget(
-          cartItem: cartProductsList[index].product,
+          cartItem: cartProductsList[index],
           screenWidth: MediaQuery.of(context).size.width,
           screenHeight: MediaQuery.of(context).size.height,
           quantity: cartProductsList[index].quantity,
