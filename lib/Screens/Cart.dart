@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoppe/Consts/Consts.dart';
-import 'package:shoppe/Widgets/Custom Button Widget.dart'; // Fix import
 import '../Helpers/DioHelper.dart';
 import '../Models/CartModel.dart';
 import '../Widgets/BuildItemCart.dart';
+import '../Widgets/Custom Button Widget.dart';
 import '../Widgets/Methods.dart';
 import '../cubit/cart_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CartScreen extends StatelessWidget {
-  CartScreen({super.key});
+  const CartScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<CartCubit>();
+    final cartCubit = context.read<CartCubit>();
     DioHelper.inint();
-    cubit.getUserCart();
+    cartCubit.getUserCart();
 
     return BlocListener<CartCubit, CartState>(
       listener: (context, state) {
@@ -32,159 +32,145 @@ class CartScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: const Color(0xffF2F2F2),
         body: Padding(
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height *
-                0.05, // Responsive vertical padding
-            left: MediaQuery.of(context).size.width * 0.05,
-            right: MediaQuery.of(context).size.width *
-                0.05, // Responsive horizontal padding
+          padding: EdgeInsets.symmetric(
+            vertical: MediaQuery.of(context).size.height * 0.05,
+            horizontal: MediaQuery.of(context).size.width * 0.05,
           ),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  const Text(
-                    "Cart",
-                    style: TextStyle(
-                      fontFamily: "Raleway",
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28,
-                    ),
-                  ),
-                  const SizedBox(width: 3),
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: const Color(0xffE5EBFC),
-                    child: Center(
-                      child: BlocBuilder<CartCubit, CartState>(
-                        builder: (context, state) {
-                          final cartProductsList =
-                              cubit.cartModel?.cartItems ?? [];
-                          return Text(
-                            cartProductsList.length.toString(),
-                            style: const TextStyle(
-                              fontFamily: "Raleway",
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              // BlocBuilder to handle state changes
-              BlocBuilder<CartCubit, CartState>(
-                builder: (context, state) {
-                  if (state is CartLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is CartSuccess) {
-                    final cartProductsList = cubit.cartModel?.cartItems ?? [];
-                    String buttonString =
-                        cartProductsList.isEmpty ? "Go Shopping" : "Check out";
-
-                    return Expanded(
-                      child: cartProductsList.isEmpty
-                          ? Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CircleLogo(
-                                      "assets/images/Logo_for_emty_Cart.png"),
-                                  const SizedBox(height: 20),
-                                  const Text(
-                                    "Your cart is empty!",
-                                    style: TextStyle(
-                                      color: Color(0xff004BFE),
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: "Raleway",
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : ListView.separated(
-                              itemCount: cartProductsList.length,
-                              itemBuilder: (context, index) {
-                                return CartItemWidget(
-
-
-
-                                  cartItem: cartProductsList[index].product,
-                                  screenWidth:  MediaQuery.of(context).size.width,
-                                  screenHeight: MediaQuery.of(context).size.height,
-                                  quantity:           cartProductsList[index].quantity,
-                                );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return const SizedBox(height: 10);
-                              },
-                            ),
-                    );
-                  } else if (state is CartError) {
-                    return Center(
-                      child: Text(
-                        "Failed to load cart items: ${state.message}",
-                        style: const TextStyle(color: Colors.red),
-                      ),
-                    );
-                  }
-                  return Container(); // Default case
-                },
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Total \$${cubit.total ?? 0}", // Update this according to your total calculation
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Raleway",
-                        ),
-                      ),
-                      BlocBuilder<CartCubit, CartState>(
-                        builder: (context, state) {
-                          final cartProductsList =
-                              cubit.cartModel?.cartItems ?? [];
-                          return CustomButton(
-                            ontap: () {}, // Define the onTap function
-                            width: 170,
-                            text: state is CartSuccess
-                                ? (cartProductsList.isEmpty
-                                    ? "Go Shopping"
-                                    : "Check out")
-                                : "",
-                            height: 50,
-                            fontsize: 16,
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+          child: BlocBuilder<CartCubit, CartState>(
+            builder: (context, state) {
+              if (state is CartLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is CartSuccess) {
+                return _buildCartSuccessContent(cartCubit);
+              }
+              return Container(); // Handle other states if necessary
+            },
           ),
         ),
       ),
     );
   }
 
-  // Method to build each Cart Item
+  Widget _buildCartSuccessContent(CartCubit cartCubit) {
+    final cartProductsList = cartCubit.cartModel?.cartItems ?? [];
+    String buttonText = cartProductsList.isEmpty ? "Go Shopping" : "Check out";
 
-  Container add_remove_FromCart(IconData icn) {
+    return Column(
+      children: [
+        _buildCartHeader(cartProductsList),
+        Expanded(
+          child: cartProductsList.isEmpty
+              ? _buildEmptyCartMessage()
+              : _buildCartItemsList(cartProductsList),
+        ),
+        _buildTotalAndCheckoutButton(cartCubit, buttonText),
+      ],
+    );
+  }
+
+  Widget _buildCartHeader(List<CartItem> cartProductsList) {
+    return Row(
+      children: [
+        const Text(
+          "Cart",
+          style: TextStyle(
+            fontFamily: "Raleway",
+            fontWeight: FontWeight.bold,
+            fontSize: 28,
+          ),
+        ),
+        const SizedBox(width: 3),
+        CircleAvatar(
+          radius: 20,
+          backgroundColor: const Color(0xffE5EBFC),
+          child: Center(
+            child: Text(
+              cartProductsList.length.toString(),
+              style: const TextStyle(
+                fontFamily: "Raleway",
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEmptyCartMessage() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleLogo("assets/images/Logo_for_empty_Cart.png"),
+          const SizedBox(height: 20),
+          const Text(
+            "Your cart is empty!",
+            style: TextStyle(
+              color: Color(0xff004BFE),
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              fontFamily: "Raleway",
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCartItemsList(List<CartItem> cartProductsList) {
+    return ListView.separated(
+      itemCount: cartProductsList.length,
+      itemBuilder: (context, index) {
+        return CartItemWidget(
+          cartItem: cartProductsList[index].product,
+          screenWidth: MediaQuery.of(context).size.width,
+          screenHeight: MediaQuery.of(context).size.height,
+          quantity: cartProductsList[index].quantity,
+        );
+      },
+      separatorBuilder: (context, index) {
+        return const SizedBox(height: 10);
+      },
+    );
+  }
+
+  Widget _buildTotalAndCheckoutButton(CartCubit cartCubit, String buttonText) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Total \$${cartCubit.total ?? 0}", // Update this according to your total calculation
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                fontFamily: "Raleway",
+              ),
+            ),
+            CustomButton(
+              ontap: () {
+                // Define the onTap function
+              },
+              width: 170,
+              text: buttonText,
+              height: 50,
+              fontsize: 16,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Method to build each Cart Item
+  Container addRemoveFromCart(IconData iconData) {
     return Container(
       child: Icon(
-        icn,
+        iconData,
         color: KPrimeryColor,
         size: 20,
       ),
