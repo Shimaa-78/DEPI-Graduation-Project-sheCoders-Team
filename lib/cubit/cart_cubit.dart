@@ -78,15 +78,15 @@ class CartCubit extends Cubit<CartState> {
         body: {'quantity': newQuantity},
       );
       if (response.data['status']) {
-        item.quantity = newQuantity;
-        emit(CartUpdated(cartItems));  // Update state with the modified cart
-        await getUserCart();           // Refresh the entire cart after the update
-        emit(updateCartSuccess());     // Emit success state
+
+        await getUserCart();
+        emit(CartSuccess());
       } else {
-        emit(updateCartError(response.data['message'] ?? "Failed to update cart item"));
+        emit(CartError(response.data['message'] ?? "Failed to update cart item"));
       }
     } catch (error) {
-      emit(updateCartError("An error occurred while updating the cart"));
+      print(error.toString());
+      emit(CartError("An error occurred while updating the cart"));
     }
   }
 
@@ -101,15 +101,15 @@ class CartCubit extends Cubit<CartState> {
           body: {'quantity': newQuantity},
         );
         if (response.data['status']) {
-          item.quantity = newQuantity;
-          emit(CartUpdated(cartItems));  // Update state with modified cart
-          await getUserCart();           // Refresh cart after update
-          emit(updateCartSuccess());     // Emit success state
+          await getUserCart();
+
+
+          emit(CartSuccess());
         } else {
-          emit(updateCartError(response.data['message'] ?? "Failed to update cart item"));
+          emit(CartError(response.data['message'] ?? "Failed to update cart item"));
         }
       } catch (error) {
-        emit(updateCartError("An error occurred while updating the cart"));
+        emit(CartError("An error occurred while updating the cart"));
       }
     }
   }
