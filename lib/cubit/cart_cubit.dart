@@ -37,7 +37,7 @@ class CartCubit extends Cubit<CartState> {
       }
     } catch (error) {
       print(error.toString());
-      emit(CartError("An error occurred"));
+      emit(CartError("An error occurred Check Your Internet Connection"));
     }
   }
 
@@ -65,7 +65,7 @@ class CartCubit extends Cubit<CartState> {
       }
     } catch (error) {
       print(error.toString());
-      emit(CartError("An error occurred"));
+      emit(CartError("An error occurred Check Your Internet Connection"));
     }
   }
   Future<void> incrementQuantity(CartItem item) async {
@@ -80,13 +80,13 @@ class CartCubit extends Cubit<CartState> {
       if (response.data['status']) {
 
         await getUserCart();
+        print("+====================================================${item.id}");
         emit(CartSuccess());
       } else {
         emit(CartError(response.data['message'] ?? "Failed to update cart item"));
       }
     } catch (error) {
-      print(error.toString());
-      emit(CartError("An error occurred while updating the cart"));
+      emit(CartError("An error occurred Check Your Internet Connection"));
     }
   }
 
@@ -109,8 +109,32 @@ class CartCubit extends Cubit<CartState> {
           emit(CartError(response.data['message'] ?? "Failed to update cart item"));
         }
       } catch (error) {
-        emit(CartError("An error occurred while updating the cart"));
+        emit(CartError("An error occurred Check Your Internet Connection"));
       }
+    }
+  }
+  Future<void> clearCart() async {
+    emit(CartLoading());
+
+    try {
+      // Assuming you have a list of cart items
+      for (var item in cartModel?.cartItems ?? []) {
+        final response = await DioHelper.deleteData(
+          path: '${KApis.cartPath}/${item.id}', // Endpoint for deleting a cart item
+        );
+
+        if (!response.data['status']) {
+          emit(CartError(response.data['message'] ?? "Failed to delete cart item"));
+          return; // Exit the loop if any deletion fails
+        }
+      }
+
+      // Optionally, refresh the cart after clearing
+      await getUserCart();
+      emit(CartSuccess()); // Emit success state
+
+    } catch (error) {
+      emit(CartError("An error occurred while clearing the cart"));
     }
   }
 }

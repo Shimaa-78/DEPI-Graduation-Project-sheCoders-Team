@@ -57,7 +57,7 @@ class CartScreen extends StatelessWidget {
 
     return Column(
       children: [
-        _buildCartHeader(cartProductsList),
+        _buildCartHeader(cartProductsList,cartCubit),
         Expanded(
           child: cartProductsList.isEmpty
               ? _buildEmptyCartMessage()
@@ -68,28 +68,52 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCartHeader(List<CartItem> cartProductsList) {
+  Widget _buildCartHeader(List<CartItem> cartProductsList,CartCubit cartCubit) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
-          "Cart",
-          style: TextStyle(
-            fontFamily: "Raleway",
-            fontWeight: FontWeight.bold,
-            fontSize: 28,
-          ),
-        ),
-        const SizedBox(width: 3),
-        CircleAvatar(
-          radius: 20,
-          backgroundColor: const Color(0xffE5EBFC),
-          child: Center(
-            child: Text(
-              cartProductsList.length.toString(),
-              style: const TextStyle(
+        Row(
+          children: [
+            const Text(
+              "Cart",
+              style: TextStyle(
                 fontFamily: "Raleway",
                 fontWeight: FontWeight.bold,
-                fontSize: 24,
+                fontSize: 28,
+              ),
+            ),
+            const SizedBox(width: 3),
+            CircleAvatar(
+              radius: 20,
+              backgroundColor: const Color(0xffE5EBFC),
+              child: Center(
+                child: Text(
+                  cartProductsList.length.toString(),
+                  style: const TextStyle(
+                    fontFamily: "Raleway",
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+            ),
+          ],
+
+        ),
+        InkWell(
+          onTap: (){
+            cartCubit .clearCart();
+          },
+          child: CircleAvatar(
+            radius: 25,
+            backgroundColor: const Color(0xffE5EBFC),
+            child: Text(
+              "Clear",
+              style: TextStyle(
+                fontFamily: "Raleway",
+                fontWeight: FontWeight.w500,
+                fontSize: 18,
+                color: Colors.red,
               ),
             ),
           ),
