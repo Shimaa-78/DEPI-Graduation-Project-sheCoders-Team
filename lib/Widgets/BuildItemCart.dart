@@ -90,7 +90,7 @@ class CartItemWidget extends StatelessWidget {
 
                                 child: add_remove_FromCart(Icons.remove),   onTap: () {
 
-                              cubit.incrementQuantity(cartItem);
+                              cubit.decrementQuantity(cartItem);
                             },),
                             const SizedBox(width: 5),
                             Container(
