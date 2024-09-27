@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shoppe/Screens/LoginScreen.dart';
 import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart';
 import 'package:shoppe/Widgets/Custom_Text_Form_Field.dart';
 
@@ -37,7 +39,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     fontSize: 30,
                     fontWeight: FontWeight.w400),
               ),
-              SizedBox(height: 16,),
+              SizedBox(
+                height: 16,
+              ),
               Text(
                   "Don't worry! please enter the email address associated with your account.",
                   style: TextStyle(
@@ -57,7 +61,14 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               ),
               Padding(
                 padding: const EdgeInsets.all(17.0),
-                child: CustomButton(ontap: () {}, text: "Submit",height: 60,width:400 ,fontsize:22 ),
+                child: CustomButton(
+                    ontap: () {
+                      Get.offAll(LoginScreen());
+                    },
+                    text: "Submit",
+                    height: 60,
+                    width: 400,
+                    fontsize: 22),
               )
             ],
           ),

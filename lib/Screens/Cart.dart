@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shoppe/Consts.dart';
+import 'package:shoppe/Consts/Kcolors.dart';
 import 'package:shoppe/Widgets/Custom Button Widget.dart';
 
 import '../Models/CartModel.dart';
