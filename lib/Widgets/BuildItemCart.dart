@@ -89,8 +89,15 @@ class CartItemWidget extends StatelessWidget {
                             InkWell(
 
                                 child: add_remove_FromCart(Icons.remove),   onTap: () {
+                                 int newQuantity = 1 ;
+                                 if (cartItem.quantity>1){
+                                   newQuantity = cartItem.quantity -1;
+                                   cubit.updateQuantity(cartItem,newQuantity);
+                                 }
+                                 else if (cartItem.quantity==1){
+                                   cubit.addOrRemoveFromTheCart(cartItem.product.id.toString());
+                                 }
 
-                              cubit.decrementQuantity(cartItem);
                             },),
                             const SizedBox(width: 5),
                             Container(
@@ -114,7 +121,8 @@ class CartItemWidget extends StatelessWidget {
                             const SizedBox(width: 5),
                             InkWell(child: add_remove_FromCart(Icons.add),   onTap: () {
 
-                              cubit.incrementQuantity(cartItem);
+                              int newQuantity = cartItem.quantity +1;
+                              cubit.updateQuantity(cartItem,newQuantity);
                             },),
                           ],
                         ),

@@ -8,6 +8,7 @@ import 'package:shoppe/Screens/ForgetPassword.dart';
 import 'package:shoppe/Screens/SignUp.dart';
 import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart';
 
+import '../Helpers/hive_helper.dart';
 import '../Widgets/Custom_Text_Form_Field.dart';
 import 'onBoardingScreen.dart';
 
@@ -146,6 +147,7 @@ class LoginScreen extends StatelessWidget {
                                     email: emailController.text,
                                     password: passwordController.text,
                                   );
+                              print(HiveHelper.getToken());
                             }
                             ;
                           },

@@ -3,7 +3,7 @@ import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:meta/meta.dart';
 import 'package:shoppe/Consts/Kpis.dart';
 
-import '../Helpers/DioHelper.dart';
+import '../Helpers/dio_helper.dart';
 import '../Models/CartModel.dart';
 
 part 'cart_state.dart';
@@ -68,8 +68,8 @@ class CartCubit extends Cubit<CartState> {
       emit(CartError("An error occurred Check Your Internet Connection"));
     }
   }
-  Future<void> incrementQuantity(CartItem item) async {
-    int newQuantity = item.quantity + 1;
+  Future<void> updateQuantity(CartItem item,newQuantity) async {
+     // int newQuantity = item.quantity + 1;
 
     emit(updateCartLoading());
     try {
@@ -90,29 +90,51 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  Future<void> decrementQuantity(CartItem item) async {
-    if (item.quantity > 1) {
-      int newQuantity = item.quantity - 1;
-
-      emit(updateCartLoading());
-      try {
-        final response = await DioHelper.putData(
-          path: '${KApis.cartPath}/${item.id}',
-          body: {'quantity': newQuantity},
-        );
-        if (response.data['status']) {
-          await getUserCart();
-
-
-          emit(CartSuccess());
-        } else {
-          emit(CartError(response.data['message'] ?? "Failed to update cart item"));
-        }
-      } catch (error) {
-        emit(CartError("An error occurred Check Your Internet Connection"));
-      }
-    }
-  }
+// Future<void> incrementQuantity(CartItem item) async {
+  //   int newQuantity = item.quantity + 1;
+  //
+  //   emit(updateCartLoading());
+  //   try {
+  //     final response = await DioHelper.putData(
+  //       path: '${KApis.cartPath}/${item.id}',
+  //       body: {'quantity': newQuantity},
+  //     );
+  //     if (response.data['status']) {
+  //
+  //       await getUserCart();
+  //       print("+====================================================${item.id}");
+  //       emit(CartSuccess());
+  //     } else {
+  //       emit(CartError(response.data['message'] ?? "Failed to update cart item"));
+  //     }
+  //   } catch (error) {
+  //     emit(CartError("An error occurred Check Your Internet Connection"));
+  //   }
+  // }
+  //
+  // Future<void> decrementQuantity(CartItem item) async {
+  //   if (item.quantity > 1) {
+  //     int newQuantity = item.quantity - 1;
+  //
+  //     emit(updateCartLoading());
+  //     try {
+  //       final response = await DioHelper.putData(
+  //         path: '${KApis.cartPath}/${item.id}',
+  //         body: {'quantity': newQuantity},
+  //       );
+  //       if (response.data['status']) {
+  //         await getUserCart();
+  //
+  //
+  //         emit(CartSuccess());
+  //       } else {
+  //         emit(CartError(response.data['message'] ?? "Failed to update cart item"));
+  //       }
+  //     } catch (error) {
+  //       emit(CartError("An error occurred Check Your Internet Connection"));
+  //     }
+  //   }
+  // }
   Future<void> clearCart() async {
     emit(CartLoading());
 

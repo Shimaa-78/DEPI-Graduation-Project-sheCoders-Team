@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../Consts/KApis.dart';
+import 'hive_helper.dart';
 
 class DioHelper {
   static Dio? _dio;
@@ -13,6 +14,7 @@ class DioHelper {
         baseUrl: KApis.baseUrl,
         receiveTimeout: const Duration(seconds: 60),
         headers: {
+          "Authorization":"${HiveHelper.getToken()}",
           "lang": "en",
           "Content-Type": "application/json",
         },

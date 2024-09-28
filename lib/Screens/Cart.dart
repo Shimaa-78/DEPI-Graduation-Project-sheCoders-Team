@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoppe/Consts/Consts.dart';
-import '../Helpers/DioHelper.dart';
+import '../Helpers/dio_helper.dart';
 import '../Models/CartModel.dart';
 import '../Widgets/BuildItemCart.dart';
 import '../Widgets/Custom Button Widget.dart';
