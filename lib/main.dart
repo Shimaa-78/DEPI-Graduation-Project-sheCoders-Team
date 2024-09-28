@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: StartScreen(),
+          body: CartScreen(),
         ),
       ),
     );
