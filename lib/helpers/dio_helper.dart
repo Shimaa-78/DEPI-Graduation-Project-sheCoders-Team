@@ -1,20 +1,18 @@
 import 'package:dio/dio.dart';
 
-import '../Consts/Kpis.dart';
-
-
+import '../Consts/KApis.dart';
 
 class DioHelper {
   static Dio? _dio;
 
   DioHelper._();
+
   static void inint() {
     _dio = Dio(
       BaseOptions(
         baseUrl: KApis.baseUrl,
         receiveTimeout: const Duration(seconds: 60),
         headers: {
-          "Authorization":"T92JdAUjRA6016u8VYh5pnqID7UiiGLuzKluiKskt30xlKcPwPNC1LuvOSaiyqqDOhyOQJ",
           "lang": "en",
           "Content-Type": "application/json",
         },
