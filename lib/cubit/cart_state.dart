@@ -4,18 +4,21 @@ part of 'cart_cubit.dart';
 sealed class CartState {}
 
 final class CartInitial extends CartState {}
+
 final class CartLoading extends CartState {}
 final class CartSuccess extends CartState {}
 final class CartError extends CartState {
   String? message;
   CartError( this.message);
 }
+
 final class addTocartLoading extends CartState {}
 final class addTocartSuccess extends CartState {}
 final class addTocartCartError extends CartState {
   String? message;
   addTocartCartError( this.message);
 }
+
 final class updateCartLoading extends CartState {}
 final class updateCartSuccess extends CartState {}
 final class updateCartError extends CartState {
