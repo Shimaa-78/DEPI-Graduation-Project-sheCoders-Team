@@ -8,13 +8,14 @@ class CustomTextFromField extends StatelessWidget {
   TextInputType keyboardTybe;
   bool isObscure;
   IconData? suffixIcon;
+  final TextEditingController? controller;
 
   CustomTextFromField(
       {this.color=Colors.black
         , this.suffixIcon,
         required this.label,
         required this.validator,
-
+        this.controller,
         required this.icon,
         this.keyboardTybe = TextInputType.text,
         this.isObscure = false});
@@ -53,9 +54,11 @@ class CustomTextFromField extends StatelessWidget {
             UnderlineInputBorder(borderSide: BorderSide(color: Colors.red))),
         keyboardType: keyboardTybe,
         keyboardAppearance: Brightness.light,
-        //  controller: controller,
+        controller: controller,
         validator: validator,
         obscureText: isObscure,
+
+
       ),
     );
   }

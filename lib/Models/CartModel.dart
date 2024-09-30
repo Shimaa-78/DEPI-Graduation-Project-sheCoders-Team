@@ -1,37 +1,61 @@
 class CartModel {
-  String image;
-  String discreption;
-  String color;
-  String size;
-  double price;
-  int numofItems;
+  final List<CartItem> cartItems;
 
-  CartModel({
-    required this.image,
-    required this.color,
-    required this.size,
+  CartModel({required this.cartItems,});
+
+  factory CartModel.fromJson(Map<String, dynamic> json) {
+    var list = json['data']['cart_items'] as List;
+    List<CartItem> cartItemsList = list.map((i) => CartItem.fromJson(i)).toList();
+    return CartModel(cartItems: cartItemsList);
+  }
+
+
+
+}
+class CartItem {
+  final int id;
+   int quantity;
+  final Product product;
+
+  CartItem({required this.id, required this.quantity, required this.product});
+
+  factory CartItem.fromJson(Map<String, dynamic> json) {
+    return CartItem(
+      id: json['id'],
+      quantity: json['quantity'],
+      product: Product.fromJson(json['product']),
+    );
+  }
+  get Id => id;
+}
+class Product {
+  final int id;
+  final double price;
+  final double oldPrice;
+  final int discount;
+  final String image;
+  final String name;
+  final String description;
+
+  Product({
+    required this.id,
     required this.price,
-    required this.discreption,
-    required this.numofItems,
+    required this.oldPrice,
+    required this.discount,
+    required this.image,
+    required this.name,
+    required this.description,
   });
 
-  static double calculateTotal() {
-    double total = 0.0;
-    for (var item in CartList) {
-      total += item.price * item.numofItems; // Removed type cast
-    }
-    return total;
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json['id'],
+      price: json['price'].toDouble(),
+      oldPrice: json['old_price'].toDouble(),
+      discount: json['discount'],
+      image: json['image'],
+      name: json['name'],
+      description: json['description'],
+    );
   }
 }
-
-List<CartModel> CartList = [
-  // CartModel(
-  //   image: "assets/images/cart.jpg",
-  //   discreption: "Lorem ipsum dolor sit amet consectetur.",
-  //   color: "Pink",
-  //   size: "large",
-  //   price: 17.00,
-  //   numofItems: 2,
-  // ),
-
-];
