@@ -9,6 +9,7 @@ import 'package:shoppe/Screens/LoginScreen.dart';
 import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart';
 
 import '../Widgets/Custom_Text_Form_Field.dart';
+import 'categoriesview.dart';
 import 'onBoardingScreen.dart';
 
 class SignUp extends StatelessWidget {
@@ -146,6 +147,7 @@ class SignUp extends StatelessWidget {
                                     name: nameController.text,
                                     phone: phoneController.text,
                                   );
+                              Get.to(CategoryView());
                             }
                           },
                           text: 'Sign up',

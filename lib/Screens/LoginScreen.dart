@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:shoppe/Cubit/login_cubit.dart';
+import 'package:shoppe/SCreens/categoriesview.dart';
 import 'package:shoppe/Screens/Cart.dart';
 import 'package:shoppe/Screens/ForgetPassword.dart';
 import 'package:shoppe/Screens/SignUp.dart';
@@ -142,12 +143,12 @@ class LoginScreen extends StatelessWidget {
                           width: 400,
                           height: 60,
                           ontap: () {
-                            if (_formKey.currentState!.validate()) {
+                            if (_formKey.currentState!.validate()){
                               context.read<LoginCubit>().login(
                                     email: emailController.text,
                                     password: passwordController.text,
                                   );
-                              print(HiveHelper.getToken());
+
                             }
                             ;
                           },

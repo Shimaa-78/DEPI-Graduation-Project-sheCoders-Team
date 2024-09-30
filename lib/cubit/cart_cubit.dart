@@ -39,6 +39,7 @@ class CartCubit extends Cubit<CartState> {
       print(error.toString());
       emit(CartError("An error occurred Check Your Internet Connection"));
     }
+
   }
 
   Future<void> deleteCartItem(CartItem cartItem) async {
@@ -59,34 +60,34 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  // void addOrRemoveFromTheCart(String productId) async {
-  //   // Change type to int
-  //   emit(adOrRemoveCartLoading());
-  //   try {
-  //     final response = await DioHelper.postData(path: KApis.cartPath, body: {
-  //       'product_id': productId.toString(),
-  //     });
-  //     print("API Response: ${response.data}");
-  //
-  //     if (response.data['status']) {
-  //
-  //       if (cartIds.contains(productId)) {
+  void addToCart(String productId) async {
+    // Change type to int
+    emit(addTocartLoading());
+    try {
+      final response = await DioHelper.postData(path: KApis.cartPath, body: {
+        'product_id': productId.toString(),
+      });
+      print("API Response: ${response.data}");
 
-  //         cartIds.remove(productId);
-  //       } else {
-  //         cartIds.add(productId.toString());
-  //       }
-  //        await getUserCart();
-  //       emit(adOrRemoveCartSuccess());
-  //     } else {
-  //       // Refresh cart if the operation fails
-  //       emit(adOrRemoveCartError("Failed to load cart items"));
-  //     }
-  //   } catch (error) {
-  //     print(error.toString());
-  //     emit(adOrRemoveCartError("An error occurred Check Your Internet Connection"));
-  //   }
-  // }
+      if (response.data['status']) {
+
+        if (cartIds.contains(productId)) {
+
+          cartIds.remove(productId);
+        } else {
+          cartIds.add(productId.toString());
+        }
+         await getUserCart();
+        emit(addTocartSuccess());
+      } else {
+        // Refresh cart if the operation fails
+        emit(addTocartCartError("Failed to load cart items"));
+      }
+    } catch (error) {
+      print(error.toString());
+      emit(addTocartCartError("An error occurred Check Your Internet Connection"));
+    }
+  }
 
   void increaseQuantity(CartItem item) {
      item.quantity+=1;

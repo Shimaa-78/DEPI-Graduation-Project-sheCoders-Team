@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../Models/categorymodel.dart';
-
-import 'package:flutter/material.dart';
+import '../cubit/products_cubit.dart'; // Make sure to import the correct cubit
+import '../Screens/productlist.dart';// Import the screen for navigation
 
 class CategoryWidget extends StatelessWidget {
   final CategoryModel categoryModel;
@@ -12,9 +13,22 @@ class CategoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // إضافة ما يحدث عند الضغط على الـ Container
-        print('Tapped on ${categoryModel.categoryName}');
+        // لف شاشة ProductListScreen بـ BlocProvider لـ ProductsCubit
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) {
+                final cubit =  ProductsCubit (); // إنشاء CategoryCubit
+                cubit.fetchProducts (categoryModel.id); // استدعاء fetchCategories هنا
+                return cubit; // إرجاع الـ cubit
+              },
+              child: ProductListScreen(), // الشاشة التي يتم التنقل إليها
+            ),
+          ),
+        );
       },
+
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         decoration: BoxDecoration(
@@ -35,7 +49,7 @@ class CategoryWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                categoryModel.categoryName,
+                categoryModel.name,
                 style: TextStyle(
                   color: Colors.black87,
                   fontSize: 24,
