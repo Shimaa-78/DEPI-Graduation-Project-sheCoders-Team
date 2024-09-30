@@ -8,10 +8,13 @@ class CartModel {
     List<CartItem> cartItemsList = list.map((i) => CartItem.fromJson(i)).toList();
     return CartModel(cartItems: cartItemsList);
   }
+
+
+
 }
 class CartItem {
   final int id;
-  final int quantity;
+  late final int quantity;
   final Product product;
 
   CartItem({required this.id, required this.quantity, required this.product});
@@ -23,6 +26,7 @@ class CartItem {
       product: Product.fromJson(json['product']),
     );
   }
+  get Id => id;
 }
 class Product {
   final int id;

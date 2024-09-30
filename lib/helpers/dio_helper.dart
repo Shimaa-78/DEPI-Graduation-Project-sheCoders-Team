@@ -14,7 +14,8 @@ class DioHelper {
         baseUrl: KApis.baseUrl,
         receiveTimeout: const Duration(seconds: 60),
         headers: {
-          "Authorization":"${HiveHelper.getToken()}",
+          "Authorization":"tUdV1N5rJB4Jf7m2Yy84tS5D1d51cDltcslzebt6SPp5xchyng5OHSfBK9s1hPPzgqDV5M",
+          // "Authorization":"${HiveHelper.getToken()}",
           "lang": "en",
           "Content-Type": "application/json",
         },

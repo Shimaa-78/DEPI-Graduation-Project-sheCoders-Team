@@ -32,18 +32,21 @@ class CartScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: const Color(0xffF2F2F2),
         body: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: MediaQuery.of(context).size.height * 0.05,
-            horizontal: MediaQuery.of(context).size.width * 0.05,
+          padding: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.04,
+            left: MediaQuery.of(context).size.width * 0.05,
+            right: MediaQuery.of(context).size.width * 0.05,
           ),
           child: BlocBuilder<CartCubit, CartState>(
             builder: (context, state) {
               if (state is CartLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state is CartSuccess) {
-                return _buildCartSuccessContent(cartCubit);
+                return const Center(child: CircularProgressIndicator(
+
+                ));
               }
-              return Container(); // Handle other states if necessary
+                return _buildCartSuccessContent(cartCubit);
+
+              // Handle other states if necessary
             },
           ),
         ),
@@ -151,11 +154,11 @@ class CartScreen extends StatelessWidget {
           cartItem: cartProductsList[index],
           screenWidth: MediaQuery.of(context).size.width,
           screenHeight: MediaQuery.of(context).size.height,
-          quantity: cartProductsList[index].quantity,
+           quantity: cartProductsList[index].quantity,
         );
       },
       separatorBuilder: (context, index) {
-        return const SizedBox(height: 10);
+        return const SizedBox(height: 0);
       },
     );
   }

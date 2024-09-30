@@ -7,15 +7,14 @@ class CartItemWidget extends StatelessWidget {
   final CartItem cartItem;
   final double screenWidth;
   final double screenHeight;
-  final int quantity;
+  final  int quantity;
 
-
-  const CartItemWidget({
+   CartItemWidget({
     Key? key,
     required this.cartItem,
     required this.screenWidth,
     required this.screenHeight,
-    required this.quantity,
+     required this.quantity,
   }) : super(key: key);
 
   @override
@@ -35,18 +34,21 @@ class CartItemWidget extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
-                      cartItem.product.image ?? "", // Handle null image URL safely
+                      cartItem.product.image ??
+                          "", // Handle null image URL safely
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => const Icon(Icons.error), // Fallback for broken image
+                      errorBuilder: (context, error, stackTrace) =>
+                      const Icon(Icons.error), // Fallback for broken image
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: InkWell(
-                    onTap:(){
-                      cubit.addOrRemoveFromTheCart(cartItem.product.id.toString());
-                    } ,
+                    onTap: () {
+                      cubit.addOrRemoveFromTheCart(
+                          cartItem.product.id.toString());
+                    },
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
                       child: Icon(
@@ -64,17 +66,21 @@ class CartItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    cartItem.product.name ?? "", // Handle null description safely
-                    style: const TextStyle(fontSize: 16, fontFamily: "NutioSans"),
+                    cartItem.product.name ??
+                        "", // Handle null description safely
+                    style:
+                    const TextStyle(fontSize: 16, fontFamily: "NutioSans"),
                     textAlign: TextAlign.start,
                     maxLines: 2,
                   ),
                   const SizedBox(height: 7),
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start, // Align children to the start
+                    crossAxisAlignment:
+                    CrossAxisAlignment.start, // Align children to the start
                     children: [
                       Text(
-                        "\$${cartItem.product.price ?? 0}", // Handle null price safely
+                        "\$${cartItem.product.price ?? 0}",
+                        // Handle null price safely
                         style: const TextStyle(
                           fontFamily: "Raleway",
                           fontWeight: FontWeight.bold,
@@ -84,46 +90,57 @@ class CartItemWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end, // Keep the row for quantity controls
+                          mainAxisAlignment: MainAxisAlignment
+                              .end, // Keep the row for quantity controls
                           children: [
                             InkWell(
+                              child: add_remove_FromCart(Icons.remove),
+                              onTap: () {
+                                int newQuantity = 1;
+                                if (cartItem.quantity > 1) {
+                                  newQuantity = cartItem.quantity - 1;
 
-                                child: add_remove_FromCart(Icons.remove),   onTap: () {
-                                 int newQuantity = 1 ;
-                                 if (cartItem.quantity>1){
-                                   newQuantity = cartItem.quantity -1;
-                                   cubit.updateQuantity(cartItem,newQuantity);
-                                 }
-                                 else if (cartItem.quantity==1){
-                                   cubit.addOrRemoveFromTheCart(cartItem.product.id.toString());
-                                 }
-
-                            },),
-                            const SizedBox(width: 5),
-                            Container(
-                              child: Center(
-                                child: Text(
-                                  "$quantity",
-                                  style: const TextStyle(
-                                    fontFamily: "Raleway",
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(Radius.circular(7)),
-                                color: const Color(0xffE5EBFC),
-                              ),
-                              width: screenWidth * 0.1, // Responsive width
-                              height: screenHeight * 0.05, // Responsive height
+                                  cubit.updateQuantity(cartItem, newQuantity);
+                                } else if (cartItem.quantity == 1) {
+                                  cubit.addOrRemoveFromTheCart(
+                                      cartItem.product.id.toString());
+                                }
+                              },
                             ),
                             const SizedBox(width: 5),
-                            InkWell(child: add_remove_FromCart(Icons.add),   onTap: () {
+                            BlocBuilder<CartCubit, CartState>(
+                              builder: (context, state) {
 
-                              int newQuantity = cartItem.quantity +1;
-                              cubit.updateQuantity(cartItem,newQuantity);
-                            },),
+                                return Container(
+                                  child: Center(
+                                    child: Text(
+                                      "$quantity",
+                                      style: const TextStyle(
+                                        fontFamily: "Raleway",
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                    const BorderRadius.all(Radius.circular(7)),
+                                    color: const Color(0xffE5EBFC),
+                                  ),
+                                  width: screenWidth * 0.1, // Responsive width
+                                  height: screenHeight *
+                                      0.05, // Responsive height
+                                );}
+
+                            ),
+                            const SizedBox(width: 5),
+                            InkWell(
+                              child: add_remove_FromCart(Icons.add),
+                              onTap: () {
+                                int newQuantity = cartItem.quantity + 1;
+                                 cubit.updateQuantity(cartItem, newQuantity);
+                              },
+                            ),
                           ],
                         ),
                       ),

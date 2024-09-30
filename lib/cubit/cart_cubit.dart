@@ -10,7 +10,7 @@ part 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
   CartModel? cartModel;
-  List<CartModel> cartItems = [];
+   List<CartItem> cartItems = [];
 
   CartCubit() : super(CartInitial());
 
@@ -68,6 +68,8 @@ class CartCubit extends Cubit<CartState> {
       emit(CartError("An error occurred Check Your Internet Connection"));
     }
   }
+
+
   Future<void> updateQuantity(CartItem item,newQuantity) async {
      // int newQuantity = item.quantity + 1;
 
@@ -79,62 +81,19 @@ class CartCubit extends Cubit<CartState> {
       );
       if (response.data['status']) {
 
-        await getUserCart();
+          // await getUserCart();
         print("+====================================================${item.id}");
-        emit(CartSuccess());
+        emit(updateCartSuccess());
       } else {
-        emit(CartError(response.data['message'] ?? "Failed to update cart item"));
+        emit(updateCartError(response.data['message'] ?? "Failed to update cart item"));
       }
     } catch (error) {
-      emit(CartError("An error occurred Check Your Internet Connection"));
+      emit(updateCartError("An error occurred Check Your Internet Connection"));
     }
   }
 
-// Future<void> incrementQuantity(CartItem item) async {
-  //   int newQuantity = item.quantity + 1;
-  //
-  //   emit(updateCartLoading());
-  //   try {
-  //     final response = await DioHelper.putData(
-  //       path: '${KApis.cartPath}/${item.id}',
-  //       body: {'quantity': newQuantity},
-  //     );
-  //     if (response.data['status']) {
-  //
-  //       await getUserCart();
-  //       print("+====================================================${item.id}");
-  //       emit(CartSuccess());
-  //     } else {
-  //       emit(CartError(response.data['message'] ?? "Failed to update cart item"));
-  //     }
-  //   } catch (error) {
-  //     emit(CartError("An error occurred Check Your Internet Connection"));
-  //   }
-  // }
-  //
-  // Future<void> decrementQuantity(CartItem item) async {
-  //   if (item.quantity > 1) {
-  //     int newQuantity = item.quantity - 1;
-  //
-  //     emit(updateCartLoading());
-  //     try {
-  //       final response = await DioHelper.putData(
-  //         path: '${KApis.cartPath}/${item.id}',
-  //         body: {'quantity': newQuantity},
-  //       );
-  //       if (response.data['status']) {
-  //         await getUserCart();
-  //
-  //
-  //         emit(CartSuccess());
-  //       } else {
-  //         emit(CartError(response.data['message'] ?? "Failed to update cart item"));
-  //       }
-  //     } catch (error) {
-  //       emit(CartError("An error occurred Check Your Internet Connection"));
-  //     }
-  //   }
-  // }
+
+
   Future<void> clearCart() async {
     emit(CartLoading());
 

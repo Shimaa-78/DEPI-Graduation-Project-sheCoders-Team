@@ -22,3 +22,4 @@ final class updateCartError extends CartState {
   String? message;
   updateCartError( this.message);
 }
+
