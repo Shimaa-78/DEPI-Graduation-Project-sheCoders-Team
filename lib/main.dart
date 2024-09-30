@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart'; // Correct import for Hive Flutter initialization
+import 'package:shoppe/Screens/LoginScreen.dart';
 import 'package:shoppe/Screens/startScreen.dart'; // Adjust casing to match actual file names
 
 import 'Cubit/login_cubit.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: CartScreen(),
+          body: LoginScreen(),
         ),
       ),
     );
