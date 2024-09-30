@@ -1,9 +1,13 @@
 
 import 'package:flutter/material.dart';
+
+import '../Models/ProducModel.dart';
 import 'buttonaddcart.dart';
 import 'favoritebutten.dart';
 
 class  Rowbar extends StatelessWidget {
+  Product product;
+  Rowbar( { required this.product} );
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -11,7 +15,7 @@ class  Rowbar extends StatelessWidget {
       children: [
         Favoritebutten(),
         SizedBox(width: 60,),
-        Buttonaddcart(),
+        Buttonaddcart(product: product),
 
       ],
     );}}

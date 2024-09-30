@@ -15,7 +15,7 @@ class Productveiw extends  StatelessWidget {
       children: [
         Productdetails(product: product),
         SizedBox(height: 16),
-        Rowbar(),
+        Rowbar(product:product),
         // إضافة مسافة بين النص والزر
 
       ],

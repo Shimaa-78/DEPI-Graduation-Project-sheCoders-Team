@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+import '../Screens/Cart.dart';
 
 class  Bottomnavigationbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
        BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items:  <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -23,7 +27,11 @@ class  Bottomnavigationbar extends StatelessWidget {
             label: 'Notifications',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
+
+            icon: InkWell(child: Icon(Icons.shopping_cart),onTap: (){
+
+              Get.to(CartScreen());
+            },),
             label: 'Cart',
           ),
         ],
