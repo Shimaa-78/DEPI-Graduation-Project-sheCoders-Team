@@ -40,11 +40,9 @@ class CartScreen extends StatelessWidget {
           child: BlocBuilder<CartCubit, CartState>(
             builder: (context, state) {
               if (state is CartLoading) {
-                return const Center(child: CircularProgressIndicator(
-
-                ));
+                return const Center(child: CircularProgressIndicator());
               }
-                return _buildCartSuccessContent(cartCubit);
+              return _buildCartSuccessContent(cartCubit);
 
               // Handle other states if necessary
             },
@@ -60,7 +58,7 @@ class CartScreen extends StatelessWidget {
 
     return Column(
       children: [
-        _buildCartHeader(cartProductsList,cartCubit),
+        _buildCartHeader(cartProductsList, cartCubit),
         Expanded(
           child: cartProductsList.isEmpty
               ? _buildEmptyCartMessage()
@@ -71,7 +69,8 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCartHeader(List<CartItem> cartProductsList,CartCubit cartCubit) {
+  Widget _buildCartHeader(
+      List<CartItem> cartProductsList, CartCubit cartCubit) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -101,11 +100,10 @@ class CartScreen extends StatelessWidget {
               ),
             ),
           ],
-
         ),
         InkWell(
-          onTap: (){
-            cartCubit .clearCart();
+          onTap: () {
+            cartCubit.clearCart();
           },
           child: CircleAvatar(
             radius: 25,
@@ -147,14 +145,27 @@ class CartScreen extends StatelessWidget {
   }
 
   Widget _buildCartItemsList(List<CartItem> cartProductsList) {
+    int removed =0;
     return ListView.separated(
       itemCount: cartProductsList.length,
       itemBuilder: (context, index) {
-        return CartItemWidget(
-          cartItem: cartProductsList[index],
-          screenWidth: MediaQuery.of(context).size.width,
-          screenHeight: MediaQuery.of(context).size.height,
-           quantity: cartProductsList[index].quantity,
+
+        return BlocBuilder<CartCubit, CartState>(
+          builder: (context, state) {
+
+            if (state is CartItemRemoved) {
+              cartProductsList = state.cartItems;
+              removed = index;
+            } else if (state is CartItemRemovedLoading && state.id == cartProductsList[index].product.id) {
+              return Center(child: CircularProgressIndicator());
+            }
+            return CartItemWidget(
+              cartItem: cartProductsList[index],
+              screenWidth: MediaQuery.of(context).size.width,
+              screenHeight: MediaQuery.of(context).size.height,
+              // quantity: cartProductsList[index].quantity,
+            );
+          },
         );
       },
       separatorBuilder: (context, index) {

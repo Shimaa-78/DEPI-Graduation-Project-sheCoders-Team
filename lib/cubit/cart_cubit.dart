@@ -11,7 +11,7 @@ part 'cart_state.dart';
 class CartCubit extends Cubit<CartState> {
   CartModel? cartModel;
    List<CartItem> cartItems = [];
-
+   int qantity = 0;
   CartCubit() : super(CartInitial());
 
   int? total;
@@ -25,7 +25,7 @@ class CartCubit extends Cubit<CartState> {
       if (response.data['status']) {
         cartModel = CartModel.fromJson(response.data);
 
-        // cartIds.clear();
+
         for (var item in cartModel!.cartItems) {
           cartIds.add(item.product.id.toString());
         }
@@ -41,37 +41,73 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  void addOrRemoveFromTheCart(String productId) async {
-    // Change type to int
-    emit(CartLoading());
+  Future<void> deleteCartItem(CartItem cartItem) async {
+    emit(CartItemRemovedLoading(cartItem.product.id));
     try {
-      final response = await DioHelper.postData(path: KApis.cartPath, body: {
-        'product_id': productId.toString(), // Convert to string for the request
-      });
-      print("API Response: ${response.data}");
-
+      final response = await DioHelper.deleteData(
+        path: '${KApis.cartPath}/${cartItem.id}',
+      );
       if (response.data['status']) {
-        // Check if the product ID is already in the set
-        if (cartIds.contains(productId)) {
-          cartIds.remove(productId); // Remove if already in the cart
-        } else {
-          cartIds.add(productId.toString()); // Add if not in the cart
-        }
-        await getUserCart();
-        emit(CartSuccess());
+        cartModel?.cartItems.remove(cartItem);
+        cartIds.remove(cartItem.product.id.toString());
+        emit(CartItemRemoved(cartModel!.cartItems));
       } else {
-        // Refresh cart if the operation fails
-        emit(CartError("Failed to load cart items"));
+        emit(CartItemRemovedError("Failed to delete cart item"));
       }
     } catch (error) {
-      print(error.toString());
-      emit(CartError("An error occurred Check Your Internet Connection"));
+      emit(CartItemRemovedError("An error occurred while deleting the cart item"));
+    }
+  }
+
+  // void addOrRemoveFromTheCart(String productId) async {
+  //   // Change type to int
+  //   emit(adOrRemoveCartLoading());
+  //   try {
+  //     final response = await DioHelper.postData(path: KApis.cartPath, body: {
+  //       'product_id': productId.toString(),
+  //     });
+  //     print("API Response: ${response.data}");
+  //
+  //     if (response.data['status']) {
+  //
+  //       if (cartIds.contains(productId)) {
+
+  //         cartIds.remove(productId);
+  //       } else {
+  //         cartIds.add(productId.toString());
+  //       }
+  //        await getUserCart();
+  //       emit(adOrRemoveCartSuccess());
+  //     } else {
+  //       // Refresh cart if the operation fails
+  //       emit(adOrRemoveCartError("Failed to load cart items"));
+  //     }
+  //   } catch (error) {
+  //     print(error.toString());
+  //     emit(adOrRemoveCartError("An error occurred Check Your Internet Connection"));
+  //   }
+  // }
+
+  void increaseQuantity(CartItem item) {
+     item.quantity+=1;
+    emit(QuantityUpdated(item));
+
+  }
+
+
+  void decreaseQuantity(CartItem item) {
+    if (item.quantity > 1) {
+      item.quantity-=1;
+      emit(QuantityUpdated(item));
+    } else {
+
+      deleteCartItem(item);
     }
   }
 
 
   Future<void> updateQuantity(CartItem item,newQuantity) async {
-     // int newQuantity = item.quantity + 1;
+
 
     emit(updateCartLoading());
     try {

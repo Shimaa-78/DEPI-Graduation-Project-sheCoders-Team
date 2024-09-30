@@ -87,7 +87,7 @@ class Product extends StatelessWidget {
             SizedBox(width: 60,),
             ElevatedButton(
               onPressed: () {
-                cubit.addOrRemoveFromTheCart(ProductId!);
+                // cubit.addOrRemoveFromTheCart(ProductId!);
               },
               child: Text(
                 "Add to Cart",

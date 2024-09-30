@@ -23,3 +23,24 @@ final class updateCartError extends CartState {
   updateCartError( this.message);
 }
 
+
+class QuantityUpdated extends CartState {
+  final CartItem cartItem;
+
+  QuantityUpdated(this.cartItem);
+}
+class CartItemRemovedLoading extends CartState {
+  int? id;
+  CartItemRemovedLoading(this.id);
+
+}
+class CartItemRemovedError extends CartState {
+  String? message;
+  CartItemRemovedError(this.message);
+}
+class CartItemRemoved extends CartState {
+  final List<CartItem> cartItems;
+
+  CartItemRemoved(this.cartItems);
+}
+

@@ -1,156 +1,146 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../Models/CartModel.dart';
-import '../cubit/cart_cubit.dart'; // Adjust the import according to your project structure
+import '../cubit/cart_cubit.dart';
 
 class CartItemWidget extends StatelessWidget {
   final CartItem cartItem;
   final double screenWidth;
   final double screenHeight;
-  final  int quantity;
 
-   CartItemWidget({
+  CartItemWidget({
     Key? key,
     required this.cartItem,
     required this.screenWidth,
     required this.screenHeight,
-     required this.quantity,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<CartCubit>();
+
     return Padding(
       padding: const EdgeInsets.all(5.0),
-      child: Material(
-        child: Row(
-          children: [
-            Stack(
-              alignment: AlignmentDirectional.bottomStart,
+      child: BlocBuilder<CartCubit, CartState>(
+        builder: (context, state) {
+          return Material(
+            child: Row(
               children: [
-                Container(
-                  width: screenWidth * 0.35, // Make responsive
-                  height: screenHeight * 0.15, // Make responsive
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      cartItem.product.image ??
-                          "", // Handle null image URL safely
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) =>
-                      const Icon(Icons.error), // Fallback for broken image
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: InkWell(
-                    onTap: () {
-                      cubit.addOrRemoveFromTheCart(
-                          cartItem.product.id.toString());
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.delete_outline_outlined,
-                        color: const Color(0xffD97474),
+                Stack(
+                  alignment: AlignmentDirectional.bottomStart,
+                  children: [
+                    Container(
+                      width: screenWidth * 0.35,
+                      height: screenHeight * 0.15,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          cartItem.product.image ?? "",
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.error),
+                        ),
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: InkWell(
+                        onTap: () {
+
+                          cubit.deleteCartItem(cartItem);
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            Icons.delete_outline_outlined,
+                            color: const Color(0xffD97474),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(width: screenWidth * 0.03),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        cartItem.product.name ?? "",
+                        style: const TextStyle(
+                            fontSize: 16, fontFamily: "NutioSans"),
+                        maxLines: 2,
+                      ),
+                      const SizedBox(height: 7),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "\$${cartItem.product.price ?? 0}",
+                            style: const TextStyle(
+                              fontFamily: "Raleway",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    cubit.decreaseQuantity(cartItem);
+                                    cubit.updateQuantity(
+                                        cartItem, cartItem.quantity);
+                                  },
+                                  child: add_remove_FromCart(Icons.remove),
+                                ),
+                                const SizedBox(width: 5),
+                                BlocBuilder<CartCubit, CartState>(
+                                  builder: (context, state) {
+                                    return Container(
+                                      width: screenWidth * 0.1,
+                                      height: screenHeight * 0.05,
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(7)),
+                                        color: const Color(0xffE5EBFC),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "${cartItem.quantity}",
+                                          style: const TextStyle(
+                                            fontFamily: "Raleway",
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                const SizedBox(width: 5),
+                                InkWell(
+                                  onTap: () async {
+                                    cubit.increaseQuantity(cartItem);
+                                    await cubit.updateQuantity(
+                                        cartItem, cartItem.quantity);
+                                  },
+                                  child: add_remove_FromCart(Icons.add),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-            SizedBox(width: screenWidth * 0.03), // Responsive spacing
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    cartItem.product.name ??
-                        "", // Handle null description safely
-                    style:
-                    const TextStyle(fontSize: 16, fontFamily: "NutioSans"),
-                    textAlign: TextAlign.start,
-                    maxLines: 2,
-                  ),
-                  const SizedBox(height: 7),
-                  Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start, // Align children to the start
-                    children: [
-                      Text(
-                        "\$${cartItem.product.price ?? 0}",
-                        // Handle null price safely
-                        style: const TextStyle(
-                          fontFamily: "Raleway",
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment
-                              .end, // Keep the row for quantity controls
-                          children: [
-                            InkWell(
-                              child: add_remove_FromCart(Icons.remove),
-                              onTap: () {
-                                int newQuantity = 1;
-                                if (cartItem.quantity > 1) {
-                                  newQuantity = cartItem.quantity - 1;
-
-                                  cubit.updateQuantity(cartItem, newQuantity);
-                                } else if (cartItem.quantity == 1) {
-                                  cubit.addOrRemoveFromTheCart(
-                                      cartItem.product.id.toString());
-                                }
-                              },
-                            ),
-                            const SizedBox(width: 5),
-                            BlocBuilder<CartCubit, CartState>(
-                              builder: (context, state) {
-
-                                return Container(
-                                  child: Center(
-                                    child: Text(
-                                      "$quantity",
-                                      style: const TextStyle(
-                                        fontFamily: "Raleway",
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                    const BorderRadius.all(Radius.circular(7)),
-                                    color: const Color(0xffE5EBFC),
-                                  ),
-                                  width: screenWidth * 0.1, // Responsive width
-                                  height: screenHeight *
-                                      0.05, // Responsive height
-                                );}
-
-                            ),
-                            const SizedBox(width: 5),
-                            InkWell(
-                              child: add_remove_FromCart(Icons.add),
-                              onTap: () {
-                                int newQuantity = cartItem.quantity + 1;
-                                 cubit.updateQuantity(cartItem, newQuantity);
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -159,13 +149,13 @@ class CartItemWidget extends StatelessWidget {
     return Container(
       child: Icon(
         icn,
-        color: Colors.blue, // Use your primary color constant if available
+        color: Colors.blue,
         size: 20,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
-          color: Colors.blue, // Use your primary color constant if available
+          color: Colors.blue,
           width: 2,
         ),
       ),
