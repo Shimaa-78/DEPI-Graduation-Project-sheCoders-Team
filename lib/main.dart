@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:shoppe/SCreens/startScreen.dart';
 import 'package:shoppe/cubit/cart_cubit.dart';
+import 'package:shoppe/SCreens/categoriesview.dart';
+import 'package:shoppe/SCreens/productlist.dart';
 
 import 'Helpers/DioHelper.dart';
 import 'Screens/Cart.dart';
@@ -24,10 +26,10 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
 
-        home: Scaffold(
-          body: CartScreen(),
+        home:
+        CategoryView()
         ),
-      ),
+
     );
   }
 }
