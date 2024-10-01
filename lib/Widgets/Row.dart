@@ -13,7 +13,7 @@ class  Rowbar extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Favoritebutten(),
+        Favoritebutten(product: product),
         SizedBox(width: 60,),
         Buttonaddcart(product: product),
 

@@ -3,12 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart'; // Correct import for Hive Flutter initialization
+import 'package:shoppe/SCreens/categoriesview.dart';
 import 'package:shoppe/Screens/LoginScreen.dart';
 import 'package:shoppe/Screens/startScreen.dart'; // Adjust casing to match actual file names
+import 'package:shoppe/cubit/favourite_cubit.dart';
 
 import 'Cubit/login_cubit.dart';
 
 import 'Screens/Cart.dart';
+import 'Screens/favorite.dart';
 import 'cubit/cart_cubit.dart';
 import 'helpers/dio_helper.dart';
 import 'helpers/hive_helper.dart'; // Check casing for the imports
@@ -35,11 +38,14 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => CartCubit(),
         ),
+        BlocProvider(
+          create: (context) => FavouriteCubit(),
+        ),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: LoginScreen(),
+          body: CategoryView(),
         ),
       ),
     );

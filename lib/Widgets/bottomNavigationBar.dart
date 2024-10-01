@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:shoppe/Screens/favorite.dart';
 
 import '../Screens/Cart.dart';
 
@@ -15,7 +16,9 @@ class  Bottomnavigationbar extends StatelessWidget {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
+            icon: InkWell(child: Icon(Icons.favorite),onTap: (){
+              Get.to(FavouriteScreen());
+            },),
             label: 'Favorites',
           ),
           BottomNavigationBarItem(
