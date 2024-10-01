@@ -1,11 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:get/get_connect/http/src/response/response.dart';
-import 'package:meta/meta.dart';
-import 'package:shoppe/Consts/Kpis.dart';
 
+import 'package:meta/meta.dart';
 import '../Helpers/dio_helper.dart';
 import '../Models/CartModel.dart';
-
+import 'package:shoppe/Consts/KApis.dart';
 part 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
@@ -41,7 +39,6 @@ class CartCubit extends Cubit<CartState> {
     }
 
   }
-
   Future<void> deleteCartItem(CartItem cartItem) async {
     emit(CartItemRemovedLoading(cartItem.product.id));
     try {
@@ -59,7 +56,6 @@ class CartCubit extends Cubit<CartState> {
       emit(CartItemRemovedError("An error occurred while deleting the cart item"));
     }
   }
-
   void addToCart(String productId) async {
     // Change type to int
     emit(addTocartLoading());
@@ -95,7 +91,6 @@ class CartCubit extends Cubit<CartState> {
 
   }
 
-
   void decreaseQuantity(CartItem item) {
     if (item.quantity > 1) {
       item.quantity-=1;
@@ -105,7 +100,6 @@ class CartCubit extends Cubit<CartState> {
       deleteCartItem(item);
     }
   }
-
 
   Future<void> updateQuantity(CartItem item,newQuantity) async {
 
@@ -128,9 +122,6 @@ class CartCubit extends Cubit<CartState> {
       emit(updateCartError("An error occurred Check Your Internet Connection"));
     }
   }
-
-
-
   Future<void> clearCart() async {
     emit(CartLoading());
 

@@ -12,12 +12,14 @@ final class CartError extends CartState {
   CartError( this.message);
 }
 
+
 final class addTocartLoading extends CartState {}
 final class addTocartSuccess extends CartState {}
 final class addTocartCartError extends CartState {
   String? message;
   addTocartCartError( this.message);
 }
+
 
 final class updateCartLoading extends CartState {}
 final class updateCartSuccess extends CartState {}
@@ -32,6 +34,8 @@ class QuantityUpdated extends CartState {
 
   QuantityUpdated(this.cartItem);
 }
+
+
 class CartItemRemovedLoading extends CartState {
   int? id;
   CartItemRemovedLoading(this.id);

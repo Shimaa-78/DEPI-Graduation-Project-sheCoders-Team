@@ -145,7 +145,7 @@ class CartScreen extends StatelessWidget {
   }
 
   Widget _buildCartItemsList(List<CartItem> cartProductsList) {
-    int removed =0;
+
     return ListView.separated(
       itemCount: cartProductsList.length,
       itemBuilder: (context, index) {
@@ -155,7 +155,7 @@ class CartScreen extends StatelessWidget {
 
             if (state is CartItemRemoved) {
               cartProductsList = state.cartItems;
-              removed = index;
+
             } else if (state is CartItemRemovedLoading && state.id == cartProductsList[index].product.id) {
               return Center(child: CircularProgressIndicator());
             }
