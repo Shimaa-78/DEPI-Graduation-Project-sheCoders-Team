@@ -15,8 +15,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartCubit = context.read<CartCubit>();
-    DioHelper.inint();
-    cartCubit.getUserCart();
+
 
     return BlocListener<CartCubit, CartState>(
       listener: (context, state) {

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 import 'package:shoppe/cubit/favourite_cubit.dart';
 
 import '../Helpers/dio_helper.dart';
+import '../Models/Favourite.dart';
 import '../Widgets/EmptyFavouriteUi.dart';
 
 class FavouriteScreen extends StatelessWidget {
@@ -13,22 +16,31 @@ class FavouriteScreen extends StatelessWidget {
     DioHelper.inint();
     cubit.getFavouriteList();
 
-    return Scaffold(
+    return BlocListener<FavouriteCubit, FavouriteState>(
+  listener: (context, state) {
+    if (state is FavouriteError) {
+      Get.snackbar(
+        "Error",
+        state.message ?? "An error occurred",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  },
+  child: Scaffold(
       appBar: _buildAppBar(),
       body: BlocBuilder<FavouriteCubit, FavouriteState>(
         builder: (context, state) {
           if (state is FavouriteLoading) {
             return _buildLoadingIndicator();
           }
+          print(state);
 
-          if (cubit.favourites.isEmpty) {
-            return EmptyFavourite();
-          }
-
-          return _buildFavoritesGrid(cubit);
+          return _buildCartSuccessContent(cubit);
         },
       ),
-    );
+    ),
+);
   }
 
   AppBar _buildAppBar() {
@@ -41,25 +53,32 @@ class FavouriteScreen extends StatelessWidget {
   Center _buildLoadingIndicator() {
     return Center(child: CircularProgressIndicator());
   }
+  Widget _buildCartSuccessContent(FavouriteCubit cubit) {
+    final favouriteProductsList = cubit.favouriteModel?.items ?? [];
 
 
-  GridView _buildFavoritesGrid(FavouriteCubit cubit) {
+    return favouriteProductsList.length == 0
+        ? EmptyFavourite()
+        : _buildFavoritesGrid(cubit,favouriteProductsList);
+  }
+
+  GridView _buildFavoritesGrid(FavouriteCubit cubit,List<FavoriteItem> favouriteProductsList) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 0.8,
       ),
-      itemCount: cubit.favourites.length,
+      itemCount: favouriteProductsList.length,
       itemBuilder: (context, index) {
-        return _buildFavoriteCard(cubit, index);
+        return _buildFavoriteCard(cubit,favouriteProductsList, index);
       },
     );
   }
 
-  Widget _buildFavoriteCard(FavouriteCubit cubit, int index) {
+  Widget _buildFavoriteCard(FavouriteCubit cubit,List<FavoriteItem> favouriteProductsList, int index) {
     return BlocBuilder<FavouriteCubit, FavouriteState>(
       builder: (context, state) {
-        if(state is FavouriteRemovedLoading && state.id == cubit.favourites[index].id){
+        if(state is FavouriteRemovedLoading && state.id == favouriteProductsList[index].product.id){
           return(Center(child: CircularProgressIndicator(),));
 
         }
@@ -69,9 +88,9 @@ class FavouriteScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildFavoriteImage(cubit.favourites[index].product.image),
-              _buildFavoriteName(cubit.favourites[index].product.name),
-              _buildFavoritePriceAndActions(cubit, index),
+              _buildFavoriteImage(favouriteProductsList[index].product.image),
+              _buildFavoriteName(favouriteProductsList[index].product.name),
+              _buildFavoritePriceAndActions(cubit,favouriteProductsList, index),
             ],
           ),
         );
@@ -85,6 +104,8 @@ class FavouriteScreen extends StatelessWidget {
       height: 130.0,
       width: 180,
       fit: BoxFit.fill,
+      errorBuilder: (context, error, stackTrace) =>
+      const Icon(Icons.error),
     );
   }
 
@@ -104,14 +125,14 @@ class FavouriteScreen extends StatelessWidget {
     );
   }
 
-  Padding _buildFavoritePriceAndActions(FavouriteCubit cubit, int index) {
+  Padding _buildFavoritePriceAndActions(FavouriteCubit cubit,List<FavoriteItem> favouriteProductsList, int index) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildFavoritePrice(cubit.favourites[index].product.price.toString()),
-          _buildFavoriteAction(cubit, index),
+          _buildFavoritePrice(favouriteProductsList[index].product.price.toString()),
+          _buildFavoriteAction(cubit,favouriteProductsList, index),
         ],
       ),
     );
@@ -128,22 +149,22 @@ class FavouriteScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFavoriteAction(FavouriteCubit cubit, int index) {
+  Widget _buildFavoriteAction(FavouriteCubit cubit,List<FavoriteItem> favouriteProductsList, int index) {
     return InkWell(
       onTap: () {
-        cubit.deleteFavouriteProduct(cubit.favourites[index]);
+        cubit.deleteFavouriteProduct(favouriteProductsList[index]);
+
       },
       child: CircleAvatar(
         backgroundColor: Colors.white,
         child: Icon(
             Icons.favorite,
             color:
-            cubit.favouriteIds.contains(cubit.favourites[index].product.id.toString())?
-            Colors.red:Colors.grey
+
+            Colors.red
 
         ),
       ),
     );
   }
 }
-
