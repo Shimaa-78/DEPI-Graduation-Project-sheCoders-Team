@@ -20,7 +20,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Moved to the right position
   await Hive.initFlutter();
   await Hive.openBox(HiveHelper.token);
-  DioHelper.inint(); // Ensure correct initialization method name
+  DioHelper.inint();
 
   runApp(const MyApp());
 }
@@ -40,12 +40,14 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => FavouriteCubit()..getFavouriteList(),
+
         ),
       ],
+
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: CategoryView(),
+          body: StartScreen(),
         ),
       ),
     );
