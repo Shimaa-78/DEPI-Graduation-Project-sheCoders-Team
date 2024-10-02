@@ -50,4 +50,9 @@ class CartItemRemoved extends CartState {
 
   CartItemRemoved(this.cartItems);
 }
+class CartTotalUpdated extends CartState {
+  final double total;
+
+  CartTotalUpdated(this.total);
+}
 

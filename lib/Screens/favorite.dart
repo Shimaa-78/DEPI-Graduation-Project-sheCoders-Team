@@ -15,7 +15,6 @@ class FavouriteScreen extends StatelessWidget {
     final cubit = context.read<FavouriteCubit>();
     DioHelper.inint();
     cubit.getFavouriteList();
-
     return BlocListener<FavouriteCubit, FavouriteState>(
   listener: (context, state) {
     if (state is FavouriteError) {
