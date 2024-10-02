@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoppe/Consts/Consts.dart';
+import 'package:shoppe/SCreens/categoriesview.dart';
 import '../Helpers/dio_helper.dart';
 import '../Models/CartModel.dart';
 import '../Widgets/BuildItemCart.dart';
@@ -15,6 +16,8 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartCubit = context.read<CartCubit>();
+    DioHelper.inint();
+    cartCubit.getUserCart();
 
 
     return BlocListener<CartCubit, CartState>(
@@ -190,7 +193,7 @@ class CartScreen extends StatelessWidget {
             ),
             CustomButton(
               ontap: () {
-                // Define the onTap function
+                Get.to(CategoryView());
               },
               width: 170,
               text: buttonText,

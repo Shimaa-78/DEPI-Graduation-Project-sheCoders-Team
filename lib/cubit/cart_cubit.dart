@@ -9,10 +9,8 @@ part 'cart_state.dart';
 class CartCubit extends Cubit<CartState> {
   CartModel? cartModel;
    List<CartItem> cartItems = [];
-   int qantity = 0;
   CartCubit() : super(CartInitial());
-
-  int? total;
+  double? total;
   Set<String> cartIds = {};
   Future<void> getUserCart() async {
     emit(CartLoading());
@@ -28,7 +26,7 @@ class CartCubit extends Cubit<CartState> {
           cartIds.add(item.product.id.toString());
         }
 
-        total = response.data['data']['total'].toInt();
+        total = response.data['data']['total'].toDouble();
         emit(CartSuccess());
       } else {
         emit(CartError("Failed to load cart items"));
@@ -48,6 +46,7 @@ class CartCubit extends Cubit<CartState> {
       if (response.data['status']) {
         cartModel?.cartItems.remove(cartItem);
         cartIds.remove(cartItem.product.id.toString());
+        calculateTotal();
         emit(CartItemRemoved(cartModel!.cartItems));
       } else {
         emit(CartItemRemovedError("Failed to delete cart item"));
@@ -74,6 +73,7 @@ class CartCubit extends Cubit<CartState> {
           cartIds.add(productId.toString());
         }
          await getUserCart();
+
         emit(addTocartSuccess());
       } else {
         // Refresh cart if the operation fails
@@ -84,9 +84,22 @@ class CartCubit extends Cubit<CartState> {
       emit(addTocartCartError("An error occurred Check Your Internet Connection"));
     }
   }
+  void calculateTotal() {
+    total =0;
+    for (var item in cartModel?.cartItems ?? []) {
+
+      total = (total! + (item.product.price * item.quantity.toDouble()));
+
+    }
+
+    emit(CartTotalUpdated(total!));
+
+  }
+
 
   void increaseQuantity(CartItem item) {
      item.quantity+=1;
+     calculateTotal();
     emit(QuantityUpdated(item));
 
   }
@@ -94,6 +107,7 @@ class CartCubit extends Cubit<CartState> {
   void decreaseQuantity(CartItem item) {
     if (item.quantity > 1) {
       item.quantity-=1;
+      calculateTotal();
       emit(QuantityUpdated(item));
     } else {
 
@@ -114,6 +128,7 @@ class CartCubit extends Cubit<CartState> {
 
           // await getUserCart();
         print("+====================================================${item.id}");
+
         emit(updateCartSuccess());
       } else {
         emit(updateCartError(response.data['message'] ?? "Failed to update cart item"));

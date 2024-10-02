@@ -5,7 +5,7 @@ class CartModel {
 
   CartModel({required this.cartItems,});
 
-  factory CartModel.fromJson(Map<String, dynamic> json) {
+  factory CartModel.fromJson(Map<String, dynamic> json,) {
     var list = json['data']['cart_items'] as List;
     List<CartItem> cartItemsList = list.map((i) => CartItem.fromJson(i)).toList();
     return CartModel(cartItems: cartItemsList);
@@ -28,7 +28,6 @@ class CartItem {
       product: Product.fromJson(json['product']),
     );
   }
-  get Id => id;
 }
 
 
