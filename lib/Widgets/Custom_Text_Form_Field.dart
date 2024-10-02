@@ -5,20 +5,26 @@ class CustomTextFromField extends StatelessWidget {
   Color color;
   String? Function(String?) validator;
   IconData icon;
-  TextInputType keyboardTybe;
-  bool isObscure;
-  IconData? suffixIcon;
+  final Color? suffixIconColor;
+  final TextInputAction? textInputAction;
+  final bool obscureText;
+  final Widget? suffixIcon;
+  final bool isPassword;
   final TextEditingController? controller;
+  final TextInputType textInputType;
 
   CustomTextFromField(
-      {this.color=Colors.black
-        , this.suffixIcon,
-        required this.label,
-        required this.validator,
-        this.controller,
-        required this.icon,
-        this.keyboardTybe = TextInputType.text,
-        this.isObscure = false});
+      {this.color = Colors.black,
+      this.suffixIcon,
+      this.suffixIconColor = Colors.black,
+      required this.textInputType,
+      this.textInputAction = TextInputAction.next,
+      required this.label,
+      required this.validator,
+      this.controller,
+      required this.icon,
+      this.isPassword = false,
+      this.obscureText = false});
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +33,13 @@ class CustomTextFromField extends StatelessWidget {
       child: TextFormField(
         decoration: InputDecoration(
             contentPadding: EdgeInsets.only(bottom: 1),
-            suffixIcon: Icon(
-              suffixIcon,
-              color: color,
-            ),
+            suffixIcon: suffixIcon != null
+                ? IconTheme(
+                    data: IconThemeData(
+                        color: suffixIconColor), // تعيين اللون هنا
+                    child: suffixIcon!, // استخدام الـ suffixIcon الممرر
+                  )
+                : null,
             prefixIcon: Container(
               margin: EdgeInsets.only(right: 17, top: 6, bottom: 6),
               padding: EdgeInsets.symmetric(horizontal: 6),
@@ -49,16 +58,15 @@ class CustomTextFromField extends StatelessWidget {
             focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey)),
             errorBorder:
-            UnderlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-            focusedErrorBorder:
-            UnderlineInputBorder(borderSide: BorderSide(color: Colors.red))),
-        keyboardType: keyboardTybe,
+                UnderlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+            focusedErrorBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.red))),
         keyboardAppearance: Brightness.light,
         controller: controller,
         validator: validator,
-        obscureText: isObscure,
-
-
+        obscureText: obscureText,
+        textInputAction: isPassword ? TextInputAction.done : textInputAction,
+        keyboardType: textInputType,
       ),
     );
   }

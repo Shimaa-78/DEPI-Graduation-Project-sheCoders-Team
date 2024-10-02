@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:meta/meta.dart';
@@ -14,6 +15,7 @@ part 'login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
   LoginModel model = LoginModel();
+
   void login({
     required String email,
     required String password,
@@ -35,7 +37,8 @@ class LoginCubit extends Cubit<LoginState> {
       model = LoginModel.fromJson(response.data);
       if (model.status == true) {
         HiveHelper.setToken(model.data?.token ?? "");
-        Get.offAll(ForgetPassword());
+        Get.offAll(() => ForgetPassword());
+
         emit(LoginSuccessState(model.message ?? ""));
       } else {
         emit(LoginErrorState(model.message ?? ""));
@@ -43,5 +46,13 @@ class LoginCubit extends Cubit<LoginState> {
     } catch (e) {
       emit(LoginErrorState("Connection is bad"));
     }
+  }
+
+  bool obscure = false;
+
+  void changeSuffix() {
+    emit(LoginInitial());
+    obscure = !obscure;
+    emit(AuthChangeSuffix());
   }
 }

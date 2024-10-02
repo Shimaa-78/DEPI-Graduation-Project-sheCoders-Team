@@ -18,3 +18,5 @@ final class LoginErrorState extends LoginState {
 
   LoginErrorState(this.msg);
 }
+
+class AuthChangeSuffix extends LoginState {}

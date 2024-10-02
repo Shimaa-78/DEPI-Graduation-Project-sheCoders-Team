@@ -12,14 +12,15 @@ import '../Widgets/Custom_Text_Form_Field.dart';
 import 'onBoardingScreen.dart';
 
 class SignUp extends StatelessWidget {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final nameController = TextEditingController();
+  final phoneController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final nameController = TextEditingController();
-    final phoneController = TextEditingController();
+    final cubit = context.read<LoginCubit>();
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginErrorState) {
@@ -69,6 +70,7 @@ class SignUp extends StatelessWidget {
                   CustomTextFromField(
                     label: Text('UserName'),
                     controller: nameController,
+                    textInputType: TextInputType.text,
                     icon: Icons.person,
                     validator: (text) {
                       if (text == null || text.trim().isEmpty) {
@@ -79,9 +81,8 @@ class SignUp extends StatelessWidget {
                   ),
                   CustomTextFromField(
                     label: Text('Email address'),
+                    textInputType: TextInputType.emailAddress,
                     controller: emailController,
-                    keyboardTybe: TextInputType.emailAddress,
-                    suffixIcon: Icons.check_circle,
                     color: Color(0xff004BFE),
                     icon: Icons.mail_outline_rounded,
                     validator: (text) {
@@ -98,27 +99,39 @@ class SignUp extends StatelessWidget {
                       return null;
                     },
                   ),
-                  CustomTextFromField(
-                    label: Text('password'),
-                    controller: passwordController,
-                    keyboardTybe: TextInputType.text,
-                    isObscure: true,
-                    icon: Icons.lock_outline,
-                    suffixIcon: Icons.visibility_off_outlined,
-                    validator: (text) {
-                      if (text == null || text.trim().isEmpty) {
-                        return 'please enter password';
-                      }
-                      if (text.length < 6) {
-                        return 'password should be at least 6';
-                      }
-                      return null;
+                  BlocBuilder<LoginCubit, LoginState>(
+                    builder: (context, state) {
+                      return CustomTextFromField(
+                        label: Text('password'),
+                        textInputType: TextInputType.visiblePassword,
+                        controller: passwordController,
+                        isPassword: true,
+                        obscureText: cubit.obscure,
+                        icon: Icons.lock_outline,
+                        suffixIcon: InkWell(
+                          onTap: () {
+                            cubit.changeSuffix();
+                          },
+                          child: Icon(!cubit.obscure
+                              ? Icons.remove_red_eye
+                              : Icons.visibility_off),
+                        ),
+                        validator: (text) {
+                          if (text == null || text.trim().isEmpty) {
+                            return 'please enter password';
+                          }
+                          if (text.length < 6) {
+                            return 'password should be at least 6';
+                          }
+                          return null;
+                        },
+                      );
                     },
                   ),
                   CustomTextFromField(
                     label: Text('PhoneNumber'),
                     controller: phoneController,
-                    keyboardTybe: TextInputType.number,
+                    textInputType: TextInputType.visiblePassword,
                     icon: Icons.phone,
                     validator: (text) {
                       if (text == null || text.trim().isEmpty) {
@@ -192,7 +205,7 @@ class SignUp extends StatelessWidget {
                                     color: Color(0xFF878787), fontSize: 16)),
                             TextButton(
                                 onPressed: () {
-                                  Get.offAll(LoginScreen());
+                                  Get.off(LoginScreen());
                                 },
                                 child: Text(
                                   'Login',
