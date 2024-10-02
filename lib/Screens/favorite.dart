@@ -59,9 +59,9 @@ class FavouriteScreen extends StatelessWidget {
   Widget _buildFavoriteCard(FavouriteCubit cubit, int index) {
     return BlocBuilder<FavouriteCubit, FavouriteState>(
       builder: (context, state) {
-        if(state is FavouriteRemovedLoading && state.id == cubit.favourites[index].id){
-          return(Center(child: CircularProgressIndicator(),));
-
+        if (state is FavouriteRemovedLoading &&
+            state.id == cubit.favourites[index].id) {
+          return (Center(child: CircularProgressIndicator(),));
         }
         return Card(
           elevation: 4.0,
@@ -135,12 +135,17 @@ class FavouriteScreen extends StatelessWidget {
       },
       child: CircleAvatar(
         backgroundColor: Colors.white,
-        child: Icon(
-            Icons.favorite,
-            color:
-            cubit.favouriteIds.contains(cubit.favourites[index].product.id.toString())?
-            Colors.red:Colors.grey
+        child: BlocBuilder<FavouriteCubit,FavouriteState>(
+          builder: (context, state) {
+            return Icon(
+                Icons.favorite,
+                color:
+                cubit.favouriteIds.contains(
+                    cubit.favourites[index].product.id.toString()) ?
+                Colors.red : Colors.grey
 
+            );
+          },
         ),
       ),
     );

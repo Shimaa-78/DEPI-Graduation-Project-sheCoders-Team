@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shoppe/Models/CartModel.dart';
 import 'package:shoppe/Screens/Cart.dart';
 
+import '../Helpers/dio_helper.dart';
 import '../Models/ProducModel.dart';
 import '../cubit/cart_cubit.dart';
 
@@ -17,6 +18,8 @@ class Buttonaddcart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<CartCubit>();
+    DioHelper.inint();
+    cubit.getUserCart();
     return ElevatedButton(
       onPressed: () {
         cubit.addToCart(product.id.toString());

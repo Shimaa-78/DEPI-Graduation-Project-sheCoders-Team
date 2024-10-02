@@ -36,16 +36,16 @@ class MyApp extends StatelessWidget {
           create: (context) => LoginCubit(),
         ),
         BlocProvider(
-          create: (context) => CartCubit(),
+          create: (context) => CartCubit()..getUserCart(),
         ),
         BlocProvider(
-          create: (context) => FavouriteCubit(),
+          create: (context) => FavouriteCubit()..getFavouriteList(),
         ),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: StartScreen(),
+          body: CategoryView(),
         ),
       ),
     );
