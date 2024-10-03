@@ -161,4 +161,4 @@ class CartCubit extends Cubit<CartState> {
       emit(CartError("An error occurred while clearing the cart"));
     }
   }
-}
+}/////////////////////
