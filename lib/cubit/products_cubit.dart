@@ -3,18 +3,20 @@ import 'package:meta/meta.dart';
 import 'package:dio/dio.dart';
 import '../Models/categorymodel.dart';
 import '../Models/ProducModel.dart';
+import '../helpers/dio_helper.dart';
+import '../Consts/KApis.dart';
 
 part 'products_state.dart';
 
 class ProductsCubit extends Cubit<ProductsState> {
   ProductsCubit() : super(ProductsInitial());
-  Dio dio = Dio();
+
 
   // Fetch products from API based on category ID
   Future<void> fetchProducts(int id) async {
     emit(ProductsLoading());
     try {
-      final response = await dio.get('https://student.valuxapps.com/api/products?category_id=$id');
+      final response = await   DioHelper.getData(path:  KApis.products,queryParameters: {"category_id":id});
       if (response.statusCode == 200) {
         List<Product> products = (response.data['data']['data'] as List)
             .map((item) => Product.fromJson(item))
