@@ -1,17 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shoppe/Cubit/login_cubit.dart';
 import 'package:shoppe/Screens/LoginScreen.dart';
 import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart';
-
 import '../Widgets/Custom_Text_Form_Field.dart';
-import 'onBoardingScreen.dart';
+
 
 class SignUp extends StatelessWidget {
   final emailController = TextEditingController();
@@ -19,28 +16,6 @@ class SignUp extends StatelessWidget {
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
-  Future signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-if(googleUser == null){
-  return ;
-}
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-     await FirebaseAuth.instance.signInWithCredential(credential);
-
-    Get.off(() => LoginScreen());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -218,7 +193,7 @@ if(googleUser == null){
                       children: [
                         InkWell(
                             onTap: () {
-                              signInWithGoogle();
+                              cubit.signInWithGoogle();
                             },
                             child: Image.asset('assets/images/google.png')),
                         Image.asset('assets/images/facebook..png')
