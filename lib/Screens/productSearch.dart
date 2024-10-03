@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart'; // Make sure to import the nece
 import '../Widgets/textfieldsearch.dart';
 import '../Widgets/bottomNavigationBar.dart';
 import '../Widgets/productlistveiw.dart';
-import '../cubit/search_cubit.dart'; // تأكد من استيراد SearchCubit
+import '../cubit/search_cubit.dart';
+import '../Widgets/productsearchlistveiw.dart';
+// تأكد من استيراد SearchCubit
 
-class ProductListScreen extends StatelessWidget {
+class ProductsearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => SearchCubit(), // إنشاء SearchCubit
-      child: Scaffold(
+     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
@@ -24,12 +24,12 @@ class ProductListScreen extends StatelessWidget {
         ),
         body: Column(
           children: [
-            Textfieldsearch(), // TextField للبحث
-            Productlistveiw(),  // عرض المنتجات أو نتائج البحث
+              // TextField للبحث
+            Productsearchlistveiw()  // عرض المنتجات أو نتائج البحث
           ],
         ),
         bottomNavigationBar: Bottomnavigationbar(),
-      ),
-    );
+      );
+
   }
 }
