@@ -18,3 +18,4 @@ class CategoryError extends CategoryState {
 }
 
 /////////////////////
+/////////////////////
