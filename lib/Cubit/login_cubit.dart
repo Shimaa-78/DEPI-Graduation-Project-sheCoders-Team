@@ -15,7 +15,6 @@ part 'login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
   LoginModel model = LoginModel();
-
   void login({
     required String email,
     required String password,
