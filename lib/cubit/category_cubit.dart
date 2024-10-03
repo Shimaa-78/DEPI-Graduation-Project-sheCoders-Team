@@ -27,8 +27,8 @@ class CategoryCubit extends Cubit<CategoryState> {
       } else {
         emit(CategoryError(message: 'Failed to fetch categories'));
       }
-    } catch (e) {
-      emit(CategoryError(message: e.toString()));
+    } catch (error) {
+      emit(CategoryError(message: "An error occurred Check Your Internet Connection"));
     }
   }
 }
