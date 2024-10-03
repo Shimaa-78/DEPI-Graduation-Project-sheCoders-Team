@@ -114,6 +114,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     buildProfileField("Name", state.name),
                     buildProfileField("Age", state.age.toString()),
                     buildProfileField("Email", state.email),
+                    buildProfileField("Phone Number", state.phonenumber),
                     SizedBox(height: 20),
                     buildSettingsSection(),
                     SizedBox(height: 30),
@@ -143,7 +144,10 @@ class _ProfilePageState extends State<ProfilePage> {
             width: 80,
             child: Text(
               title,
-              style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Raleway",fontSize: 16),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Raleway",
+                  fontSize: 16),
             ),
           ),
           SizedBox(width: 2),
@@ -160,11 +164,11 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
-          SizedBox(height: 20),
         ],
       ),
     );
   }
+
 
   Widget buildGenderSelector(String selectedGender) {
     return Padding(
@@ -408,6 +412,8 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget buildLogoutButton() {
     return ElevatedButton(
       onPressed: () {
+        // Trigger the logout logic and navigate to login screen
+        context.read<ProfileCubit>().logout(context);
       },
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
@@ -415,7 +421,12 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       child: Text(
         "Logout",
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 18,fontFamily: "Raleway"),
+        style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            fontFamily: "Raleway"
+        ),
       ),
     );
   }

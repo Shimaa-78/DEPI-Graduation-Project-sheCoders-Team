@@ -1,7 +1,8 @@
+//
 part of 'personal_details_cubit.dart';
 
 @immutable
-sealed class PersonalDetailsState {
+abstract class PersonalDetailsState {
   final bool isCurrentPasswordVisible;
   final bool isNewPasswordVisible;
   final String? currentPasswordError;
@@ -15,7 +16,7 @@ sealed class PersonalDetailsState {
   });
 }
 
-final class PersonalDetailsInitial extends PersonalDetailsState {
+class PersonalDetailsInitial extends PersonalDetailsState {
   const PersonalDetailsInitial()
       : super(
     isCurrentPasswordVisible: false,
@@ -25,7 +26,7 @@ final class PersonalDetailsInitial extends PersonalDetailsState {
   );
 }
 
-final class PersonalDetailsUpdated extends PersonalDetailsState {
+class PersonalDetailsUpdated extends PersonalDetailsState {
   const PersonalDetailsUpdated({
     required bool isCurrentPasswordVisible,
     required bool isNewPasswordVisible,
@@ -38,3 +39,33 @@ final class PersonalDetailsUpdated extends PersonalDetailsState {
     newPasswordError: newPasswordError,
   );
 }
+
+class PersonalDetailsLoading extends PersonalDetailsState {
+  const PersonalDetailsLoading()
+      : super(
+    isCurrentPasswordVisible: false,
+    isNewPasswordVisible: false,
+  );
+}
+
+class PersonalDetailsSuccess extends PersonalDetailsState {
+  final String message;
+
+  const PersonalDetailsSuccess(this.message)
+      : super(
+    isCurrentPasswordVisible: false,
+    isNewPasswordVisible: false,
+  );
+}
+
+class PersonalDetailsError extends PersonalDetailsState {
+  final String error;
+
+  const PersonalDetailsError(this.error)
+      : super(
+    isCurrentPasswordVisible: false,
+    isNewPasswordVisible: false,
+  );
+}
+
+

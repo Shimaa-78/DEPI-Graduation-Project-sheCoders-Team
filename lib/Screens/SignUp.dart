@@ -7,9 +7,9 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:shoppe/Cubit/login_cubit.dart';
 import 'package:shoppe/Screens/LoginScreen.dart';
 import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart';
-
 import '../Widgets/Custom_Text_Form_Field.dart';
 import 'onBoardingScreen.dart';
+import '../helpers/hive_helper.dart';
 
 class SignUp extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -146,6 +146,10 @@ class SignUp extends StatelessWidget {
                                     name: nameController.text,
                                     phone: phoneController.text,
                                   );
+                              //-------------------- After signup, store the name and email in Hive--------------------
+                              HiveHelper.setUserName(nameController.text);
+                              HiveHelper.setUserEmail(emailController.text);
+                              HiveHelper.setUserPhoneNumber(phoneController.text); // Saving phone number
                             }
                           },
                           text: 'Sign up',

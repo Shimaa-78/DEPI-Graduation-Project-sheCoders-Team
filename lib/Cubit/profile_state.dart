@@ -13,6 +13,7 @@ class ProfileLoaded extends ProfileState {
   final File? image;
   final String selectedLanguage;
   final String selectedCity;
+  final String phonenumber;
 
   ProfileLoaded({
     required this.name,
@@ -22,6 +23,7 @@ class ProfileLoaded extends ProfileState {
     required this.image,
     required this.selectedLanguage,
     required this.selectedCity,
+    required this.phonenumber
   });
 
   // Method to copy the profile state and update specific fields
@@ -29,6 +31,7 @@ class ProfileLoaded extends ProfileState {
     String? name,
     String? age,
     String? email,
+    String? phonenumber,
     String? gender,
     File? image,
     String? selectedLanguage,
@@ -37,6 +40,7 @@ class ProfileLoaded extends ProfileState {
     return ProfileLoaded(
       name: name ?? this.name,
       age: age ?? this.age,
+      phonenumber: phonenumber?? this.phonenumber,
       email: email ?? this.email,
       gender: gender ?? this.gender,
       image: image,

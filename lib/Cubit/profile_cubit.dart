@@ -1,8 +1,16 @@
 // profile_cubit.dart
 import 'package:bloc/bloc.dart';
+import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+import 'package:shoppe/Screens/LoginScreen.dart';
+
+import '../helpers/hive_helper.dart'; // Assuming HiveHelper is in the helpers folder
 
 part 'profile_state.dart';
 
@@ -13,12 +21,16 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   // Load initial profile data
   void loadProfile() async {
+    final name = HiveHelper.getUserName() ?? "";
+    final email = HiveHelper.getUserEmail() ?? "";
+    final phone = HiveHelper.getUserPhoneNumber()?? "";
     // Simulate fetching profile from local storage
     final image = await _loadSavedImage();
     emit(ProfileLoaded(
-      name: "",
+      name: name,
       age: "",
-      email: "",
+      email: email,
+      phonenumber: phone,
       gender: "",
       image: image,
       selectedLanguage: "English", // default language
@@ -86,6 +98,19 @@ class ProfileCubit extends Cubit<ProfileState> {
       return savedImage;
     }
     return null;
+  }
+  // Logout method
+  Future<void> logout(BuildContext context) async {
+    try {
+      // Remove token from Hive (or wherever it is stored)
+      await HiveHelper.removeToken();
+
+      // Navigate to the login screen after successful logout
+      Get.offAll(LoginScreen());
+    } catch (e) {
+      // If an error occurs during logout
+      emit(ProfileError('Logout failed. Please try again.'));
+    }
   }
 }
 
