@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import '../Models/categorymodel.dart';
 import 'package:meta/meta.dart';
 
+
 part 'category_state.dart';
 
 class CategoryCubit extends Cubit<CategoryState> {
@@ -15,7 +16,7 @@ class CategoryCubit extends Cubit<CategoryState> {
   Future<void> fetchCategories() async {
     emit(CategoryLoading());
     try {
-      final response = await dio.get('https://student.valuxapps.com/api/categories');
+      final response = await dio.get("https://student.valuxapps.com/api/categories");
       if (response.statusCode == 200) {
         List<CategoryModel> categories = (response.data['data']['data'] as List)
             .map((item) => CategoryModel.fromJson(item))
