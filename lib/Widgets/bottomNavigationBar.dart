@@ -1,47 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:shoppe/Screens/favorite.dart';
-
+import '../Screens/favorite.dart';
 import '../Screens/Cart.dart';
 
-class  Bottomnavigationbar extends StatelessWidget {
+
+
+class  Bottomnavigationbar extends StatefulWidget {
+  @override
+  _BottomNavigationBarExampleState createState() => _BottomNavigationBarExampleState();
+}
+
+class _BottomNavigationBarExampleState extends State< Bottomnavigationbar> {
+
+
+
+
   @override
   Widget build(BuildContext context) {
-    return
-       BottomNavigationBar(
-        items:  <BottomNavigationBarItem>[
+
+
+     return BottomNavigationBar(
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: InkWell(child: Icon(Icons.favorite),onTap: (){
-              Get.to(FavouriteScreen());
-            },),
+            icon: Icon(Icons.favorite),
             label: 'Favorites',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
-          ),
-          BottomNavigationBarItem(
-
-            icon: InkWell(child: Icon(Icons.shopping_cart),onTap: (){
-
-              Get.to(CartScreen());
-            },),
-            label: 'Cart',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.shopping_cart),
+          //   label: 'Cart',
+          // ),
         ],
-        currentIndex: 0,
-        backgroundColor: Colors.blue,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Color(0xff004CFF),
+
+        // backgroundColor: Colors.black, // لون خلفية غامق للتأكد من وضوح الأيقونات
+        // selectedItemColor: Colors.white, // اللون الأبيض للعناصر المختارة
+        // unselectedItemColor: Colors.grey, // اللون الرمادي للعناصر غير المختارة
 
     );
   }

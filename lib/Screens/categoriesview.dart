@@ -9,18 +9,7 @@ import '../Widgets/bottomNavigationBar.dart'; // تأكد من استيراد ا
 class CategoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CategoryCubit, CategoryState>(
-      listener: (context, state) {
-        if (state is CategoryError ) {
-          Get.snackbar(
-            "Error",
-            state.message ?? "An error occurred", // Handle null message safely
-            backgroundColor: Colors.red,
-            colorText: Colors.white,
-          );
-        }
-      },
-      child: Scaffold(
+    return   Scaffold(
 
       appBar: AppBar(
         title: Text(
@@ -41,7 +30,7 @@ class CategoryView extends StatelessWidget {
         child: Categorylistview(), // عرض قائمة الفئات
       ),
       bottomNavigationBar: Bottomnavigationbar(), // يجب أن تكون هنا
-    ));
+    );
   }
 }
 /////////////////////

@@ -10,18 +10,7 @@ import 'package:get/get.dart';
 class ProductsearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocListener <SearchCubit, SearchState>(
-      listener: (context, state) {
-        if (state is  SearchError  ) {
-          Get.snackbar(
-            "Error",
-            state.message ?? "An error occurred", // Handle null message safely
-            backgroundColor: Colors.red,
-            colorText: Colors.white,
-          );
-        }
-      },
-      child:
+    return
        Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -41,7 +30,7 @@ class ProductsearchScreen extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: Bottomnavigationbar(),
-      ));
+      );
 
   }
 }
