@@ -25,10 +25,11 @@ class SearchCubit extends Cubit<SearchState> {
       } else {
         emit( SearchError(message: 'Failed to fetch products'));
       }
-    }    catch (error) {
-      emit( SearchError(message: "An error occurred Check Your Internet Connection"));
+    }   catch (error) {
+      emit(SearchError(
+          message: "An error occurred Check Your Internet Connection"));
     }
   }
 }
 
-/////////////////////
+
