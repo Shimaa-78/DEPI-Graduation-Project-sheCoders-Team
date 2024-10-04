@@ -84,19 +84,7 @@ class SignUp extends StatelessWidget {
                     controller: emailController,
                     color: Color(0xff004BFE),
                     icon: Icons.mail_outline_rounded,
-                    validator: (text) {
-                      if (text == null || text.trim().isEmpty) {
-                        return 'please enter email';
-                      }
-                      final bool emailValid = RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(text!);
-                      if (!emailValid) {
-                        return "This field should be a valid email";
-                      }
-
-                      return null;
-                    },
+                    validator:cubit.validateEmail
                   ),
                   BlocBuilder<LoginCubit, LoginState>(
                     builder: (context, state) {
@@ -115,29 +103,16 @@ class SignUp extends StatelessWidget {
                               ? Icons.remove_red_eye
                               : Icons.visibility_off),
                         ),
-                        validator: (text) {
-                          if (text == null || text.trim().isEmpty) {
-                            return 'please enter password';
-                          }
-                          if (text.length < 6) {
-                            return 'password should be at least 6';
-                          }
-                          return null;
-                        },
+                        validator: cubit.validatePassword
                       );
                     },
                   ),
                   CustomTextFromField(
                     label: Text('PhoneNumber'),
                     controller: phoneController,
-                    textInputType: TextInputType.visiblePassword,
+                    textInputType: TextInputType.number,
                     icon: Icons.phone,
-                    validator: (text) {
-                      if (text == null || text.trim().isEmpty) {
-                        return 'please enter your number';
-                      }
-                      return null;
-                    },
+                    validator: cubit.validatePhoneNumber,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

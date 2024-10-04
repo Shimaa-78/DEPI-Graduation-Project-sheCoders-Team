@@ -79,19 +79,7 @@ class LoginScreen extends StatelessWidget {
                       controller: emailController,
                       textInputType: TextInputType.emailAddress,
                       icon: Icons.mail_outline_rounded,
-                      validator: (text) {
-                        if (text == null || text.trim().isEmpty) {
-                          return 'please enter email';
-                        }
-                        final bool emailValid = RegExp(
-                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                            .hasMatch(text!);
-                        if (!emailValid) {
-                          return "This field should be a valid email";
-                        }
-
-                        return null;
-                      },
+                      validator:cubit.validateEmail
                     ),
                     BlocBuilder<LoginCubit, LoginState>(
                       builder: (context, state) {
@@ -110,15 +98,7 @@ class LoginScreen extends StatelessWidget {
                                 : Icons.visibility_off),
                           ),
                           textInputType: TextInputType.visiblePassword,
-                          validator: (text) {
-                            if (text == null || text.trim().isEmpty) {
-                              return 'please enter password';
-                            }
-                            if (text.length < 6) {
-                              return 'password should be at least 6';
-                            }
-                            return null;
-                          },
+                          validator: cubit.validatePassword
                         );
                       },
                     ),

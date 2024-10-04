@@ -7,23 +7,17 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
 import 'package:shoppe/Screens/ForgetPassword.dart';
-import 'package:shoppe/Screens/sign%20out.dart';
 import '../Consts/KApis.dart';
 import '../Models/LoginModel.dart';
 import '../helpers/dio_helper.dart';
 import '../helpers/hive_helper.dart';
+
 part 'login_state.dart';
-
-String generateRandomPhone() {
-  final random = Random();
-  // توليد رقم هاتف عشوائي مكون من 11 رقمًا يبدأ بـ 07 ويليه 9 أرقام عشوائية
-  return '07${random.nextInt(900000000) + 100000000}';
-}
-
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
   LoginModel model = LoginModel();
+
   void login({
     required String email,
     required String password,
@@ -63,70 +57,118 @@ class LoginCubit extends Cubit<LoginState> {
     obscure = !obscure;
     emit(AuthChangeSuffix());
   }
+
   String generateRandomPhoneNumber() {
     final random = Random();
-    // توليد رقم هاتف عشوائي مكون من 11 رقمًا يبدأ بـ 07 ويليه 9 أرقام عشوائية
+    // Generate an 11-digit phone number starting with 07 followed by 9 indirect digits
     return '07${random.nextInt(900000000) + 100000000}';
   }
 
   Future<void> signInWithGoogle() async {
-    emit(LoginLoadingState()); // إشعار ببدء العملية
+    emit(LoginLoadingState());
 
     try {
-      final GoogleSignIn googleUser = GoogleSignIn();
+      final GoogleSignIn googleSignIn = GoogleSignIn();
 
-      // تحقق مما إذا كان المستخدم قد قام بتسجيل الدخول مسبقًا وتسجيل الخروج
-      if (await googleUser.isSignedIn()) {
-        googleUser.currentUser?.clearAuthCache();
-        googleUser.signOut();
+      // Check if the user has previously logged in and logged out
+      if (await googleSignIn.isSignedIn()) {
+        googleSignIn.currentUser?.clearAuthCache();
+        googleSignIn.signOut();
       }
 
-      // بدء عملية تسجيل الدخول بحساب Google
-      final user = await googleUser.signIn();
-      if (user != null) {
-        final GoogleSignInAuthentication googleAuth = await user.authentication;
+      // Start the Google account sign-in process
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
 
-        // إعداد بيانات المستخدم لإرسالها إلى API
-
-
-        // إرسال بيانات المستخدم إلى API
-        final response = await DioHelper.postData(
-          path: KApis.login, // استبدل بـ endpoint الصحيح
-          body: {
-            "email": user.email,
-            "password": "1234567",
-            "name":user.displayName,
-            "phone": generateRandomPhoneNumber(),
-          },
+        // Get credential from Firebase using token
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
         );
 
-        // طباعة الاستجابة من الـ API لأغراض التصحيح
-        print('Response Status Code: ${response.statusCode}');
-        print('Response Data: ${response.data}');
+        // Log in to Firebase using credential
+        final UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
 
+        // If the login is successful, you get the user data from Firebase
+        final User? firebaseUser = userCredential.user;
+        if (firebaseUser != null) {
+          // User data from Firebase
+          final loginData = {
+            "name": firebaseUser.displayName,
+            "email": firebaseUser.email,
+            "phone": generateRandomPhoneNumber(),
+            "uid": firebaseUser.uid,
+          };
 
-        if (response.statusCode == 200) {
-          model = LoginModel.fromJson(response.data);
-          if (model.status == true) {
-            // حفظ التوكن أو أي بيانات أخرى حسب الحاجة
-            HiveHelper.setToken(model.data?.token ?? "");
-            Get.offAll(() => SignOut()); // الانتقال إلى الصفحة الرئيسية أو أي صفحة أخرى
-            emit(LoginSuccessState(model.message ?? ""));
+          // Send user data to API (if you need to send data to another server)
+          final response = await DioHelper.postData(
+            path: KApis.login,
+            body: {
+              "email": "nehal202124623@gmail.com",
+              "password": "1234567",
+              "name": "Nehal Khaled",
+              "phone": generateRandomPhoneNumber(),
+            },
+          );
+
+          print('Response Status Code: ${response.statusCode}');
+          print('Response Data: ${response.data}');
+
+          if (response.statusCode == 200) {
+            model = LoginModel.fromJson(response.data);
+            if (model.status == true) {
+              HiveHelper.setToken(model.data?.token ?? "");
+              Get.offAll(() => ForgetPassword());
+              emit(LoginSuccessState(model.message ?? ""));
+            } else {
+              emit(LoginErrorState(model.message ?? ""));
+            }
           } else {
-            emit(LoginErrorState(model.message ?? ""));
+            emit(LoginErrorState(
+                "Failed to send data to API. Status Code: ${response.statusCode}"));
           }
-        } else {
-          emit(LoginErrorState("Failed to send data to API. Status Code: ${response.statusCode}"));
         }
       }
     } catch (error) {
       debugPrint(error.toString());
-      emit(LoginErrorState("Error during Google sign-in")); // التعامل مع الخطأ
+      emit(LoginErrorState("Error during Google sign-in"));
     }
   }
+  //
+  String? validatePhoneNumber(String? phone) {
+    if (phone == null || phone.isEmpty) {
+      return 'Please enter a phone number';
+    }
+    final RegExp phoneRegExp = RegExp(r'^[0-9]{11}$');
+    if (!phoneRegExp.hasMatch(phone)) {
+      return 'Please enter a valid phone number with 11 digits';
+    }
+    return null;
+  }
 
-
+  String? validateEmail(String? text) {
+    if (text == null || text.trim().isEmpty) {
+      return 'Please enter email';
+    }
+    final bool emailValid = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"
+    ).hasMatch(text);
+    if (!emailValid) {
+      return "This field should be a valid email";
+    }
+    return null;
+  }
+  String? validatePassword(String? text) {
+    if (text == null || text.trim().isEmpty) {
+      return 'Please enter password';
+    }
+    if (text.length < 6) {
+      return 'Password should be at least 6 characters';
+    }
+    return null;
+  }
 
 }
-
-
