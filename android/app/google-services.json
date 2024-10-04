@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1066305914426",
+    "project_id": "depi-shecoders-team-233d1",
+    "storage_bucket": "depi-shecoders-team-233d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066305914426:android:cf20b1148fb7f5973ed703",
+        "android_client_info": {
+          "package_name": "com.example.shoppe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066305914426-nek4qmin5or9fl6ggr3rr6lb8d1cqcu0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shoppe",
+            "certificate_hash": "8877019ecb50d98f417cf44ea22e2c5f70ad7c47"
+          }
+        },
+        {
+          "client_id": "1066305914426-mlm9d3137p4n0tlsudca5hblsq93s8s4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6p39ofk8WWk0JRGV2o86Y0V_ovj-Wveo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066305914426-mlm9d3137p4n0tlsudca5hblsq93s8s4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1066305914426-a838h97c7tnpl5sglik422c5m990k5va.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.shoppe"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

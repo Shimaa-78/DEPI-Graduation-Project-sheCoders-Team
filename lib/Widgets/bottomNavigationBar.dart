@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:shoppe/Screens/favorite.dart';
 
 import '../Screens/Cart.dart';
+import '../Screens/profile_screen.dart';
 
 class  Bottomnavigationbar extends StatelessWidget {
   @override
@@ -22,7 +23,9 @@ class  Bottomnavigationbar extends StatelessWidget {
             label: 'Favorites',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: InkWell(child: Icon(Icons.person),onTap: (){
+              Get.to(ProfilePage());
+            },),
             label: 'Profile',
           ),
           BottomNavigationBarItem(

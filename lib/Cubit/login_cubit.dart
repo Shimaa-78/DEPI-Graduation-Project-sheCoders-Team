@@ -8,6 +8,7 @@ import 'package:meta/meta.dart';
 import 'package:shoppe/Screens/ForgetPassword.dart';
 import '../Consts/KApis.dart';
 import '../Models/LoginModel.dart';
+import '../SCreens/categoriesview.dart';
 import '../helpers/dio_helper.dart';
 import '../helpers/hive_helper.dart';
 part 'login_state.dart';
@@ -36,7 +37,7 @@ class LoginCubit extends Cubit<LoginState> {
       model = LoginModel.fromJson(response.data);
       if (model.status == true) {
         HiveHelper.setToken(model.data?.token ?? "");
-        Get.offAll(() => ForgetPassword());
+        Get.offAll(() => CategoryView());
 
         emit(LoginSuccessState(model.message ?? ""));
       } else {
@@ -74,6 +75,6 @@ class LoginCubit extends Cubit<LoginState> {
     // Once signed in, return the UserCredential
     await FirebaseAuth.instance.signInWithCredential(credential);
 
-    Get.off(() => ForgetPassword());
+    Get.off(() => CategoryView());
   }
 }
