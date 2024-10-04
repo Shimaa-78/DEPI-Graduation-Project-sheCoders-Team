@@ -17,3 +17,5 @@ class CategoryError extends CategoryState {
   CategoryError({required this.message});
 }
 
+/////////////////////
+/////////////////////

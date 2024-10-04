@@ -4,15 +4,15 @@ import '../Widgets/textfieldsearch.dart';
 import '../Widgets/bottomNavigationBar.dart';
 import '../Widgets/productlistveiw.dart';
 import '../cubit/search_cubit.dart';
-import '../cubit/products_cubit.dart';
-
-import 'package:get/get.dart';// تأكد من استيراد SearchCubit
-
-class ProductListScreen extends StatelessWidget {
+import '../Widgets/productsearchlistveiw.dart';
+// تأكد من استيراد SearchCubit
+import 'package:get/get.dart';
+class ProductsearchScreen extends StatelessWidget {
   @override
-  Widget build(BuildContext context) { return BlocListener <ProductsCubit, ProductsState>(
+  Widget build(BuildContext context) {
+    return BlocListener <SearchCubit, SearchState>(
       listener: (context, state) {
-        if (state is  ProductsError ) {
+        if (state is  SearchError  ) {
           Get.snackbar(
             "Error",
             state.message ?? "An error occurred", // Handle null message safely
@@ -22,9 +22,7 @@ class ProductListScreen extends StatelessWidget {
         }
       },
       child:
-     BlocProvider(
-      create: (context) => SearchCubit(), // إنشاء SearchCubit
-      child: Scaffold(
+       Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
@@ -38,13 +36,13 @@ class ProductListScreen extends StatelessWidget {
         ),
         body: Column(
           children: [
-            Textfieldsearch(), // TextField للبحث
-            Productlistveiw(),  // عرض المنتجات أو نتائج البحث
+              // TextField للبحث
+            Productsearchlistveiw()  // عرض المنتجات أو نتائج البحث
           ],
         ),
         bottomNavigationBar: Bottomnavigationbar(),
-      ),
-    ));
+      ));
+
   }
 }
 /////////////////////

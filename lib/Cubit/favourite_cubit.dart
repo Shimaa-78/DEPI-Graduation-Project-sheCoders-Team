@@ -94,4 +94,4 @@ class FavouriteCubit extends Cubit<FavouriteState> {
           "An error occurred while updating favorite status. Check your internet connection."));
     }
   }
-}
+}/////////////////////

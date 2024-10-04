@@ -60,7 +60,7 @@ class Productcard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      product.oldPrice.toString(),
+                      product.oldPrice != null ? product.oldPrice.toString() : "", // Check if oldPrice is null
                       style: TextStyle(
                         color: Colors.red,
                         decoration: TextDecoration.lineThrough,

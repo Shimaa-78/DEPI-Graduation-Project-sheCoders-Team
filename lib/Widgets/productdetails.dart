@@ -25,6 +25,7 @@ class Productdetails extends StatelessWidget {
              product.price.toString(),
             style: TextStyle(
               color: Colors.black87,
+
               fontSize: 26,
               fontWeight: FontWeight.bold,
               fontFamily: "Raleway",
@@ -35,7 +36,7 @@ class Productdetails extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 16.0), // إضافة مسافة من اليسار
           child: Text(
-           product.oldPrice.toString(),
+            product.oldPrice != null ? product.oldPrice.toString() : "",
             style: TextStyle(
               color: Colors.pink,
               fontSize: 14,
@@ -52,6 +53,7 @@ class Productdetails extends StatelessWidget {
             child: Text(
               product.description,
               style: TextStyle(
+                fontFamily:' NunitoSans',
                 color: Colors.black,
                 fontSize: 15, // تقليل حجم الخط للنص
               ),
