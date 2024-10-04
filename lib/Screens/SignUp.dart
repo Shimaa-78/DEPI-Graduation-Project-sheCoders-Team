@@ -7,20 +7,19 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:shoppe/Cubit/login_cubit.dart';
 import 'package:shoppe/Screens/LoginScreen.dart';
 import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart';
-
 import '../Widgets/Custom_Text_Form_Field.dart';
-import 'categoriesview.dart';
-import 'onBoardingScreen.dart';
+
 
 class SignUp extends StatelessWidget {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final nameController = TextEditingController();
+  final phoneController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final nameController = TextEditingController();
-    final phoneController = TextEditingController();
+    final cubit = context.read<LoginCubit>();
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginErrorState) {
@@ -70,6 +69,7 @@ class SignUp extends StatelessWidget {
                   CustomTextFromField(
                     label: Text('UserName'),
                     controller: nameController,
+                    textInputType: TextInputType.text,
                     icon: Icons.person,
                     validator: (text) {
                       if (text == null || text.trim().isEmpty) {
@@ -80,9 +80,8 @@ class SignUp extends StatelessWidget {
                   ),
                   CustomTextFromField(
                     label: Text('Email address'),
+                    textInputType: TextInputType.emailAddress,
                     controller: emailController,
-                    keyboardTybe: TextInputType.emailAddress,
-                    suffixIcon: Icons.check_circle,
                     color: Color(0xff004BFE),
                     icon: Icons.mail_outline_rounded,
                     validator: (text) {
@@ -99,27 +98,39 @@ class SignUp extends StatelessWidget {
                       return null;
                     },
                   ),
-                  CustomTextFromField(
-                    label: Text('password'),
-                    controller: passwordController,
-                    keyboardTybe: TextInputType.text,
-                    isObscure: true,
-                    icon: Icons.lock_outline,
-                    suffixIcon: Icons.visibility_off_outlined,
-                    validator: (text) {
-                      if (text == null || text.trim().isEmpty) {
-                        return 'please enter password';
-                      }
-                      if (text.length < 6) {
-                        return 'password should be at least 6';
-                      }
-                      return null;
+                  BlocBuilder<LoginCubit, LoginState>(
+                    builder: (context, state) {
+                      return CustomTextFromField(
+                        label: Text('password'),
+                        textInputType: TextInputType.visiblePassword,
+                        controller: passwordController,
+                        isPassword: true,
+                        obscureText: cubit.obscure,
+                        icon: Icons.lock_outline,
+                        suffixIcon: InkWell(
+                          onTap: () {
+                            cubit.changeSuffix();
+                          },
+                          child: Icon(!cubit.obscure
+                              ? Icons.remove_red_eye
+                              : Icons.visibility_off),
+                        ),
+                        validator: (text) {
+                          if (text == null || text.trim().isEmpty) {
+                            return 'please enter password';
+                          }
+                          if (text.length < 6) {
+                            return 'password should be at least 6';
+                          }
+                          return null;
+                        },
+                      );
                     },
                   ),
                   CustomTextFromField(
                     label: Text('PhoneNumber'),
                     controller: phoneController,
-                    keyboardTybe: TextInputType.number,
+                    textInputType: TextInputType.visiblePassword,
                     icon: Icons.phone,
                     validator: (text) {
                       if (text == null || text.trim().isEmpty) {
@@ -147,7 +158,6 @@ class SignUp extends StatelessWidget {
                                     name: nameController.text,
                                     phone: phoneController.text,
                                   );
-                              Get.to(CategoryView());
                             }
                           },
                           text: 'Sign up',
@@ -181,7 +191,11 @@ class SignUp extends StatelessWidget {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Image.asset('assets/images/google.png'),
+                        InkWell(
+                            onTap: () {
+                              cubit.signInWithGoogle();
+                            },
+                            child: Image.asset('assets/images/google.png')),
                         Image.asset('assets/images/facebook..png')
                       ]),
                   Padding(
@@ -194,7 +208,7 @@ class SignUp extends StatelessWidget {
                                     color: Color(0xFF878787), fontSize: 16)),
                             TextButton(
                                 onPressed: () {
-                                  Get.offAll(LoginScreen());
+                                  Get.off(LoginScreen());
                                 },
                                 child: Text(
                                   'Login',

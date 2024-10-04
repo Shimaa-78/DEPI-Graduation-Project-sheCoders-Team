@@ -50,7 +50,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       fontWeight: FontWeight.w300)),
               CustomTextFromField(
                 label: Text('Email address'),
-                keyboardTybe: TextInputType.emailAddress,
+                textInputType: TextInputType.emailAddress,
                 icon: Icons.mail_outline_rounded,
                 validator: (text) {
                   if (text == null || text.trim().isEmpty) {
@@ -63,7 +63,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 padding: const EdgeInsets.all(17.0),
                 child: CustomButton(
                     ontap: () {
-                      Get.offAll(LoginScreen());
+                      Get.off(LoginScreen());
                     },
                     text: "Submit",
                     height: 60,

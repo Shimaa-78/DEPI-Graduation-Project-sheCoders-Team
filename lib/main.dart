@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -6,12 +7,19 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shoppe/Screens/startScreen.dart';
 import 'package:shoppe/cubit/favourite_cubit.dart';
 import 'Cubit/login_cubit.dart';
+import 'Screens/Cart.dart';
+import 'firebase_options.dart';
 import 'Cubit/personal_details_cubit.dart';
 import 'Cubit/profile_cubit.dart';
 import 'cubit/cart_cubit.dart';
 import 'helpers/dio_helper.dart';
 import 'helpers/hive_helper.dart';
 
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -26,6 +34,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -64,3 +73,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
