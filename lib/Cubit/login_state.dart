@@ -12,7 +12,7 @@ final class LoginSuccessState extends LoginState {
 
   LoginSuccessState(this.msg);
 }
-///////
+
 final class LoginErrorState extends LoginState {
   final String msg;
 
