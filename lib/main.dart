@@ -10,10 +10,10 @@ import 'Cubit/personal_details_cubit.dart';
 import 'Cubit/profile_cubit.dart';
 import 'cubit/cart_cubit.dart';
 import 'helpers/dio_helper.dart';
-import 'helpers/hive_helper.dart'; // Check casing for the imports
+import 'helpers/hive_helper.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Moved to the right position
+  WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Hive.openBox(HiveHelper.token);
   await Hive.openBox('USER_BOX');
@@ -45,6 +45,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => ProfileCubit(),
+        ),
+        BlocProvider(
+
           create: (context) => CartCubit()..getUserCart(),
         ),
         BlocProvider(

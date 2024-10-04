@@ -4,4 +4,5 @@ class KApis {
   static const register = "register";
   static const cartPath = "carts";
   static const favouritePath = "favorites";//favorites
+  static const changePassword = "change_password";
 }
