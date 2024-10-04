@@ -26,6 +26,7 @@ import 'helpers/hive_helper.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+
   await Hive.openBox(HiveHelper.token);
   await Hive.openBox('USER_BOX');
   await Hive.openBox(HiveHelper.userPhoneNumber);
@@ -60,29 +61,6 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => ProfileCubit(),
-        ),
-        BlocProvider(
-
-          create: (context) => CartCubit()..getUserCart(),
-        ),
-
-        BlocProvider(
-          create: (context) => FavouriteCubit()..getFavouriteList(),
-
-        ),
-        BlocProvider(
-          create: (context) => PersonalDetailsCubit(),
-        ),
-        BlocProvider(
-          create: (context) => ProfileCubit(),
-        ),
-        BlocProvider(
-
-          create: (context) => CartCubit()..getUserCart(),
-        ),
-        BlocProvider(
-          create: (context) => FavouriteCubit()..getFavouriteList(),
-
         ),
         BlocProvider(
           create: (context) => ProductsCubit(),

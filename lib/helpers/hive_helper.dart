@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 class HiveHelper {
   static const onboardingBox = "ONBOARDING_BOX";
-  static const token = "TOKEN";
+  static const token = "";
   static const KEY_BOX_APP_LANGUAGE = "KEY_BOX_APP_LANGUAGE";
 
 

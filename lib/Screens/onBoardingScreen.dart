@@ -6,6 +6,7 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:shoppe/Screens/LoginScreen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../Helpers/hive_helper.dart';
 import '../Models/OnboardingModel.dart';
 
 
@@ -18,6 +19,10 @@ class OnBoardingScreen extends StatefulWidget {
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   int currentIndex = 0;
+  void initState() {
+    HiveHelper.setValueInOnboardingBox();
+    super.initState();
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(

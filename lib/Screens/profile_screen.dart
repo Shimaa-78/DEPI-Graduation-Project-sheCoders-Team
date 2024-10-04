@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
+import '../Cubit/profile_cubit.dart';
 import 'change_personal_details_screen.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -25,6 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+   final cubit= context.read<ProfileCubit>();
     return Scaffold(
       appBar: AppBar(
         leading: Icon(
@@ -111,16 +114,16 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(height: 20),
 
 
-              buildProfileField('Name', 'MennaTallah'),
+              buildProfileField('Name', ''),
 
 
               buildGenderSelector(),
 
 
-              buildProfileField('Age', '23 Year'),
+              buildProfileField('Age', ''),
 
 
-              buildProfileField('Email', 'mennabendary29@gmai.com'),
+              buildProfileField('Email', ''),
 
               SizedBox(height: 20),
 
@@ -128,7 +131,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
 
               SizedBox(height: 30),
-              buildLogoutButton(),
+              buildLogoutButton(cubit),
+             
             ],
           ),
         ),
@@ -363,10 +367,12 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
 
-  Widget buildLogoutButton() {
+  Widget buildLogoutButton(ProfileCubit cubit) {
+    return BlocBuilder<ProfileCubit, ProfileState>(
+  builder: (context, state) {
     return ElevatedButton(
       onPressed: () {
-
+        cubit.logout();
       },
       style: ElevatedButton.styleFrom(
 
@@ -379,6 +385,8 @@ class _ProfilePageState extends State<ProfilePage> {
       )
       ,
     );
+  },
+);
   }
 
 

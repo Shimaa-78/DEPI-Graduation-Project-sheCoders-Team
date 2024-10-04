@@ -75,7 +75,7 @@ class StartScreen extends StatelessWidget {
               ontap: () {
 
                 if (HiveHelper.checkOnBoardingValue()) {
-                  if (HiveHelper.getToken() != null) {
+                  if (HiveHelper.getToken() != null || HiveHelper.getToken() !="") {
                     Get.offAll(CategoryView());
                   } else {
                     Get.offAll(LoginScreen());
@@ -88,33 +88,7 @@ class StartScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "I already have an account",
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontFamily: "NunitoSans",
-                      fontWeight: FontWeight.w300),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: KPrimeryColor,
-                      borderRadius: BorderRadius.circular(50)),
-                  child: Icon(
-                    Icons.arrow_forward,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                )
-              ],
-            ),
+
             Spacer(
               flex: 1,
             ),

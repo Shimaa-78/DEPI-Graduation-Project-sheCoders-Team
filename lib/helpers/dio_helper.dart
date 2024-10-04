@@ -8,7 +8,7 @@ class DioHelper {
 
   DioHelper._();
 
-  static void inint() {
+  static Future<void> inint() async {
     _dio = Dio(
       BaseOptions(
         baseUrl: KApis.baseUrl,

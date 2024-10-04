@@ -8,13 +8,14 @@ import 'package:shoppe/cubit/favourite_cubit.dart';
 import '../Helpers/dio_helper.dart';
 import '../Models/Favourite.dart';
 import '../Widgets/EmptyFavouriteUi.dart';
+import '../Widgets/bottomNavigationBar.dart';
 
 class FavouriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<FavouriteCubit>();
     DioHelper.inint();
-    cubit.getFavouriteList();
+   // cubit.getFavouriteList();
     return BlocListener<FavouriteCubit, FavouriteState>(
   listener: (context, state) {
     if (state is FavouriteError) {
@@ -56,9 +57,17 @@ class FavouriteScreen extends StatelessWidget {
     final favouriteProductsList = cubit.favouriteModel?.items ?? [];
 
 
-    return favouriteProductsList.length == 0
-        ? EmptyFavourite()
-        : _buildFavoritesGrid(cubit,favouriteProductsList);
+    return Column(
+      children: [
+        Expanded(
+          child: favouriteProductsList.length == 0
+          ? EmptyFavourite()
+          : _buildFavoritesGrid(cubit,favouriteProductsList),
+        ),
+    Bottomnavigationbar(),
+      ],
+    );
+      
   }
 
   GridView _buildFavoritesGrid(FavouriteCubit cubit,List<FavoriteItem> favouriteProductsList) {
