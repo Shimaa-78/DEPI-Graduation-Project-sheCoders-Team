@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoppe/Consts/Consts.dart';
 import 'package:shoppe/SCreens/categoriesview.dart';
+import 'package:shoppe/Screens/categoriesview.dart';
+import 'package:shoppe/Screens/shippingscreen.dart';
 import '../Helpers/dio_helper.dart';
 import '../Models/CartModel.dart';
 import '../Widgets/BuildItemCart.dart';
@@ -224,7 +226,11 @@ class CartScreen extends StatelessWidget {
 
             CustomButton(
               ontap: () {
-                Get.to(CategoryView());
+                if (cartCubit.cartModel?.cartItems.isEmpty ?? true) {
+                  // Get.to(CategoryView());
+                } else {
+                  Get.to(ShippingScreen("${cartCubit.total?.toStringAsFixed(1)}"));
+                }
               },
               width: 170,
               text: buttonText,
@@ -236,6 +242,7 @@ class CartScreen extends StatelessWidget {
       ),
     );
   }
+
 
   Container addRemoveFromCart(IconData iconData) {
     return Container(

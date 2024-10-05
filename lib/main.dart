@@ -13,6 +13,7 @@ import 'package:shoppe/cubit/search_cubit.dart';
 import 'Consts.dart';
 import 'Cubit/login_cubit.dart';
 import 'Screens/Cart.dart';
+import 'Screens/shippingscreen.dart';
 import 'firebase_options.dart';
 import 'Cubit/personal_details_cubit.dart';
 import 'Cubit/profile_cubit.dart';
@@ -74,10 +75,12 @@ class MyApp extends StatelessWidget {
 
         ),
       ],
-      child: GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          body:CategoryView(),
+      child: Center(
+        child: GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: Scaffold(
+            body:CategoryView(),
+          ),
         ),
       ),
     );
