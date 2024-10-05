@@ -33,13 +33,8 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(
-          Icons.arrow_back_ios,
-          color: Colors.white,
-          size: 20,
-        ),
         backgroundColor: Color(0xff004BFE),
-        centerTitle: true,
+
         title: Text(
           "Profile",
           style: TextStyle(
@@ -138,6 +133,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
+      bottomNavigationBar: Bottomnavigationbar(),
     );
   }
 
@@ -228,7 +224,9 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
       ),
+
     );
+
   }
 
   Widget buildSettingsSection() {

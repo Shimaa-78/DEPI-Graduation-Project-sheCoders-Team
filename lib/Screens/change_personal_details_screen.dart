@@ -12,13 +12,7 @@ class ChangePersonalDetailsScreen extends StatelessWidget {
           fontSize: 22,
           fontWeight: FontWeight.bold
         ),),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios,size: 20,color: Colors.white,),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        automaticallyImplyLeading: false,
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
