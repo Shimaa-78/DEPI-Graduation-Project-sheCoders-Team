@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoppe/Consts/Consts.dart';
-import 'package:shoppe/SCreens/categoriesview.dart';
-import 'package:shoppe/Screens/categoriesview.dart';
+
 import 'package:shoppe/Screens/shippingscreen.dart';
 import '../Helpers/dio_helper.dart';
 import '../Models/CartModel.dart';
 import '../Widgets/BuildItemCart.dart';
 import '../Widgets/Custom Button Widget.dart';
 import '../Widgets/Methods.dart';
-import '../Widgets/bottomNavigationBar.dart';
+
 import '../cubit/cart_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'categoriesview.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -227,7 +228,7 @@ class CartScreen extends StatelessWidget {
             CustomButton(
               ontap: () {
                 if (cartCubit.cartModel?.cartItems.isEmpty ?? true) {
-                  // Get.to(CategoryView());
+                  Get.to(CategoryView()); // No ambiguity now
                 } else {
                   Get.to(ShippingScreen("${cartCubit.total?.toStringAsFixed(1)}"));
                 }
@@ -237,6 +238,8 @@ class CartScreen extends StatelessWidget {
               height: 50,
               fontsize: 16,
             ),
+
+
           ],
         ),
       ),

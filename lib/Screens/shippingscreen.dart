@@ -63,7 +63,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                 controller: _fullNameController,
                 decoration: const InputDecoration(
                   labelText: 'Full Name',
-                  border: OutlineInputBorder(),
+
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -79,7 +79,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                 controller: _addressController,
                 decoration: const InputDecoration(
                   labelText: 'Address',
-                  border: OutlineInputBorder(),
+
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -95,7 +95,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                 controller: _cityController,
                 decoration: const InputDecoration(
                   labelText: 'City',
-                  border: OutlineInputBorder(),
+
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -111,7 +111,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                 value: _selectedCountry,
                 decoration: const InputDecoration(
                   labelText: 'Country',
-                  border: OutlineInputBorder(),
+
                 ),
                 items: _countries.map((country) {
                   return DropdownMenuItem(
@@ -138,7 +138,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                 value: _selectedShippingMethod,
                 decoration: const InputDecoration(
                   labelText: 'Shipping Method',
-                  border: OutlineInputBorder(),
+
                 ),
                 items: _shippingMethods.map((method) {
                   return DropdownMenuItem(

@@ -103,12 +103,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     focusNode: cardNumberFocusNode,
                     decoration: const InputDecoration(
                       labelText: 'Card Number',
-
                     ),
                     keyboardType: TextInputType.number,
                     validator: (value) {
-                      if (value == null || value.isEmpty || value.length < 16) {
+                      if (value == null || value.isEmpty) {
                         return 'Please enter a valid card number';
+                      } else if (value.length != 16) {
+                        return   'Please enter a valid card number';
                       }
                       return null;
                     },
@@ -118,6 +119,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       });
                     },
                   ),
+
                   const SizedBox(height: 16),
                   // Card Holder Input
                   TextFormField(
@@ -196,7 +198,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   Center(
                     child: CustomButton(ontap:  () {
                       if (_formKey.currentState!.validate()) {
-                                Get.to(CongratulatoryScreen());
+                                Get.offAll(CongratulatoryScreen());
                       }
                     }, width: 250, text: "Confirm", height: 60, fontsize: 18),
                   )
