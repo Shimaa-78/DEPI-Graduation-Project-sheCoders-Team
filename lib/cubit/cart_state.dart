@@ -56,3 +56,5 @@ class CartTotalUpdated extends CartState {
   CartTotalUpdated(this.total);
 }
 
+/////////////////////
+/////////////////////

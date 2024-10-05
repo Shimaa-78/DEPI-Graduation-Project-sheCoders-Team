@@ -35,4 +35,4 @@ class FavouriteAddError extends FavouriteState {
 }
 class FavouriteAddSuccess extends FavouriteState {
 
-}
+}/////////////////////

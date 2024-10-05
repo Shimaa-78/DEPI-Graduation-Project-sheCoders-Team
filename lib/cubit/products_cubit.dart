@@ -25,8 +25,10 @@ class ProductsCubit extends Cubit<ProductsState> {
       } else {
         emit(ProductsError(message: 'Failed to fetch products'));
       }
-    } catch (e) {
-      emit(ProductsError(message: e.toString()));
+    }  catch (error) {
+      emit( ProductsError(message: "An error occurred Check Your Internet Connection"));
     }
   }
 }
+/////////////////////
+/////////////////////

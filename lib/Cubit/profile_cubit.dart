@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:shoppe/Screens/LoginScreen.dart';
 
+import '../Screens/startScreen.dart';
 import '../helpers/hive_helper.dart'; // Assuming HiveHelper is in the helpers folder
 
 part 'profile_state.dart';
@@ -100,12 +101,15 @@ class ProfileCubit extends Cubit<ProfileState> {
     return null;
   }
   // Logout method
-  Future<void> logout(BuildContext context) async {
+  Future<void> logout() async {
     try {
       // Remove token from Hive (or wherever it is stored)
       await HiveHelper.removeToken();
+           print("+============================ToKEN = ${HiveHelper.getToken()}");
 
       // Navigate to the login screen after successful logout
+      Get.offAll(StartScreen());
+      // emit(deletedToke());
       Get.offAll(LoginScreen());
     } catch (e) {
       // If an error occurs during logout

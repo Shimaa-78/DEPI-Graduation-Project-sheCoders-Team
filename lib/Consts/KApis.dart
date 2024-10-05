@@ -10,4 +10,5 @@ class KApis {
 
   static const changePassword = "change_password";
 
+  static const changePassword = "change_password";
 }

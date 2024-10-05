@@ -49,7 +49,7 @@ class Productdetails extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 16.0), // إضافة مسافة من اليسار
           child: Container(
-            height: 200,
+            height: 150,
             child: Text(
               product.description,
               style: TextStyle(

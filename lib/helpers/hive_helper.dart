@@ -79,6 +79,40 @@ class HiveHelper {
     return null;
   }
 
+
+
+
+
+
+  // User Name
+  static void setUserName(String name) {
+    Hive.box(userBox).put('USER_NAME', name);
+  }
+
+  static String? getUserName() {
+    return Hive.box(userBox).get('USER_NAME');
+  }
+
+  static void setUserEmail(String email) {
+    Hive.box(userBox).put('USER_EMAIL', email);
+  }
+
+  static String? getUserEmail() {
+    return Hive.box(userBox).get('USER_EMAIL');
+  }
+  // Store User Phone Number
+  static void setUserPhoneNumber(String phoneNumber) {
+    Hive.box(userPhoneNumber).put(userPhoneNumber, phoneNumber);
+  }
+
+  // Get User Phone Number
+  static String? getUserPhoneNumber() {
+    if (Hive.box(userPhoneNumber).isNotEmpty) {
+      return Hive.box(userPhoneNumber).get(userPhoneNumber);
+    }
+    return null;
+  }
+
   // Remove token (for logout)
   static Future<void> removeToken() async {
     var box = await Hive.openBox(token);

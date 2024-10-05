@@ -3,24 +3,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:shoppe/Cubit/login_cubit.dart';
-import 'package:shoppe/SCreens/categoriesview.dart';
-import 'package:shoppe/Screens/Cart.dart';
 import 'package:shoppe/Screens/ForgetPassword.dart';
 import 'package:shoppe/Screens/SignUp.dart';
 import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart';
-
-import '../Helpers/hive_helper.dart';
 import '../Widgets/Custom_Text_Form_Field.dart';
-import 'onBoardingScreen.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final _formKey = GlobalKey<FormState>();
+    final cubit = context.read<LoginCubit>();
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginErrorState) {
@@ -80,7 +77,7 @@ class LoginScreen extends StatelessWidget {
                     CustomTextFromField(
                       label: Text('Email address'),
                       controller: emailController,
-                      keyboardTybe: TextInputType.emailAddress,
+                      textInputType: TextInputType.emailAddress,
                       icon: Icons.mail_outline_rounded,
                       validator: (text) {
                         if (text == null || text.trim().isEmpty) {
@@ -96,21 +93,33 @@ class LoginScreen extends StatelessWidget {
                         return null;
                       },
                     ),
-                    CustomTextFromField(
-                      label: Text('password'),
-                      controller: passwordController,
-                      icon: Icons.lock_outline,
-                      keyboardTybe: TextInputType.number,
-                      isObscure: true,
-                      suffixIcon: Icons.visibility_off_outlined,
-                      validator: (text) {
-                        if (text == null || text.trim().isEmpty) {
-                          return 'please enter password';
-                        }
-                        if (text.length < 6) {
-                          return 'password should be at least 6';
-                        }
-                        return null;
+                    BlocBuilder<LoginCubit, LoginState>(
+                      builder: (context, state) {
+                        return CustomTextFromField(
+                          label: Text('password'),
+                          controller: passwordController,
+                          icon: Icons.lock_outline,
+                          isPassword: true,
+                          obscureText: cubit.obscure,
+                          suffixIcon: InkWell(
+                            onTap: () {
+                              cubit.changeSuffix();
+                            },
+                            child: Icon(!cubit.obscure
+                                ? Icons.remove_red_eye
+                                : Icons.visibility_off),
+                          ),
+                          textInputType: TextInputType.visiblePassword,
+                          validator: (text) {
+                            if (text == null || text.trim().isEmpty) {
+                              return 'please enter password';
+                            }
+                            if (text.length < 6) {
+                              return 'password should be at least 6';
+                            }
+                            return null;
+                          },
+                        );
                       },
                     ),
                     Row(
@@ -143,12 +152,11 @@ class LoginScreen extends StatelessWidget {
                           width: 400,
                           height: 60,
                           ontap: () {
-                            if (_formKey.currentState!.validate()){
+                            if (_formKey.currentState!.validate()) {
                               context.read<LoginCubit>().login(
                                     email: emailController.text,
                                     password: passwordController.text,
                                   );
-
                             }
                             ;
                           },
@@ -166,7 +174,7 @@ class LoginScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w300)),
                         TextButton(
                             onPressed: () {
-                              Get.offAll(SignUp());
+                              Get.off(SignUp());
                             },
                             child: const Text(
                               'Create Now',

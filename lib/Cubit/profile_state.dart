@@ -55,6 +55,9 @@ class ProfileError extends ProfileState {
 
   ProfileError(this.message);
 }
+class deletedToke extends ProfileState{
+
+}
 
 
 

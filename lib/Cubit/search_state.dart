@@ -15,4 +15,4 @@ final class  SearchSucess extends  SearchState {
 final class SearchError extends  SearchState {
   final String message;
   SearchError({required this.message});
-}
+}/////////////////////
