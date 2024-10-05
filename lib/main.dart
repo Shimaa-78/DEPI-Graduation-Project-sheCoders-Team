@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shoppe/SCreens/categoriesview.dart';
 import 'package:shoppe/Screens/startScreen.dart';
 import 'package:shoppe/cubit/category_cubit.dart';
 import 'package:shoppe/cubit/favourite_cubit.dart';
@@ -11,6 +12,7 @@ import 'package:shoppe/cubit/products_cubit.dart';
 import 'package:shoppe/cubit/search_cubit.dart';
 import 'Consts.dart';
 import 'Cubit/login_cubit.dart';
+import 'Screens/Cart.dart';
 import 'firebase_options.dart';
 import 'Cubit/personal_details_cubit.dart';
 import 'Cubit/profile_cubit.dart';
@@ -75,7 +77,7 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body:CartScreen(),
+          body:CategoryView(),
         ),
       ),
     );
