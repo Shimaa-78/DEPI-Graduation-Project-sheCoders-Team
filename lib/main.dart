@@ -9,18 +9,15 @@ import 'package:shoppe/cubit/category_cubit.dart';
 import 'package:shoppe/cubit/favourite_cubit.dart';
 import 'package:shoppe/cubit/products_cubit.dart';
 import 'package:shoppe/cubit/search_cubit.dart';
+import 'Consts.dart';
 import 'Cubit/login_cubit.dart';
-import 'Screens/Cart.dart';
-import 'firebase_options.dart';
-import 'Cubit/personal_details_cubit.dart';
-import 'Cubit/profile_cubit.dart';
 import 'firebase_options.dart';
 import 'Cubit/personal_details_cubit.dart';
 import 'Cubit/profile_cubit.dart';
 import 'cubit/cart_cubit.dart';
 import 'helpers/dio_helper.dart';
 import 'helpers/hive_helper.dart';
-import 'helpers/hive_helper.dart';
+
 
 
 void main() async {
@@ -78,7 +75,7 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body:StartScreen(),
+          body:CartScreen(),
         ),
       ),
     );
