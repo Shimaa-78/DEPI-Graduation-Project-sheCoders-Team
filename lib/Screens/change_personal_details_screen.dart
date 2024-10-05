@@ -24,12 +24,6 @@ class ChangePersonalDetailsScreen extends StatelessWidget {
             ),
           ),
           centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios, size: 20, color: Colors.white),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
         ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(

@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../Cubit/profile_cubit.dart';
 
+import '../Widgets/bottomNavigationBar.dart';
 import 'change_personal_details_screen.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -28,13 +29,8 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(
-          Icons.arrow_back_ios,
-          color: Colors.white,
-          size: 20,
-        ),
         backgroundColor: Color(0xff004BFE),
-        centerTitle: true,
+
         title: Text(
           "Profile",
           style: TextStyle(
@@ -133,6 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
+      bottomNavigationBar: Bottomnavigationbar(),
     );
   }
 
@@ -414,7 +411,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return ElevatedButton(
       onPressed: () {
         // Trigger the logout logic and navigate to login screen
-        context.read<ProfileCubit>().logout(context);
+        context.read<ProfileCubit>().logout();
       },
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),

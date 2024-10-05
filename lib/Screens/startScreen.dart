@@ -75,7 +75,7 @@ class StartScreen extends StatelessWidget {
               ontap: () {
 
                 if (HiveHelper.checkOnBoardingValue()) {
-                  print("======================Start Token ${HiveHelper.getToken()}");
+                  print("======================Start Token ${HiveHelper.checkOnBoardingValue()}");
                   if (HiveHelper.getToken() != null) {
                     Get.offAll(CategoryView());
                   } else {
