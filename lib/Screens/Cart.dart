@@ -38,7 +38,7 @@ class CartScreen extends StatelessWidget {
   // Initialize the cart and wait for it
   Future<void> _initializeCart(BuildContext context) async {
     final cartCubit = context.read<CartCubit>();
-    await cartCubit.getUserCart(); // Wait for the cart data to load
+    await cartCubit.getUserCart();
   }
 
   // Build the UI for the cart screen after cart data is loaded
@@ -50,7 +50,7 @@ class CartScreen extends StatelessWidget {
         if (state is CartError) {
           Get.snackbar(
             "Error",
-            state.message ?? "An error occurred", // Handle null message safely
+            state.message ?? "An error occurred",
             backgroundColor: Colors.red,
             colorText: Colors.white,
           );
@@ -72,7 +72,7 @@ class CartScreen extends StatelessWidget {
 
   Widget _buildCartSuccessContent(CartCubit cartCubit, BuildContext context) {
     final cartProductsList = cartCubit.cartModel?.cartItems ?? [];
-    String buttonText = cartProductsList.isEmpty ? "Go Shopping" : "Check out";
+
 
     return Column(
       children: [
@@ -189,11 +189,19 @@ class CartScreen extends StatelessWidget {
             left: MediaQuery.of(context).size.width * 0.02,
             right: MediaQuery.of(context).size.width * 0.02,
           ),
-          child: CartItemWidget(
+          child: BlocBuilder<CartCubit, CartState>(
+  builder: (context, state) {
+    if(state is CartItemRemovedLoading && state.id == cartProductsList[index].product.id){
+      return(Center(child: CircularProgressIndicator(),));
+
+    }
+    return CartItemWidget(
             cartItem: cartProductsList[index],
             screenWidth: MediaQuery.of(context).size.width,
             screenHeight: MediaQuery.of(context).size.height,
-          ),
+          );
+  },
+),
         );
       },
       separatorBuilder: (context, index) {

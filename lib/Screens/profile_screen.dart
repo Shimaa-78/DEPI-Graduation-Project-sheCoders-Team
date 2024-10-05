@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
 import '../Cubit/profile_cubit.dart';
 import '../Widgets/bottomNavigationBar.dart';
-import 'package:image_picker/image_picker.dart';
-
-import '../Cubit/profile_cubit.dart';
-
 import 'change_personal_details_screen.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -34,15 +28,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit= context.read<ProfileCubit>();
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(
-          Icons.arrow_back_ios,
-          color: Colors.white,
-          size: 20,
-        ),
+        automaticallyImplyLeading: false,
+
         backgroundColor: Color(0xff004BFE),
-        centerTitle: true,
+
         title: Text(
           "Profile",
           style: TextStyle(
@@ -141,90 +133,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
 
             ],
-          child: BlocBuilder<ProfileCubit, ProfileState>(
-            builder: (context, state) {
-              if (state is ProfileLoaded) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 40),
-                    Stack(
-                      children: [
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundImage: state.image != null
-                              ? FileImage(state.image!)
-                              : AssetImage("assets/images/login_user.png")
-                          as ImageProvider,
-                        ),
-                        Positioned(
-                          right: 0,
-                          bottom: 0,
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  _showImageSourceActionSheet(context);
-                                },
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  radius: 10,
-                                  child: Icon(
-                                    Icons.edit,
-                                    size: 16,
-                                    color: Color(0xff004BFE),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 5),
-                              if (state.image != null)
-                                GestureDetector(
-                                  onTap: () {
-                                    context.read<ProfileCubit>().deleteImage();
-                                  },
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    radius: 10,
-                                    child: Icon(
-                                      Icons.delete,
-                                      size: 16,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    Text(
-                      "Upload image",
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,fontFamily: "Raleway"),
-                    ),
-                    SizedBox(height: 20),
-                    buildGenderSelector(state.gender),
-                    buildProfileField("Name", state.name),
-                    buildProfileField("Age", state.age.toString()),
-                    buildProfileField("Email", state.email),
-                    buildProfileField("Phone Number", state.phonenumber),
-                    SizedBox(height: 20),
-                    buildSettingsSection(),
-                    SizedBox(height: 30),
-                    buildLogoutButton(),
-                  ],
-                );
-              } else if (state is ProfileError) {
-                return Center(
-                  child: Text("An error occurred. Please try again."),
-                );
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
-            },
           ),
         ),
+
       ),
+      bottomNavigationBar: Bottomnavigationbar(),
     );
   }
 
@@ -388,6 +301,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
+
     );
   }
 
@@ -457,24 +371,24 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget buildLogoutButton(ProfileCubit cubit) {
     return BlocBuilder<ProfileCubit, ProfileState>(
-  builder: (context, state) {
-    return ElevatedButton(
-      onPressed: () {
-        cubit.logout();
-      },
-      style: ElevatedButton.styleFrom(
+      builder: (context, state) {
+        return ElevatedButton(
+          onPressed: () {
+            cubit.logout();
+          },
+          style: ElevatedButton.styleFrom(
 
-        padding: EdgeInsets.symmetric(horizontal: 60, vertical: 10),
-        backgroundColor: Color(0xff004BFE),
-      ),
-      child: Text(
-        'Logout',
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 16),
-      )
-      ,
+            padding: EdgeInsets.symmetric(horizontal: 60, vertical: 10),
+            backgroundColor: Color(0xff004BFE),
+          ),
+          child: Text(
+            'Logout',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 16),
+          )
+          ,
+        );
+      },
     );
-  },
-);
   }
 
 
@@ -521,24 +435,25 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+
   void _showCitySelector() {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text("Select City"),
-        content: Column(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Select City'),
+          content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-        ListTile(
-        title: Text("Cairo"),
-        onTap: () {
-          setState(() {
-            selectedCity = "Cairo";
-          });
-          Navigator.of(context).pop();
-        },
-      ),
+              ListTile(
+                title: Text('Cairo'),
+                onTap: () {
+                  setState(() {
+                    selectedCity = 'Cairo';
+                  });
+                  Navigator.of(context).pop();
+                },
+              ),
               ListTile(
                 title: Text('Alexandria'),
                 onTap: () {
@@ -549,42 +464,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
               ),
               ListTile(
-                title: Text("Giza"),
+                title: Text('Giza'),
                 onTap: () {
                   setState(() {
-                    selectedCity = "Giza";
+                    selectedCity = 'Giza';
                   });
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-        ),
-      );
-        },
-    );
-  }
-
-  void _showImageSourceActionSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ListTile(
-                leading: Icon(Icons.photo_camera),
-                title: Text("Camera"),
-                onTap: () {
-                  context.read<ProfileCubit>().pickImage(ImageSource.camera);
-                  Navigator.of(context).pop();
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.photo_library),
-                title: Text("Gallery"),
-                onTap: () {
-                  context.read<ProfileCubit>().pickImage(ImageSource.gallery);
                   Navigator.of(context).pop();
                 },
               ),
@@ -594,30 +478,7 @@ class _ProfilePageState extends State<ProfilePage> {
       },
     );
   }
-
-  Widget buildLogoutButton() {
-    return ElevatedButton(
-      onPressed: () {
-        // Trigger the logout logic and navigate to login screen
-        context.read<ProfileCubit>().logout(context);
-      },
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-        backgroundColor: Color(0xff004BFE),
-      ),
-      child: Text(
-        "Logout",
-        style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-            fontFamily: "Raleway"
-        ),
-      ),
-    );
-  }
 }
-
 
 
 

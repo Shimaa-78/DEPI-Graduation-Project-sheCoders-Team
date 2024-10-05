@@ -11,7 +11,7 @@ class Productveiw extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: ListView(
         // mainAxisSize: MainAxisSize.min,
         children: [
           Productdetails(product: product),
@@ -20,14 +20,6 @@ class Productveiw extends StatelessWidget {
         ],
       ),
     );
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Productdetails(product: product),
-          SizedBox(height: 16),
-          Rowbar(product: product),
-        ],
-      ),
-    );
+
   }
 }
