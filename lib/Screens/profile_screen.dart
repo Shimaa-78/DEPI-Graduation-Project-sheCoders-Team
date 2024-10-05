@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
 import '../Cubit/profile_cubit.dart';
+import '../Widgets/bottomNavigationBar.dart';
 import 'change_personal_details_screen.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -30,13 +31,10 @@ class _ProfilePageState extends State<ProfilePage> {
    final cubit= context.read<ProfileCubit>();
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(
-          Icons.arrow_back_ios,
-          color: Colors.white,
-          size: 20,
-        ),
+        automaticallyImplyLeading: false,
+
         backgroundColor: Color(0xff004BFE),
-        centerTitle: true,
+
         title: Text(
           "Profile",
           style: TextStyle(
@@ -132,11 +130,14 @@ class _ProfilePageState extends State<ProfilePage> {
 
               SizedBox(height: 30),
               buildLogoutButton(cubit),
+
              
             ],
           ),
         ),
+
       ),
+      bottomNavigationBar: Bottomnavigationbar(),
     );
   }
 
@@ -300,6 +301,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
+
     );
   }
 

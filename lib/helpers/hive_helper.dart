@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 class HiveHelper {
   static const onboardingBox = "ONBOARDING_BOX";
-  static const token = "";
+  static const token = "TOKEN";
   static const KEY_BOX_APP_LANGUAGE = "KEY_BOX_APP_LANGUAGE";
 
 
@@ -37,7 +37,13 @@ class HiveHelper {
     }
     return null;
   }
+  // Remove token (for logout)
+  static Future<void> removeToken() async {
+    if (Hive.box(token).isNotEmpty) {
+      Hive.box(token).delete(token);
+    }
 
+  }
   static void setLanguage(String langCode) async {
     Hive.box(KEY_BOX_APP_LANGUAGE).put(KEY_BOX_APP_LANGUAGE, langCode);
   }
@@ -79,10 +85,6 @@ class HiveHelper {
     return null;
   }
 
-  // Remove token (for logout)
-  static Future<void> removeToken() async {
-    var box = await Hive.openBox(token);
-    await box.delete('token');
-  }
+
 
 }

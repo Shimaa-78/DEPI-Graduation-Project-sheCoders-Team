@@ -16,10 +16,34 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cartCubit = context.read<CartCubit>();
-    DioHelper.inint();
-    cartCubit.getUserCart();
+    DioHelper.inint(); // Initialize DioHelper
 
+    return FutureBuilder(
+
+      future: _initializeCart(context),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Container(color: Colors.white,child: const Center(child: CircularProgressIndicator(backgroundColor:Colors.white)));
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
+          );
+        } else {
+          return _buildCartScreen(context);
+        }
+      },
+    );
+  }
+
+  // Initialize the cart and wait for it
+  Future<void> _initializeCart(BuildContext context) async {
+    final cartCubit = context.read<CartCubit>();
+    await cartCubit.getUserCart(); // Wait for the cart data to load
+  }
+
+  // Build the UI for the cart screen after cart data is loaded
+  Widget _buildCartScreen(BuildContext context) {
+    final cartCubit = context.read<CartCubit>();
 
     return BlocListener<CartCubit, CartState>(
       listener: (context, state) {
@@ -33,101 +57,89 @@ class CartScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-         backgroundColor: const Color(0xffF2F2F2),
+        backgroundColor: const Color(0xffF2F2F2),
         body: BlocBuilder<CartCubit, CartState>(
           builder: (context, state) {
             if (state is CartLoading) {
               return const Center(child: CircularProgressIndicator());
             }
-            return _buildCartSuccessContent(cartCubit,context);
-
-            // Handle other states if necessary
+            return _buildCartSuccessContent(cartCubit, context);
           },
         ),
       ),
     );
   }
 
-  Widget _buildCartSuccessContent(CartCubit cartCubit,BuildContext context) {
+  Widget _buildCartSuccessContent(CartCubit cartCubit, BuildContext context) {
     final cartProductsList = cartCubit.cartModel?.cartItems ?? [];
     String buttonText = cartProductsList.isEmpty ? "Go Shopping" : "Check out";
 
     return Column(
       children: [
-        _buildCartHeader(cartProductsList, cartCubit,context),
+        _buildCartHeader(cartProductsList, cartCubit, context),
         Expanded(
           child: cartProductsList.isEmpty
               ? _buildEmptyCartMessage()
               : _buildCartItemsList(cartProductsList),
         ),
-        // _buildTotalAndCheckoutButton(cartCubit, buttonText),
         Bottomnavigationbar(),
       ],
     );
   }
 
   Widget _buildCartHeader(
-      List<CartItem> cartProductsList, CartCubit cartCubit,BuildContext context) {
-    return Padding(
+      List<CartItem> cartProductsList, CartCubit cartCubit, BuildContext context) {
+    return Container(
+      color: Color(0xff004BFE),
+      child: Padding(
         padding: EdgeInsets.only(
-        top: MediaQuery.of(context).size.height * 0.04,
-    left: MediaQuery.of(context).size.width * 0.05,
-    right: MediaQuery.of(context).size.width * 0.05,
-    ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-
-          Row(
-            children: [
-
-              const Text(
-                "Cart",
-                style: TextStyle(
-                  fontFamily: "Raleway",
-                  fontWeight: FontWeight.bold,
-                  fontSize: 28,
+          top: MediaQuery.of(context).size.height * 0.04,
+          left: MediaQuery.of(context).size.width * 0.03,
+          right: MediaQuery.of(context).size.width * 0.03,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                const Text(
+                  "Cart",
+                  style: TextStyle(
+                    fontFamily: "Raleway",
+                    fontWeight: FontWeight.bold,
+                    fontSize: 28,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-
-              const SizedBox(width: 3),
-              CircleAvatar(
-                radius: 20,
-                backgroundColor: const Color(0xffE5EBFC),
-                child: Center(
+                const SizedBox(width: 4),
+                Center(
                   child: Text(
                     cartProductsList.length.toString(),
                     style: const TextStyle(
                       fontFamily: "Raleway",
                       fontWeight: FontWeight.bold,
                       fontSize: 24,
+                      color: Colors.white,
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-
-          Text(
-            "\$${cartCubit.total ?? 0}", // Update this according to your total calculation
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              fontFamily: "Raleway",
+              ],
             ),
-          ),
-          SizedBox(
-            width: 2,
-          ),
-
-          InkWell(
-            onTap: () {
-              cartCubit.clearCart();
-            },
-            child: CircleAvatar(
-              radius: 25,
-              backgroundColor: const Color(0xffE5EBFC),
-              child: Text(
+            Text(
+              "\$${cartCubit.total ?? 0}", // Update this according to your total calculation
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                fontFamily: "Raleway",
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(width: 2),
+            InkWell(
+              onTap: () {
+                cartCubit.clearCart();
+              },
+              child: const Text(
                 "Clear",
                 style: TextStyle(
                   fontFamily: "Raleway",
@@ -137,10 +149,8 @@ class CartScreen extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-
-
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -150,7 +160,7 @@ class CartScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Spacer(flex: 3,),
+          const Spacer(flex: 3),
           CircleLogo("assets/images/Logo_for_emty_Cart.png"),
           const SizedBox(height: 20),
           const Text(
@@ -162,42 +172,28 @@ class CartScreen extends StatelessWidget {
               fontFamily: "Raleway",
             ),
           ),
-          Spacer(flex:2),
+          const Spacer(flex: 2),
           _buildCheckoutButton("Go Shopping"),
-          Spacer(),
+          const Spacer(),
         ],
       ),
     );
   }
 
   Widget _buildCartItemsList(List<CartItem> cartProductsList) {
-
     return ListView.separated(
       itemCount: cartProductsList.length,
       itemBuilder: (context, index) {
-
-        return BlocBuilder<CartCubit, CartState>(
-          builder: (context, state) {
-
-            if (state is CartItemRemoved) {
-              cartProductsList = state.cartItems;
-
-            } else if (state is CartItemRemovedLoading && state.id == cartProductsList[index].product.id) {
-              return Center(child: CircularProgressIndicator());
-            }
-            return Padding(
-              padding: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width * 0.02,
-                right: MediaQuery.of(context).size.width * 0.02,
-              ),
-              child: CartItemWidget(
-                cartItem: cartProductsList[index],
-                screenWidth: MediaQuery.of(context).size.width,
-                screenHeight: MediaQuery.of(context).size.height,
-                // quantity: cartProductsList[index].quantity,
-              ),
-            );
-          },
+        return Padding(
+          padding: EdgeInsets.only(
+            left: MediaQuery.of(context).size.width * 0.02,
+            right: MediaQuery.of(context).size.width * 0.02,
+          ),
+          child: CartItemWidget(
+            cartItem: cartProductsList[index],
+            screenWidth: MediaQuery.of(context).size.width,
+            screenHeight: MediaQuery.of(context).size.height,
+          ),
         );
       },
       separatorBuilder: (context, index) {
@@ -206,7 +202,7 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCheckoutButton( String buttonText) {
+  Widget _buildCheckoutButton(String buttonText) {
     return Center(
       child: CustomButton(
         ontap: () {
@@ -220,7 +216,6 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  // Method to build each Cart Item
   Container addRemoveFromCart(IconData iconData) {
     return Container(
       child: Icon(
@@ -240,4 +235,3 @@ class CartScreen extends StatelessWidget {
     );
   }
 }
-/////////////////////

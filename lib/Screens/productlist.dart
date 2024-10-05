@@ -27,6 +27,7 @@ class ProductListScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text(
             'Products List',
             style: TextStyle(

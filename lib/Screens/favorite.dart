@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -15,45 +16,66 @@ class FavouriteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<FavouriteCubit>();
     DioHelper.inint();
-   // cubit.getFavouriteList();
-    return BlocListener<FavouriteCubit, FavouriteState>(
-  listener: (context, state) {
-    if (state is FavouriteError) {
-      Get.snackbar(
-        "Error",
-        state.message ?? "An error occurred",
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-    }
-  },
-  child: Scaffold(
-      appBar: _buildAppBar(),
-      body: BlocBuilder<FavouriteCubit, FavouriteState>(
-        builder: (context, state) {
-          if (state is FavouriteLoading) {
-            return _buildLoadingIndicator();
-          }
-          print(state);
+    return FutureBuilder(
 
-          return _buildCartSuccessContent(cubit);
-        },
-      ),
-    ),
-);
+      future: _initializeCart(context,cubit),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return  Center(child: Container(color: Colors.white,child: Center(child: CircularProgressIndicator()),));
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
+          );
+        } else {
+          return _buildScreen(cubit);
+        }
+      },
+    );
+
   }
+  Future<void> _initializeCart(BuildContext context,FavouriteCubit cubit) async {
 
+    await cubit.getFavouriteList(); // Wait for the cart data to load
+  }
+   Widget _buildScreen(FavouriteCubit cubit){
+     return BlocListener<FavouriteCubit, FavouriteState>(
+       listener: (context, state) {
+         if (state is FavouriteError) {
+           Get.snackbar(
+             "Error",
+             state.message ?? "An error occurred",
+             backgroundColor: Colors.red,
+             colorText: Colors.white,
+           );
+         }
+       },
+       child: Scaffold(
+         appBar: _buildAppBar(),
+         body: BlocBuilder<FavouriteCubit, FavouriteState>(
+           builder: (context, state) {
+             if (state is FavouriteLoading) {
+               return _buildLoadingIndicator();
+             }
+             print(state);
+
+             return _buildCartFavouriteContent(cubit);
+           },
+         ),
+       ),
+     );
+   }
   AppBar _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.white,
-      title: Text('Favorites', style: TextStyle(fontWeight: FontWeight.bold)),
+      backgroundColor: Color(0xff004BFE),
+      automaticallyImplyLeading: false,
+      title: Text('Favorites', style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white)),
     );
   }
 
   Center _buildLoadingIndicator() {
     return Center(child: CircularProgressIndicator());
   }
-  Widget _buildCartSuccessContent(FavouriteCubit cubit) {
+  Widget _buildCartFavouriteContent(FavouriteCubit cubit) {
     final favouriteProductsList = cubit.favouriteModel?.items ?? [];
 
 

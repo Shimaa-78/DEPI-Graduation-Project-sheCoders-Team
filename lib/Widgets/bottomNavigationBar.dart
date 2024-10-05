@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:shoppe/Screens/categoriesview.dart';
 import 'package:shoppe/Screens/favorite.dart';
 
 import '../Screens/Cart.dart';
@@ -14,21 +15,18 @@ class  Bottomnavigationbar extends StatelessWidget {
 
         items:  <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: InkWell(onTap: (){
+              Get.offAll(CategoryView());
+            },child: Icon(Icons.home)),
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: InkWell(child: Icon(Icons.favorite),onTap: (){
-              Get.to(FavouriteScreen());
+              Get.offAll(FavouriteScreen());
             },),
             label: 'Favorites',
           ),
-          BottomNavigationBarItem(
-            icon: InkWell(child: Icon(Icons.person),onTap: (){
-              Get.offAll(ProfilePage());
-            },),
-            label: 'Profile',
-          ),
+
           BottomNavigationBarItem(
 
             icon: InkWell(child: Icon(Icons.shopping_cart),onTap: (){
@@ -37,10 +35,16 @@ class  Bottomnavigationbar extends StatelessWidget {
             },),
             label: 'Cart',
           ),
+          BottomNavigationBarItem(
+            icon: InkWell(child: Icon(Icons.person),onTap: (){
+              Get.offAll(ProfilePage());
+            },),
+            label: 'Profile',
+          ),
         ],
         currentIndex: 0,
         backgroundColor: Colors.blue,
-
+        selectedItemColor: Color(0xff004CFF),
         unselectedItemColor: Color(0xff004CFF),
 
     );
