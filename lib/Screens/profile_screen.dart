@@ -4,10 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import 'package:flutter/services.dart';
+
 import '../Cubit/profile_cubit.dart';
+
 import '../Widgets/bottomNavigationBar.dart';
 import 'change_personal_details_screen.dart';
 
@@ -17,11 +16,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String selectedGender = 'Male';
-  String selectedLanguage = 'English';
-  String selectedCity = '';
-  File? _image;
-  final ImagePicker _picker = ImagePicker();
+  String selectedLanguage ="English";
+  String selectedCity = " ";
 
   @override
   void initState() {
@@ -224,9 +220,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
       ),
-
     );
-
   }
 
   Widget buildSettingsSection() {

@@ -22,7 +22,7 @@ class Productdetails extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 16.0), // إضافة مسافة من اليسار
           child: Text(
-             product.price.toString(),
+            product.price.toString(),
             style: TextStyle(
               color: Colors.black87,
 

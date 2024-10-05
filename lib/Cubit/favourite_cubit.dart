@@ -32,7 +32,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
         emit(FavouriteError("Failed to load favorite items"));
       }
     } catch (error) {
-      print("Error: ${error.toString()}");
+
       emit(FavouriteError("An error occurred. Check your internet connection"));
     }
   }
@@ -94,4 +94,4 @@ class FavouriteCubit extends Cubit<FavouriteState> {
           "An error occurred while updating favorite status. Check your internet connection."));
     }
   }
-}/////////////////////
+}

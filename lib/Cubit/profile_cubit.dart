@@ -106,9 +106,11 @@ class ProfileCubit extends Cubit<ProfileState> {
       // Remove token from Hive (or wherever it is stored)
       await HiveHelper.removeToken();
            print("+============================ToKEN = ${HiveHelper.getToken()}");
+
       // Navigate to the login screen after successful logout
       Get.offAll(StartScreen());
       // emit(deletedToke());
+      Get.offAll(LoginScreen());
     } catch (e) {
       // If an error occurs during logout
       emit(ProfileError('Logout failed. Please try again.'));

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../Widgets/productdetails.dart';
 import '../Models/ProducModel.dart';
 import '../Widgets/Row.dart';
 import '../Widgets/productdetails.dart';
@@ -10,7 +11,7 @@ class Productveiw extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: ListView(
         // mainAxisSize: MainAxisSize.min,
         children: [
           Productdetails(product: product),
@@ -19,5 +20,6 @@ class Productveiw extends StatelessWidget {
         ],
       ),
     );
+
   }
 }
