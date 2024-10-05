@@ -72,8 +72,6 @@ class CartCubit extends Cubit<CartState> {
         } else {
           cartIds.add(productId.toString());
         }
-         await getUserCart();
-
         emit(addTocartSuccess());
       } else {
         // Refresh cart if the operation fails
@@ -138,28 +136,16 @@ class CartCubit extends Cubit<CartState> {
     }
   }
   Future<void> clearCart() async {
-    emit(CartLoading());
+    // Assuming you have a list of cart items
+    for (var item in cartModel?.cartItems ?? []) {
+      // final response = await DioHelper.deleteData(
+      //   path: '${KApis.cartPath}/${item.id}',
+      // );
 
-    try {
-      // Assuming you have a list of cart items
-      for (var item in cartModel?.cartItems ?? []) {
-        final response = await DioHelper.deleteData(
-          path: '${KApis.cartPath}/${item.id}', // Endpoint for deleting a cart item
-        );
-
-        if (!response.data['status']) {
-          emit(CartError(response.data['message'] ?? "Failed to delete cart item"));
-          return; // Exit the loop if any deletion fails
-        }
-      }
-
-      // Optionally, refresh the cart after clearing
-      await getUserCart();
-      emit(CartSuccess()); // Emit success state
-
-    } catch (error) {
-      emit(CartError("An error occurred while clearing the cart"));
+      // if (!response.data['status']) {
+      //   emit(CartError(response.data['message'] ?? "Failed to delete cart item"));
+      //   return; // Exit the loop if any deletion fails
+      // }
+      deleteCartItem(item);
     }
-  }
-}/////////////////////
-/////////////////////
+  }}

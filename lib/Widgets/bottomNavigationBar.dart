@@ -31,7 +31,7 @@ class  Bottomnavigationbar extends StatelessWidget {
 
             icon: InkWell(child: Icon(Icons.shopping_cart),onTap: (){
 
-              Get.offAll(CartScreen());
+              Get.to(CartScreen());
             },),
             label: 'Cart',
           ),

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoppe/Consts/Consts.dart';
-import 'package:shoppe/SCreens/categoriesview.dart';
+
+import 'package:shoppe/Screens/shippingscreen.dart';
 import '../Helpers/dio_helper.dart';
 import '../Models/CartModel.dart';
 import '../Widgets/BuildItemCart.dart';
 import '../Widgets/Custom Button Widget.dart';
 import '../Widgets/Methods.dart';
-import '../Widgets/bottomNavigationBar.dart';
+
 import '../cubit/cart_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'categoriesview.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -19,11 +22,14 @@ class CartScreen extends StatelessWidget {
     DioHelper.inint(); // Initialize DioHelper
 
     return FutureBuilder(
-
       future: _initializeCart(context),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(color: Colors.white,child: const Center(child: CircularProgressIndicator(backgroundColor:Colors.white)));
+          return Container(
+              color: Colors.white,
+              child: const Center(
+                  child: CircularProgressIndicator(
+                      backgroundColor: Colors.white)));
         } else if (snapshot.hasError) {
           return Center(
             child: Text('Error: ${snapshot.error}'),
@@ -72,35 +78,43 @@ class CartScreen extends StatelessWidget {
 
   Widget _buildCartSuccessContent(CartCubit cartCubit, BuildContext context) {
     final cartProductsList = cartCubit.cartModel?.cartItems ?? [];
-
-
+    String buttonText = cartProductsList.isEmpty ? "Go Shopping" : "Check out";
     return Column(
       children: [
         _buildCartHeader(cartProductsList, cartCubit, context),
         Expanded(
           child: cartProductsList.isEmpty
-              ? _buildEmptyCartMessage()
+              ? _buildEmptyCartMessage(cartCubit)
               : _buildCartItemsList(cartProductsList),
         ),
-        Bottomnavigationbar(),
+        _buildTotalAndCheckoutButton(cartCubit,buttonText),
       ],
     );
   }
 
-  Widget _buildCartHeader(
-      List<CartItem> cartProductsList, CartCubit cartCubit, BuildContext context) {
+  Widget _buildCartHeader(List<CartItem> cartProductsList, CartCubit cartCubit,
+      BuildContext context) {
     return Container(
-      color: Color(0xff004BFE),
       child: Padding(
         padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height * 0.04,
+          top: MediaQuery.of(context).size.height * 0.05,
           left: MediaQuery.of(context).size.width * 0.03,
           right: MediaQuery.of(context).size.width * 0.03,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
+            InkWell(
+              onTap: () {
+                cartCubit.clearCart();
+              },
+              child: Icon(
+                Icons.delete,
+                color: Colors.black,
+              ),),
+
             Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const Text(
                   "Cart",
@@ -108,7 +122,7 @@ class CartScreen extends StatelessWidget {
                     fontFamily: "Raleway",
                     fontWeight: FontWeight.bold,
                     fontSize: 28,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
                 const SizedBox(width: 4),
@@ -119,43 +133,28 @@ class CartScreen extends StatelessWidget {
                       fontFamily: "Raleway",
                       fontWeight: FontWeight.bold,
                       fontSize: 24,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                 ),
               ],
             ),
-            Text(
-              "\$${cartCubit.total ?? 0}", // Update this according to your total calculation
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Raleway",
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(width: 2),
-            InkWell(
-              onTap: () {
-                cartCubit.clearCart();
-              },
-              child: const Text(
-                "Clear",
-                style: TextStyle(
-                  fontFamily: "Raleway",
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18,
-                  color: Colors.red,
-                ),
-              ),
-            ),
+            // Text(
+            //   "\$${cartCubit.total ?? 0}", // Update this according to your total calculation
+            //   style: const TextStyle(
+            //     fontSize: 18,
+            //     fontWeight: FontWeight.bold,
+            //     fontFamily: "Raleway",
+            //     color: Colors.white,
+            //   ),
+            // ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildEmptyCartMessage() {
+  Widget _buildEmptyCartMessage(CartCubit cubit) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -173,8 +172,7 @@ class CartScreen extends StatelessWidget {
             ),
           ),
           const Spacer(flex: 2),
-          _buildCheckoutButton("Go Shopping"),
-          const Spacer(),
+
         ],
       ),
     );
@@ -190,18 +188,18 @@ class CartScreen extends StatelessWidget {
             right: MediaQuery.of(context).size.width * 0.02,
           ),
           child: BlocBuilder<CartCubit, CartState>(
-  builder: (context, state) {
-    if(state is CartItemRemovedLoading && state.id == cartProductsList[index].product.id){
-      return(Center(child: CircularProgressIndicator(),));
-
-    }
-    return CartItemWidget(
-            cartItem: cartProductsList[index],
-            screenWidth: MediaQuery.of(context).size.width,
-            screenHeight: MediaQuery.of(context).size.height,
-          );
-  },
-),
+            builder: (context, state) {
+              if (state is CartItemRemovedLoading &&
+                  state.id == cartProductsList[index].product.id) {
+                return Container();
+              }
+              return CartItemWidget(
+                cartItem: cartProductsList[index],
+                screenWidth: MediaQuery.of(context).size.width,
+                screenHeight: MediaQuery.of(context).size.height,
+              );
+            },
+          ),
         );
       },
       separatorBuilder: (context, index) {
@@ -210,19 +208,44 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCheckoutButton(String buttonText) {
+  Widget _buildTotalAndCheckoutButton(CartCubit cartCubit, String buttonText) {
     return Center(
-      child: CustomButton(
-        ontap: () {
-          Get.to(CategoryView());
-        },
-        width: 170,
-        text: buttonText,
-        height: 50,
-        fontsize: 16,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              "Total \$${cartCubit.total?.toStringAsFixed(1)}", // Format total to 1 decimal place
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                fontFamily: "Raleway",
+                color: Color(0xffA6A6A6),
+              ),
+            ),
+
+            CustomButton(
+              ontap: () {
+                if (cartCubit.cartModel?.cartItems.isEmpty ?? true) {
+                  Get.to(CategoryView()); // No ambiguity now
+                } else {
+                  Get.to(ShippingScreen("${cartCubit.total?.toStringAsFixed(1)}"));
+                }
+              },
+              width: 170,
+              text: buttonText,
+              height: 50,
+              fontsize: 16,
+            ),
+
+
+          ],
+        ),
       ),
     );
   }
+
 
   Container addRemoveFromCart(IconData iconData) {
     return Container(
