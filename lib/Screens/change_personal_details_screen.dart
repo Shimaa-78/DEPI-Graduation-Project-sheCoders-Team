@@ -84,7 +84,7 @@ class ChangePasswordScreen extends StatelessWidget {
                   textInputType: TextInputType.visiblePassword,  // Add this
                 ),
                 CustomTextFromField(
-                  label: Text('Confirm New Password'),
+                  label: Text('Confirm New Password'),/////
                   controller: confirmPasswordController,
                   icon: Icons.lock_outline,
                   isPassword: true,
