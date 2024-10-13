@@ -1,101 +1,128 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../Cubit/personal_details_cubit.dart';
+import 'package:get/get.dart';
+import '../Cubit/login_cubit.dart';
+import '../Widgets/Custom Button Widget.dart';
+import '../Widgets/Custom_Text_Form_Field.dart';
+import 'LoginScreen.dart';
 
-class ChangePersonalDetailsScreen extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
+
+class ChangePasswordScreen extends StatelessWidget {
   final currentPasswordController = TextEditingController();
   final newPasswordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => PersonalDetailsCubit(),
+    final cubit = context.read<LoginCubit>();
+    return BlocListener<LoginCubit, LoginState>(
+      listener: (context, state) {
+        if (state is ChangePasswordSuccessState) {
+          Get.snackbar(
+            "Success",
+            state.msg,
+            backgroundColor: Colors.green,
+            colorText: Colors.white,
+          );
+          Get.offAll(() => LoginScreen()); // Navigate back to login screen after changing password
+        } else if (state is ChangePasswordErrorState) {
+          Get.snackbar(
+            "Error",
+            state.msg,
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
+          );
+        }
+      },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xff004BFE),
-          title: Text(
-            "Change Personal Details",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 23,
-              fontFamily: "Raleway",
-              fontWeight: FontWeight.bold,
-            ),
-          ),
           centerTitle: true,
+          backgroundColor: Color(0xff004BFE),
+          title: Text("Change Password",style: TextStyle(
+            color: Colors.white,
+            fontFamily: "Raleway",
+            fontSize: 22,
+            fontWeight: FontWeight.bold
+          ),),
         ),
-        backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          padding: EdgeInsets.all(16.0),
+        body: Padding(
+          padding: const EdgeInsets.all(18.0),
           child: Form(
             key: _formKey,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20),
-                _buildSectionHeader("Change Password"),
-                _buildPasswordField(
-                  context,
-                  "Current Password",
-                  currentPasswordController,
-                  true,
+                CustomTextFromField(
+                  label: Text('Current Password'),
+                  controller: currentPasswordController,
+                  icon: Icons.lock_outline,
+                  isPassword: true,
+                  obscureText: cubit.obscure,
+                  validator: cubit.validatePassword,
+                  suffixIcon: InkWell(
+                    onTap: cubit.changeSuffix,
+                    child: Icon(!cubit.obscure
+                        ? Icons.remove_red_eye
+                        : Icons.visibility_off),
+                  ),
+                  textInputType: TextInputType.visiblePassword,  // Add this
                 ),
-                _buildPasswordField(
-                  context,
-                  "New Password",
-                  newPasswordController,
-                  false,
+                CustomTextFromField(
+                  label: Text('New Password'),
+                  controller: newPasswordController,
+                  icon: Icons.lock_outline,
+                  isPassword: true,
+                  obscureText: cubit.obscure,
+                  validator: cubit.validatePassword,
+                  suffixIcon: InkWell(
+                    onTap: cubit.changeSuffix,
+                    child: Icon(!cubit.obscure
+                        ? Icons.remove_red_eye
+                        : Icons.visibility_off),
+                  ),
+                  textInputType: TextInputType.visiblePassword,  // Add this
                 ),
-                SizedBox(height: 20),
-                BlocConsumer<PersonalDetailsCubit, PersonalDetailsState>(
-                  listener: (context, state) {
-                    if (state is PersonalDetailsError) {
-                      // Displaying the SnackBar from the top with a red background
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(state.error),
-                          backgroundColor: Colors.red,
-                          behavior: SnackBarBehavior.floating,
-                          margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 10),
-                        ),
-                      );
-                    } else if (state is PersonalDetailsSuccess) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(state.message),
-                          backgroundColor: Colors.green,
-                          behavior: SnackBarBehavior.floating,
-                          margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 10),
-                        ),
-                      );
+                CustomTextFromField(
+                  label: Text('Confirm New Password'),
+                  controller: confirmPasswordController,
+                  icon: Icons.lock_outline,
+                  isPassword: true,
+                  obscureText: cubit.obscure,
+                  validator: (value) {
+                    if (value != newPasswordController.text) {
+                      return 'Passwords do not match';
                     }
+                    return cubit.validatePassword(value);
                   },
+                  suffixIcon: InkWell(
+                    onTap: cubit.changeSuffix,
+                    child: Icon(!cubit.obscure
+                        ? Icons.remove_red_eye
+                        : Icons.visibility_off),
+                  ),
+                  textInputType: TextInputType.visiblePassword,  // Add this
+                ),
+                SizedBox(height: 20),
+                BlocBuilder<LoginCubit, LoginState>(
                   builder: (context, state) {
-                    if (state is PersonalDetailsLoading) {
-                      return CircularProgressIndicator();
+                    if (state is LoginLoadingState) {
+                      return Center(child: CircularProgressIndicator());
                     }
-                    return ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          context.read<PersonalDetailsCubit>().changePassword(
+
+                    return CustomButton(
+                      text: 'Change Password',
+                      fontsize: 22,
+                      width: 400,
+                      height: 60,
+                      ontap: () {
+                        if (_formKey.currentState!.validate()) {
+                          cubit.changePassword(
                             currentPassword: currentPasswordController.text,
                             newPassword: newPasswordController.text,
                           );
                         }
                       },
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                        backgroundColor: Color(0xff004BFE),
-                      ),
-                      child: Text(
-                        "Save",
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontFamily: "Raleway",
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
                     );
                   },
                 ),
@@ -106,79 +133,8 @@ class ChangePersonalDetailsScreen extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildPasswordField(
-      BuildContext context,
-      String labelText,
-      TextEditingController controller,
-      bool isCurrentPassword,
-      ) {
-    return BlocBuilder<PersonalDetailsCubit, PersonalDetailsState>(
-      builder: (context, state) {
-        final cubit = context.read<PersonalDetailsCubit>();
-        final isPasswordVisible = isCurrentPassword
-            ? state.isCurrentPasswordVisible
-            : state.isNewPasswordVisible;
-
-        final errorText = isCurrentPassword
-            ? state.currentPasswordError
-            : state.newPasswordError;
-
-        return TextFormField(
-          controller: controller,
-          obscureText: !isPasswordVisible,
-          decoration: InputDecoration(
-            labelText: labelText,
-            errorText: errorText, // Show the error message if validation fails
-            suffixIcon: IconButton(
-              icon: Icon(isPasswordVisible ? Icons.visibility : Icons.visibility_off),
-              onPressed: () {
-                if (isCurrentPassword) {
-                  cubit.toggleCurrentPasswordVisibility();
-                } else {
-                  cubit.toggleNewPasswordVisibility();
-                }
-              },
-            ),
-          ),
-          onChanged: (value) {
-            if (isCurrentPassword) {
-              cubit.validateCurrentPassword(value);
-            } else {
-              cubit.validateNewPassword(value);
-            }
-          },
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return "Please enter your $labelText";
-            }
-            if (value.length < 5) {
-              return "$labelText must be at least 5 characters";
-            }
-            return null;
-          },
-        );
-      },
-    );
-  }
-
-  Widget _buildSectionHeader(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          title,
-          style: TextStyle(
-            fontSize: 18,
-            fontFamily: "Raleway",
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
 }
+
 
 
 

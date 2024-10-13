@@ -5,6 +5,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shoppe/SCreens/categoriesview.dart';
+import 'package:shoppe/Screens/SignUp.dart';
 import 'package:shoppe/Screens/startScreen.dart';
 import 'package:shoppe/cubit/category_cubit.dart';
 import 'package:shoppe/cubit/favourite_cubit.dart';
@@ -15,7 +16,6 @@ import 'Cubit/login_cubit.dart';
 import 'Screens/Cart.dart';
 import 'Screens/shippingscreen.dart';
 import 'firebase_options.dart';
-import 'Cubit/personal_details_cubit.dart';
 import 'Cubit/profile_cubit.dart';
 import 'cubit/cart_cubit.dart';
 import 'helpers/dio_helper.dart';
@@ -56,9 +56,7 @@ class MyApp extends StatelessWidget {
           create: (context) => FavouriteCubit()..getFavouriteList(),
 
         ),
-        BlocProvider(
-          create: (context) => PersonalDetailsCubit(),
-        ),
+
         BlocProvider(
           create: (context) => ProfileCubit(),
         ),
@@ -79,7 +77,7 @@ class MyApp extends StatelessWidget {
         child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
           home: Scaffold(
-            body:CategoryView(),
+            body:SignUp(),
           ),
         ),
       ),

@@ -20,3 +20,12 @@ final class LoginErrorState extends LoginState {
 }
 
 class AuthChangeSuffix extends LoginState {}
+class ChangePasswordSuccessState extends LoginState {
+  final String msg;
+  ChangePasswordSuccessState(this.msg);
+}
+
+class ChangePasswordErrorState extends LoginState {
+  final String msg;
+  ChangePasswordErrorState(this.msg);
+}

@@ -171,5 +171,46 @@ class LoginCubit extends Cubit<LoginState> {
     }
     return null;
   }
+  // Change Password Method
+  void changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    emit(LoginLoadingState());
+
+    try {
+      // Call the API to change the user's password
+      final token = HiveHelper.getToken();
+      final response = await DioHelper.postData(
+        path: KApis.changePassword,
+        body: {
+          "current_password": currentPassword,
+          "new_password": newPassword,
+
+        },
+
+        queryParameters: {
+          'Authorization': 'Bearer $token',
+        },
+
+      );
+      print('Response: ${response.data}');
+      print('Current Password: $currentPassword');
+      print('New Password: $newPassword');
+
+
+      if (response.statusCode == 200 && response.data['status'] == true) {
+        emit(ChangePasswordSuccessState("Password changed successfully!"));
+      } else {
+        print('Failed with status code: ${response.statusCode}');
+        emit(ChangePasswordErrorState("Failed to change password."));
+      }
+
+    } catch (e) {
+      print('Error during password change: $e');
+      emit(ChangePasswordErrorState("Connection failed!"));
+    }
+  }
+
 
 }
