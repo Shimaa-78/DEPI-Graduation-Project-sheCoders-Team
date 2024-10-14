@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../Models/categorymodel.dart';
-import '../cubit/products_cubit.dart'; // Make sure to import the correct cubit
-import '../Screens/productlist.dart';// Import the screen for navigation
+import '../cubit/products_cubit.dart';
 
 class CategoryWidget extends StatelessWidget {
   final CategoryModel categoryModel;
@@ -13,23 +12,12 @@ class CategoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // لف شاشة ProductListScreen بـ BlocProvider لـ ProductsCubit
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BlocProvider(
-              create: (context) {
-                final cubit =  ProductsCubit (); // إنشاء CategoryCubit
-                cubit.fetchProducts (categoryModel.id); // استدعاء fetchCategories هنا
-                return cubit; // إرجاع الـ cubit
-              },
-              child: ProductListScreen(), // الشاشة التي يتم التنقل إليها
-            ),
-          ),
-        );
+        // استدعاء جلب المنتجات للفئة المختارة
+        context.read<ProductsCubit>().fetchProducts(categoryModel.id);
       },
-
       child: Container(
+        height: 200,
+        width: 200,
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -59,11 +47,16 @@ class CategoryWidget extends StatelessWidget {
             ),
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-              child: Image.network(
-                categoryModel.image,
-                height: 200,
-                width: double.infinity,
-                fit: BoxFit.cover,
+              child: Container(
+                height: 90, // Set fixed height for the image
+                width: MediaQuery.of(context).size.width * 0.9, // Responsive width
+                child: Image.network(
+                  categoryModel.image,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(Icons.error); // Handle image loading errors
+                  },
+                ),
               ),
             ),
           ],
@@ -72,3 +65,4 @@ class CategoryWidget extends StatelessWidget {
     );
   }
 }
+

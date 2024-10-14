@@ -9,6 +9,9 @@ import 'package:shoppe/Screens/startScreen.dart'; // Adjust casing to match actu
 import 'package:shoppe/cubit/favourite_cubit.dart';
 
 import 'Cubit/login_cubit.dart';
+import 'Screens/home.dart';
+import 'cubit/category_cubit.dart';
+import 'cubit/products_cubit.dart';
 
 import 'Screens/Cart.dart';
 import 'Screens/favorite.dart';
@@ -32,24 +35,35 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => LoginCubit(),
+        BlocProvider<CategoryCubit>(
+          create: (context) => CategoryCubit()..fetchCategories(),
         ),
-        BlocProvider(
-          create: (context) => CartCubit()..getUserCart(),
-        ),
-        BlocProvider(
-          create: (context) => FavouriteCubit()..getFavouriteList(),
 
+        BlocProvider<ProductsCubit>(
+          create: (context) =>ProductsCubit()..fetchProducts(85),
+        
         ),
+
+
+        // BlocProvider(
+        //   create: (context) => LoginCubit(),
+        // ),
+        // BlocProvider(
+        //   create: (context) => CartCubit()..getUserCart(),
+        // ),
+        // BlocProvider(
+        //   create: (context) => FavouriteCubit()..getFavouriteList(),
+        //
+        // ),
       ],
 
-      child: GetMaterialApp(
+       child:  GetMaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: CategoryView(),
+          body:   HomeScreen(),
         ),
-      ),
+
+    ),
     );
   }
 }
