@@ -10,6 +10,7 @@ import 'package:shoppe/SCreens/categoriesview.dart';
 import 'package:shoppe/Screens/ForgetPassword.dart';
 import '../Consts/KApis.dart';
 import '../Models/LoginModel.dart';
+import '../Screens/home.dart';
 import '../helpers/dio_helper.dart';
 import '../helpers/hive_helper.dart';
 
@@ -122,7 +123,7 @@ class LoginCubit extends Cubit<LoginState> {
             model = LoginModel.fromJson(response.data);
             if (model.status == true) {
               HiveHelper.setToken(model.data?.token ?? "");
-              Get.offAll(() => CategoryView());
+              Get.offAll(() => HomeScreen());
               emit(LoginSuccessState(model.message ?? ""));
             } else {
               emit(LoginErrorState(model.message ?? ""));
