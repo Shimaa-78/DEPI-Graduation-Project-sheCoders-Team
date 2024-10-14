@@ -9,14 +9,14 @@ class Productcard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  InkWell(
-        // onTap: () {
-        //   Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) =>  Productveiw(product: product),
-        //     ),
-        //   );
-        // },
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>  Productveiw(product: product),
+            ),
+          );
+        },
 
         child:  Card(
       shape: RoundedRectangleBorder(

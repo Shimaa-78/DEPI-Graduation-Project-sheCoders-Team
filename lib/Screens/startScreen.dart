@@ -3,12 +3,13 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:shoppe/Consts/Kcolors.dart';
-import 'package:shoppe/SCreens/categoriesview.dart';
+
 import 'package:shoppe/Screens/LoginScreen.dart';
 import 'package:shoppe/Screens/onBoardingScreen.dart';
 import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart';
 
 import '../Helpers/hive_helper.dart';
+import 'home.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
@@ -77,7 +78,7 @@ class StartScreen extends StatelessWidget {
                 if (HiveHelper.checkOnBoardingValue()) {
                   print("==================Start Token ${HiveHelper.checkOnBoardingValue()}");
                   if (HiveHelper.getToken() != null) {
-                    Get.offAll(CategoryView());
+                    Get.offAll( HomeScreen());
                   } else {
                     Get.offAll(LoginScreen());
                   }

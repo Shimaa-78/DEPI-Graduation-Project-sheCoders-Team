@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:shoppe/SCreens/categoriesview.dart';
+
 import 'package:shoppe/Screens/SignUp.dart';
 import 'package:shoppe/Screens/startScreen.dart';
 import 'package:shoppe/cubit/category_cubit.dart';
@@ -20,6 +20,8 @@ import 'Cubit/profile_cubit.dart';
 import 'cubit/cart_cubit.dart';
 import 'helpers/dio_helper.dart';
 import 'helpers/hive_helper.dart';
+
+import 'Screens/home.dart';
 
 
 
@@ -65,7 +67,7 @@ class MyApp extends StatelessWidget {
 
         ),
         BlocProvider(
-          create: (context) => CategoryCubit(),
+          create: (context) => CategoryCubit()..fetchCategories(),
 
         ),
         BlocProvider(

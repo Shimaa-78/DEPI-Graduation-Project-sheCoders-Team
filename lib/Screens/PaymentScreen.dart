@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:shoppe/SCreens/categoriesview.dart';
+
 import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart';
 
 import 'endScreen.dart';

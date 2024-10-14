@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:shoppe/Consts/Consts.dart';
-import 'package:shoppe/SCreens/categoriesview.dart';
+
 import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart';
+
+import 'home.dart';
 
 class CongratulatoryScreen extends StatelessWidget {
   @override
@@ -42,7 +44,7 @@ class CongratulatoryScreen extends StatelessWidget {
             SizedBox(height: 40), // Space before button
             // Continue Shopping button
            CustomButton(ontap: (){
-             Get.to(CategoryView());
+             Get.to( HomeScreen());
            }, width: 250, text: "Continue Shooping", height: 50, fontsize: 16)
           ],
         ),

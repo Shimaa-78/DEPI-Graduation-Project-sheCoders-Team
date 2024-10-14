@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:shoppe/SCreens/categoriesview.dart';
+
 import 'package:shoppe/Screens/LoginScreen.dart';
 import 'package:shoppe/Screens/profile_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';

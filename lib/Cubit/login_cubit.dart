@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
-import 'package:shoppe/SCreens/categoriesview.dart';
+
 import 'package:shoppe/Screens/ForgetPassword.dart';
 import '../Consts/KApis.dart';
 import '../Models/LoginModel.dart';
@@ -41,7 +41,7 @@ class LoginCubit extends Cubit<LoginState> {
       model = LoginModel.fromJson(response.data);
       if (model.status == true) {
         HiveHelper.setToken(model.data?.token ?? "");
-        Get.offAll(() => CategoryView());
+        Get.offAll(() => ());
 
         emit(LoginSuccessState(model.message ?? ""));
       } else {
