@@ -6,7 +6,6 @@ import '../Widgets/Custom Button Widget.dart';
 import '../Widgets/Custom_Text_Form_Field.dart';
 import 'LoginScreen.dart';
 
-
 class ChangePasswordScreen extends StatelessWidget {
   final currentPasswordController = TextEditingController();
   final newPasswordController = TextEditingController();
