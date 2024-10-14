@@ -12,7 +12,8 @@ import '../Widgets/Methods.dart';
 import '../cubit/cart_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'categoriesview.dart';
+import 'home.dart';
+
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -228,7 +229,7 @@ class CartScreen extends StatelessWidget {
             CustomButton(
               ontap: () {
                 if (cartCubit.cartModel?.cartItems.isEmpty ?? true) {
-                  Get.to(CategoryView()); // No ambiguity now
+                  Get.to(HomeScreen()); // No ambiguity now
                 } else {
                   Get.to(ShippingScreen("${cartCubit.total?.toStringAsFixed(1)}"));
                 }
