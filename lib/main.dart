@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
         child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
           home: Scaffold(
-            body:SignUp(),
+            body: SignUp(),
           ),
         ),
       ),

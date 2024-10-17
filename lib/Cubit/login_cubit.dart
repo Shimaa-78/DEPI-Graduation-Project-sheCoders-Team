@@ -41,7 +41,7 @@ class LoginCubit extends Cubit<LoginState> {
       model = LoginModel.fromJson(response.data);
       if (model.status == true) {
         HiveHelper.setToken(model.data?.token ?? "");
-        Get.offAll(() => ());
+        Get.offAll(() =>  HomeScreen());
 
         emit(LoginSuccessState(model.message ?? ""));
       } else {
