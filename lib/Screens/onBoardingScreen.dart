@@ -11,7 +11,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../Helpers/hive_helper.dart';
 import '../Models/OnboardingModel.dart';
 
-
+/////////
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
 
