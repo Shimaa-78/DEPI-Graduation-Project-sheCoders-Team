@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
 
         ),
         BlocProvider(
-          create: (context) => CategoryCubit(),
+          create: (context) => CategoryCubit()..fetchCategories(),
 
         ),
         BlocProvider(
@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
         child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
           home: Scaffold(
-            body:SignUp(),
+            body: StartScreen(),
           ),
         ),
       ),
