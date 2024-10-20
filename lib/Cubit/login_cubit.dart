@@ -188,6 +188,7 @@ class LoginCubit extends Cubit<LoginState> {
     try {
       // Retrieve the token from Hive
       final token = HiveHelper.getToken();
+      ////////////new part///////////////
       if (token == null || token.isEmpty) {
         emit(ChangePasswordErrorState("No valid token found. Please log in again."));
         return;
