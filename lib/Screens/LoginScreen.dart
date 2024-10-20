@@ -6,6 +6,7 @@ import 'package:shoppe/Cubit/login_cubit.dart';
 import 'package:shoppe/Screens/ForgetPassword.dart';
 import 'package:shoppe/Screens/SignUp.dart';
 import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart';
+import '../Helpers/hive_helper.dart';
 import '../Widgets/Custom_Text_Form_Field.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -83,12 +84,16 @@ class LoginScreen extends StatelessWidget {
                         if (text == null || text.trim().isEmpty) {
                           return 'please enter email';
                         }
+
                         final bool emailValid = RegExp(
                                 r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(text!);
                         if (!emailValid) {
                           return "This field should be a valid email";
                         }
+                        /////////////new part menna /////////
+                        HiveHelper.setUserEmail(emailController.text);
+                        ////////////////////////////////////
 
                         return null;
                       },

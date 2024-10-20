@@ -10,6 +10,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../Helpers/hive_helper.dart';
 import '../Models/OnboardingModel.dart';
+import 'SignUp.dart';
 
 /////////
 class OnBoardingScreen extends StatefulWidget {
@@ -112,7 +113,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       if (currentIndex == OnboardingList.length - 1) {
 
                         Future.delayed(Duration(seconds: 3), () {
-                          Get.offAll(LoginScreen());
+                          Get.offAll(SignUp());
 
                         });
                       }

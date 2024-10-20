@@ -41,6 +41,10 @@ class LoginCubit extends Cubit<LoginState> {
       model = LoginModel.fromJson(response.data);
       if (model.status == true) {
         HiveHelper.setToken(model.data?.token ?? "");
+        HiveHelper.setUserEmail(model.data?.email ?? "");
+        // Debug: check if token is being set correctly
+        print('Token saved: ${model.data?.token}');
+
         Get.offAll(() =>  HomeScreen());
 
         emit(LoginSuccessState(model.message ?? ""));
@@ -122,6 +126,8 @@ class LoginCubit extends Cubit<LoginState> {
           if (response.statusCode == 200) {
             model = LoginModel.fromJson(response.data);
             if (model.status == true) {
+
+              HiveHelper.setUserEmail(model.data?.email ?? "");
               HiveHelper.setToken(model.data?.token ?? "");
               Get.offAll(() => HomeScreen());
               emit(LoginSuccessState(model.message ?? ""));
@@ -180,25 +186,28 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginLoadingState());
 
     try {
-      // Call the API to change the user's password
+      // Retrieve the token from Hive
       final token = HiveHelper.getToken();
+      if (token == null || token.isEmpty) {
+        emit(ChangePasswordErrorState("No valid token found. Please log in again."));
+        return;
+      }
+
+      // Call the API to change the user's password
       final response = await DioHelper.postData(
         path: KApis.changePassword,
         body: {
           "current_password": currentPassword,
           "new_password": newPassword,
-
         },
-
         queryParameters: {
           'Authorization': 'Bearer $token',
         },
-
       );
+
       print('Response: ${response.data}');
       print('Current Password: $currentPassword');
       print('New Password: $newPassword');
-
 
       if (response.statusCode == 200 && response.data['status'] == true) {
         emit(ChangePasswordSuccessState("Password changed successfully!"));
