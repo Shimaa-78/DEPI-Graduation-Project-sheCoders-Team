@@ -3,13 +3,12 @@ import 'package:hive/hive.dart';
 class HiveHelper {
   static const onboardingBox = "ONBOARDING_BOX";
   static const token = "TOKEN";
-  static const KEY_BOX_APP_LANGUAGE = "KEY_BOX_APP_LANGUAGE";
-
-
+  //static const KEY_BOX_APP_LANGUAGE = "KEY_BOX_APP_LANGUAGE";
   static const KEY_USER_NAME = "USER_NAME";
   static const KEY_USER_EMAIL = "USER_EMAIL";
   static const userPhoneNumber = "USER_PHONE_NUMBER";
   static const userBox = "USER_BOX";
+  static const KEY_BOX_APP_LANGUAGE = "KEY_BOX_APP_LANGUAGE";
 
 
 
@@ -37,18 +36,6 @@ class HiveHelper {
     }
     return null;
   }
-
-  static void setLanguage(String langCode) async {
-    Hive.box(KEY_BOX_APP_LANGUAGE).put(KEY_BOX_APP_LANGUAGE, langCode);
-  }
-
-  static String? getLanguage() {
-    print(
-        "=========" + Hive.box(KEY_BOX_APP_LANGUAGE).get(KEY_BOX_APP_LANGUAGE));
-    return Hive.box(KEY_BOX_APP_LANGUAGE).get(KEY_BOX_APP_LANGUAGE);
-  }
-
-
 
   // User Name
   static void setUserName(String name) {
@@ -82,6 +69,16 @@ class HiveHelper {
   static Future<void> removeToken() async {
     var box = await Hive.openBox(token);
     await box.delete('token');
+  }
+
+  static void setLanguage(String langCode) async {
+    Hive.box(KEY_BOX_APP_LANGUAGE).put(KEY_BOX_APP_LANGUAGE, langCode);
+  }
+
+  static String? getLanguage() {
+    print(
+        "=========" + Hive.box(KEY_BOX_APP_LANGUAGE).get(KEY_BOX_APP_LANGUAGE));
+    return Hive.box(KEY_BOX_APP_LANGUAGE).get(KEY_BOX_APP_LANGUAGE);
   }
 
 }

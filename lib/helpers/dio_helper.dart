@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-
 import '../Consts/KApis.dart';
 import 'hive_helper.dart';
 
@@ -7,20 +6,20 @@ class DioHelper {
   static Dio? _dio;
 
   DioHelper._();
-
-  static Future<void> inint() async {
+  static Future<void> inint()async {
     _dio = Dio(
       BaseOptions(
         baseUrl: KApis.baseUrl,
         receiveTimeout: const Duration(seconds: 60),
         headers: {
           "Authorization":"${HiveHelper.getToken()}",
-          "lang": "en",
+          "lang": HiveHelper.getLanguage(),
           "Content-Type": "application/json",
         },
       ),
     );
   }
+
 
   // --------------- Get -------------------//
 
@@ -81,6 +80,7 @@ class DioHelper {
     );
     return response;
   }
+
 
   // --------------- Put -------------------//
 

@@ -1,0 +1,33 @@
+{
+
+  "categories": "الفئات",
+  "profile": "الصفحه الشخصيه",
+  "productsList": "قائمه المنتجات",
+  "uploadimage": "تحميل صوره",
+  "name": "الاسم",
+  "gender": "الجنس",
+  "male": "ذكر",
+  "female": "انثى",
+  "age": "العمر",
+  "email": "الايميل",
+  "settings": "الاعدادات",
+  "language": "اللغه",
+  "english": "الانجليزيه",
+  "arabic": "العربيه",
+  "city": "المدينه",
+  "change_personal_details": "تغيير التفاصيل الشخصبه",
+  "logout": "تسجيل الخروج",
+  "gallery": "الصور",
+  "camera": "الكاميرا",
+  "selectlanguage": "اختر اللغه",
+  "selectcity": "اختر المدينه",
+  "phone_number" : "رقم الهاتف",
+  "payment" : "الدفع",
+  "total_Amount" : "التكلفه الكليه",
+  "card_Number" : "رقم الفيزا",
+  "change_Password" : "تغير كلمه المرور",
+  "current_Password" : " كلمه المرور الحاليه",
+  "new_Password" : "كلمه المرور الجديده",
+  "save" : "حفظ"
+
+}

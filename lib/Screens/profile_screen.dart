@@ -1,13 +1,17 @@
 //Profile Page
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../language_cubit/language_cubit.dart';
+import '../cubit/products_cubit.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter/services.dart';
 import '../Cubit/profile_cubit.dart';
-
 import '../Widgets/bottomNavigationBar.dart';
+import '../helpers/dio_helper.dart';
 import 'change_personal_details_screen.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -16,8 +20,11 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String selectedLanguage ="English";
-  String selectedCity = " ";
+  String selectedGender = 'Male';
+  String selectedLanguage = 'English';
+  String selectedCity = '';
+  File? _image;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -29,9 +36,15 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(
+          Icons.arrow_back_ios,
+          color: Colors.white,
+          size: 20,
+        ),
         backgroundColor: Color(0xff004BFE),
+        centerTitle: true,
         title: Text(
-          "Profile",
+          AppLocalizations.of(context)!.profile,
           style: TextStyle(
               color: Colors.white,
               fontSize: 28,
@@ -102,15 +115,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     SizedBox(height: 20),
                     Text(
-                      "Upload image",
+                      AppLocalizations.of(context)!.uploadimage,
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,fontFamily: "Raleway"),
                     ),
                     SizedBox(height: 20),
                     buildGenderSelector(state.gender),
-                    buildProfileField("Name", state.name),
-                    buildProfileField("Age", state.age.toString()),
-                    buildProfileField("Email", state.email),
-                    buildProfileField("Phone Number", state.phonenumber),
+                    buildProfileField(AppLocalizations.of(context)!.name, state.name),
+                    buildProfileField(AppLocalizations.of(context)!.age, state.age.toString()),
+                    buildProfileField(AppLocalizations.of(context)!.email, state.email),
+                    buildProfileField(AppLocalizations.of(context)!.phone_number, state.phonenumber),
                     SizedBox(height: 20),
                     buildSettingsSection(),
                     SizedBox(height: 30),
@@ -128,7 +141,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
-      bottomNavigationBar: Bottomnavigationbar(),
     );
   }
 
@@ -175,7 +187,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Container(
             width: 80,
             child: Text(
-              "Gender",
+              AppLocalizations.of(context)!.gender,
               style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,fontFamily: "Raleway"),
             ),
           ),
@@ -184,7 +196,7 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               ChoiceChip(
                 label: Text(
-                  "Male",
+                  AppLocalizations.of(context)!.male,
                   style: TextStyle(
                       color: selectedGender == "Male" ? Colors.white : Colors.black,
                       fontWeight: FontWeight.bold,
@@ -202,7 +214,7 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(width: 10),
               ChoiceChip(
                 label: Text(
-                  "Female",
+                  AppLocalizations.of(context)!.female,
                   style: TextStyle(
                     color: selectedGender == "Female" ? Colors.white : Colors.black,
                     fontWeight: FontWeight.bold,
@@ -227,18 +239,18 @@ class _ProfilePageState extends State<ProfilePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Settings",
+          AppLocalizations.of(context)!.settings,
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 10),
-        buildSettingItem(Icons.language, "Language", selectedLanguage, true, () {
-          _showLanguageSelector();
+        buildSettingItem(Icons.language, AppLocalizations.of(context)!.language, selectedLanguage, true, () {
+          _showLanguageSelector(context);
         }),
-        buildSettingItem(Icons.location_city, "City",
-            selectedCity.isEmpty ? "Select City" : selectedCity, true, () {
+        buildSettingItem(Icons.location_city, AppLocalizations.of(context)!.city,
+            selectedCity.isEmpty ? AppLocalizations.of(context)!.selectcity : selectedCity, true, () {
               _showCitySelector();
             }),
-        buildSettingItem(Icons.person, "Change personal details", " ", false, () {
+        buildSettingItem(Icons.person, AppLocalizations.of(context)!.change_personal_details, " ", false, () {
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -289,40 +301,31 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  void _showLanguageSelector() {
+  void _showLanguageSelector(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Select Language"),
+          title: Text(AppLocalizations.of(context)!.selectlanguage),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ListTile(
-                title: Text("English"),
+                title: Text(AppLocalizations.of(context)!.english),
                 onTap: () {
-                  setState(() {
-                    selectedLanguage = "English";
-                  });
+                  context.read<LanguageCubit>().toEnglish();
                   Navigator.of(context).pop();
                 },
               ),
               ListTile(
-                title: Text("Arabic"),
+                title: Text(AppLocalizations.of(context)!.arabic),
                 onTap: () {
-                  setState(() {
-                    selectedLanguage = "Arabic";
-                  });
+                  context.read<LanguageCubit>().toArabic(); //
                   Navigator.of(context).pop();
-                },
-              ),
-              ListTile(
-                title: Text("French"),
-                onTap: () {
-                  setState(() {
-                    selectedLanguage = "French";
-                  });
-                  Navigator.of(context).pop();
+
+                  DioHelper.inint();
+                  context.read<ProductsCubit>().fetchProducts(41);
+
                 },
               ),
             ],
@@ -332,12 +335,13 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+
   void _showCitySelector() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Select City"),
+          title: Text(AppLocalizations.of(context)!.selectcity),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -385,7 +389,7 @@ class _ProfilePageState extends State<ProfilePage> {
             children: <Widget>[
               ListTile(
                 leading: Icon(Icons.photo_camera),
-                title: Text("Camera"),
+                title: Text(AppLocalizations.of(context)!.camera),
                 onTap: () {
                   context.read<ProfileCubit>().pickImage(ImageSource.camera);
                   Navigator.of(context).pop();
@@ -393,7 +397,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               ListTile(
                 leading: Icon(Icons.photo_library),
-                title: Text("Gallery"),
+                title: Text(AppLocalizations.of(context)!.gallery),
                 onTap: () {
                   context.read<ProfileCubit>().pickImage(ImageSource.gallery);
                   Navigator.of(context).pop();
@@ -417,7 +421,7 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: Color(0xff004BFE),
       ),
       child: Text(
-        "Logout",
+        AppLocalizations.of(context)!.logout,
         style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,

@@ -1,0 +1,33 @@
+{
+
+  "categories": "Categories",
+  "profile": "profile",
+  "productsList": "Products List",
+  "uploadimage": "upload image",
+  "name": "Name",
+  "gender": "Gender",
+  "male": "male",
+  "female": "female",
+  "age": "Age",
+  "email": "Email",
+  "settings": "Settings",
+  "language": "Language",
+  "english": "English",
+  "arabic": "Arabic",
+  "city": "City",
+  "change_personal_details": "Change personal details",
+  "logout": "Logout",
+  "gallery": "gallery",
+  "camera": "camera",
+  "selectlanguage": "selectlanguage",
+  "selectcity": "selectcity",
+  "phone_number" : "phone number",
+  "payment" : "payment",
+  "total_Amount" : "total Amount",
+  "card_Number" : "card Number",
+  "change_Password" : "changePassword",
+  "current_Password" : " currentPassword",
+  "new_Password" : "newPassword",
+  "save" : "save"
+
+}
