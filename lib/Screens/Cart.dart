@@ -79,7 +79,8 @@ class CartScreen extends StatelessWidget {
 
   Widget _buildCartSuccessContent(CartCubit cartCubit, BuildContext context) {
     final cartProductsList = cartCubit.cartModel?.cartItems ?? [];
-    String buttonText = cartProductsList.isEmpty ? "Go Shopping" : "Check out";
+    String buttonText = cartProductsList.isEmpty ? AppLocalizations.of(context)!.go_shopping
+        : AppLocalizations.of(context)!.check_out;
     return Column(
       children: [
         _buildCartHeader(cartProductsList, cartCubit, context ),
@@ -216,7 +217,7 @@ class CartScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              "Total \$${cartCubit.total?.toStringAsFixed(1)}", // Format total to 1 decimal place
+            AppLocalizations.of(context)!.total + " \$${cartCubit.total?.toStringAsFixed(1) ?? "0.0"}", // Format total to 1 decimal place
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

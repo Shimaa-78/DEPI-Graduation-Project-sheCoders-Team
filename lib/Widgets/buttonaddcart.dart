@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:shoppe/Models/CartModel.dart';
 import 'package:shoppe/Screens/Cart.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../Helpers/dio_helper.dart';
 import '../Models/ProducModel.dart';
@@ -29,14 +30,14 @@ class Buttonaddcart extends StatelessWidget {
         builder: (context, state) {
           if(state is addTocartLoading){
             return Text(
-              cubit.cartIds.contains(product.id.toString()) ?"Removing From cart .."
-              :"Adding to Cart ..." ,
+              cubit.cartIds.contains(product.id.toString()) ? AppLocalizations.of(context)!.removing_from_cart
+              : AppLocalizations.of(context)!.adding_to_cart,
               style: TextStyle(fontSize: 20, color: Colors.white),
             );
           }
           return Text(
             cubit.cartIds.contains(product.id.toString()) ?
-            "Remove From Cart" : "Add to Cart",
+            AppLocalizations.of(context)!.remove_from_cart : AppLocalizations.of(context)!.add_to_cart,
             style: TextStyle(fontSize: 20, color: Colors.white),
           );
         },

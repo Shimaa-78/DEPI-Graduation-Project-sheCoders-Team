@@ -60,7 +60,17 @@
   "confirm" : "confirm",
   "card_Holder_Name" : "card_Holder_Name",
   "please_enter_a_valid_CVV" : "please_enter_a_valid_CVV",
-  "expiryDateYyMm" : "expiryDateYyMm"
+  "expiryDateYyMm" : "expiryDateYyMm",
+  "no_favorites_yet" : "No_favorites_yet",
+  "go_shopping" : "Go_shopping",
+  "check_out" : "check_out",
+  "remove_from_cart" : "Remove_from_cart",
+  "removing_from_cart" : "Removing_from_cart",
+  "add_to_cart" : "add_to_cart",
+  "adding_to_cart" : "Adding_to_cart",
+  "add_some_products_to_your_favorites" : "Add_some_products_to_your_favorites",
+  "please_enter_a_valid_date_MmYy" : "please_enter_a_valid_date_MmYy",
+  "please_enter_the_name_of_cart_holder" : "please_enter_the_name_of_cart_holder"
 
 
 }

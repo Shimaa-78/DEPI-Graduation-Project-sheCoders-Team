@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../Consts/Consts.dart';
 class EmptyFavourite extends StatelessWidget {
@@ -19,7 +20,7 @@ class EmptyFavourite extends StatelessWidget {
           ),
           SizedBox(height: 16),
           Text(
-            'No favorites yet!',
+            AppLocalizations.of(context)!.no_favorites_yet,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -28,7 +29,7 @@ class EmptyFavourite extends StatelessWidget {
           ),
           SizedBox(height: 8),
           Text(
-            'Add some products to your favorites.',
+            AppLocalizations.of(context)!.add_some_products_to_your_favorites,
             style: TextStyle(
               fontSize: 16,
               color:KPrimeryColor,

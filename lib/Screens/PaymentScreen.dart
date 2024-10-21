@@ -131,7 +131,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter the card holder\'s name';
+                        return AppLocalizations.of(context)!.please_enter_the_name_of_cart_holder;
                       }
                       return null;
                     },
@@ -156,7 +156,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           validator: (value) {
                             // Check if the format is MM/YY
                             if (value == null || value.isEmpty || !RegExp(r'^(0[1-9]|1[0-2])\/([0-9]{2})$').hasMatch(value)) {
-                              return 'Please enter a valid date (MM/YY)';
+                              return AppLocalizations.of(context)!.please_enter_a_valid_date_MmYy;
                             }
                             return null;
                           },

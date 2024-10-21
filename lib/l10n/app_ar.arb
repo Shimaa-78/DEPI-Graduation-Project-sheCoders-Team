@@ -54,11 +54,24 @@
   "beautiful_eCommerce_UI_Kit_for_your_online_store": "مجموعه واجهه المستخدم الجميله للتجاره الالكترونيه لمتجرك عبر الانترنت",
   "let_us_get_started": "هيا بنا لنبدأ",
   "select_a_category_to_view_products" : "اختر فئه لتشاهد المنتجات",
-  "search" : "ابحث",
+  "search" : "بحث",
   "an_error_occurred": "حدث خطأ",
   "please_enter_a_valid_card_number" : "من فضلك ادخل رقم بطاقه صالحه",
   "confirm" : " تأكيد",
   "card_Holder_Name" : "اسم حامل البطاقه",
   "please_enter_a_valid_CVV": "من فضلك ادخل CVV صالحه",
-  "expiryDateYyMm" : "تاريخ الانتهاء"
+  "expiryDateYyMm" : "تاريخ الانتهاء",
+  "no_favorites_yet" : "لا يوجد مفضلات",
+  "go_shopping" : "اذهب للتسوق",
+  "check_out" : "تحقق من",
+  "remove_from_cart": "حذف من العربه",
+  "removing_from_cart" : "يتم الحذف من العربه",
+  "add_to_cart" : "add_to_cart",
+  "adding_to_cart" : "يتم الاضافه الي العربه",
+  "add_some_products_to_your_favorites": "اضف بعض المنتجات الي مفضلتك",
+  "please_enter_a_valid_date_MmYy": "من فضلم ادخل تاريخ صالح",
+  "please_enter_the_name_of_cart_holder" : "من فضلك ادخل اسم حامل البطاقه"
+
+
+
 }
