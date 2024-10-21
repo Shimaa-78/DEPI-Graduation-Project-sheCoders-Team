@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart'; // Make sure to import the necessary Bloc package.
 import '../Widgets/textfieldsearch.dart';
 import '../Widgets/bottomNavigationBar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../language_cubit/language_cubit.dart';
 import '../cubit/search_cubit.dart';
 import '../Widgets/productsearchlistveiw.dart';
 // تأكد من استيراد SearchCubit
@@ -24,8 +26,8 @@ class ProductsearchScreen extends StatelessWidget {
        Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text(
-            'Products List',
+          title: Text(AppLocalizations.of(context)!.products_List
+            ,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.white,

@@ -64,13 +64,12 @@ class MyApp extends StatelessWidget {
           create: (context) => LanguageCubit(),
 
         ),
-//
+
         BlocProvider(
           create: (context) => ProfileCubit(),
         ),
         BlocProvider(
           create: (context) => ProductsCubit(),
-
         ),
         BlocProvider(
           create: (context) => CategoryCubit()..fetchCategories(),
@@ -94,7 +93,6 @@ class MyApp extends StatelessWidget {
             );
           },
         ),
-
     );
   }
 }

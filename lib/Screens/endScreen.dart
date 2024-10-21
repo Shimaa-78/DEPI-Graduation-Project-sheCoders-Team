@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:shoppe/Consts/Consts.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../language_cubit/language_cubit.dart';
 import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart';
 
 import 'home.dart';
@@ -25,8 +26,8 @@ class CongratulatoryScreen extends StatelessWidget {
             ),
             SizedBox(height: 20), // Space between icon and text
             // Congratulatory text
-            Text(
-              'Congrat!',
+            Text(AppLocalizations.of(context)!.congrat
+              ,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -34,7 +35,7 @@ class CongratulatoryScreen extends StatelessWidget {
             ),
             SizedBox(height: 10), // Space between text and description
             Text(
-              'Thank you for purchasing. Your order will be shipped in 2-4 working days.',
+              AppLocalizations.of(context)!.thankYouForPurchasingYourOrderWillBeShippedInTwoToFourWorkingDays,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
@@ -45,7 +46,8 @@ class CongratulatoryScreen extends StatelessWidget {
             // Continue Shopping button
            CustomButton(ontap: (){
              Get.to( HomeScreen());
-           }, width: 250, text: "Continue Shooping", height: 50, fontsize: 16)
+           }, width: 250, text: AppLocalizations.of(context)!.continue_shopping,
+               height: 50, fontsize: 16)
           ],
         ),
       ),

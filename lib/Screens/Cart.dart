@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoppe/Consts/Consts.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../language_cubit/language_cubit.dart';
 import 'package:shoppe/Screens/shippingscreen.dart';
 import '../Helpers/dio_helper.dart';
 import '../Models/CartModel.dart';
 import '../Widgets/BuildItemCart.dart';
 import '../Widgets/Custom Button Widget.dart';
 import '../Widgets/Methods.dart';
-
 import '../cubit/cart_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -56,8 +56,8 @@ class CartScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is CartError) {
           Get.snackbar(
-            "Error",
-            state.message ?? "An error occurred",
+            AppLocalizations.of(context)!.error,
+            state.message ?? AppLocalizations.of(context)!.an_error_occurred,
             backgroundColor: Colors.red,
             colorText: Colors.white,
           );
@@ -82,7 +82,7 @@ class CartScreen extends StatelessWidget {
     String buttonText = cartProductsList.isEmpty ? "Go Shopping" : "Check out";
     return Column(
       children: [
-        _buildCartHeader(cartProductsList, cartCubit, context),
+        _buildCartHeader(cartProductsList, cartCubit, context ),
         Expanded(
           child: cartProductsList.isEmpty
               ? _buildEmptyCartMessage(cartCubit)
@@ -117,9 +117,8 @@ class CartScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Text(
-                  "Cart",
-                  style: TextStyle(
+                Text(AppLocalizations.of(context)!.cart
+                  ,style: TextStyle(
                     fontFamily: "Raleway",
                     fontWeight: FontWeight.bold,
                     fontSize: 28,
@@ -155,7 +154,7 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyCartMessage(CartCubit cubit) {
+  Widget _buildEmptyCartMessage(CartCubit cubit, BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -163,9 +162,9 @@ class CartScreen extends StatelessWidget {
           const Spacer(flex: 3),
           CircleLogo("assets/images/Logo_for_emty_Cart.png"),
           const SizedBox(height: 20),
-          const Text(
-            "Your cart is empty!",
-            style: TextStyle(
+           Text(
+            AppLocalizations.of(context)!.your_cart_is_empty,
+            style: const TextStyle(
               color: Color(0xff004BFE),
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -209,7 +208,7 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTotalAndCheckoutButton(CartCubit cartCubit, String buttonText) {
+  Widget _buildTotalAndCheckoutButton(CartCubit cartCubit, String buttonText, BuildContext context) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0),

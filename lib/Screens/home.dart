@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/category_cubit.dart';
 import '../cubit/products_cubit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../language_cubit/language_cubit.dart';
 import '../Models/categorymodel.dart';
 import '../Widgets/categorylistview.dart';
 import '../Widgets/listveiw.dart'; // Ensure this imports the correct ProductListView widget
@@ -57,12 +59,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   } else if (state is ProductsError) {
                     return Center(child: Text('Error: ${state.message}'));
                   } else {
-                    return Center(child: Text('Select a category to view products'));
+                    return Center(child: Text(AppLocalizations.of(context)!.select_a_category_to_view_products));
                   }
                 },
               ),
-
-
             ],
 
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../language_cubit/language_cubit.dart';
 import '../Widgets/Custom Button Widget.dart';
 import 'PaymentScreen.dart';
 
@@ -41,8 +42,8 @@ class _ShippingScreenState extends State<ShippingScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(
-          'Shipping',
+        title:  Text(
+          AppLocalizations.of(context)!.shipping,
           style: TextStyle(
             fontFamily: "Raleway",
             fontWeight: FontWeight.bold,
@@ -61,13 +62,13 @@ class _ShippingScreenState extends State<ShippingScreen> {
               // Full Name
               TextFormField(
                 controller: _fullNameController,
-                decoration: const InputDecoration(
-                  labelText: 'Full Name',
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.full_name,
 
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your full name';
+                    return AppLocalizations.of(context)!.please_enter_your_full_name;
                   }
                   return null;
                 },
@@ -77,13 +78,13 @@ class _ShippingScreenState extends State<ShippingScreen> {
               // Address
               TextFormField(
                 controller: _addressController,
-                decoration: const InputDecoration(
-                  labelText: 'Address',
+                decoration:  InputDecoration(
+                  labelText: AppLocalizations.of(context)!.address,
 
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your address';
+                    return AppLocalizations.of(context)!.please_enter_your_address;
                   }
                   return null;
                 },
@@ -93,13 +94,13 @@ class _ShippingScreenState extends State<ShippingScreen> {
               // City
               TextFormField(
                 controller: _cityController,
-                decoration: const InputDecoration(
-                  labelText: 'City',
+                decoration:  InputDecoration(
+                  labelText: AppLocalizations.of(context)!.city,
 
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your city';
+                    return AppLocalizations.of(context)!.please_enter_your_city;
                   }
                   return null;
                 },
@@ -109,9 +110,8 @@ class _ShippingScreenState extends State<ShippingScreen> {
               // Country Dropdown
               DropdownButtonFormField<String>(
                 value: _selectedCountry,
-                decoration: const InputDecoration(
-                  labelText: 'Country',
-
+                decoration:  InputDecoration(
+                  labelText: AppLocalizations.of(context)!.country,
                 ),
                 items: _countries.map((country) {
                   return DropdownMenuItem(
@@ -126,7 +126,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                 },
                 validator: (value) {
                   if (value == null) { // No need to check for isEmpty
-                    return 'Please select a country';
+                    return AppLocalizations.of(context)!.please_select_a_country;
                   }
                   return null;
                 },
@@ -136,8 +136,8 @@ class _ShippingScreenState extends State<ShippingScreen> {
               // Shipping Method Dropdown
               DropdownButtonFormField<String>(
                 value: _selectedShippingMethod,
-                decoration: const InputDecoration(
-                  labelText: 'Shipping Method',
+                decoration:  InputDecoration(
+                  labelText: AppLocalizations.of(context)!.shipping_method,
 
                 ),
                 items: _shippingMethods.map((method) {
@@ -153,7 +153,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                 },
                 validator: (value) {
                   if (value == null) { // No need to check for isEmpty
-                    return 'Please select a shipping method';
+                    return AppLocalizations.of(context)!.please_select_a_shipping_method;
                   }
                   return null;
                 },
@@ -176,7 +176,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                     }
                   },
                   width: 250,
-                  text: "Continue to Payment",
+                  text: AppLocalizations.of(context)!.continue_to_Payment,
                   height: 50,
                   fontsize: 16,
                 ),

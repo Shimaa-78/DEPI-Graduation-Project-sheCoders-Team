@@ -5,7 +5,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 import 'package:shoppe/cubit/favourite_cubit.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../language_cubit/language_cubit.dart';
 import '../Helpers/dio_helper.dart';
 import '../Models/Favourite.dart';
 import '../Widgets/EmptyFavouriteUi.dart';
@@ -42,15 +43,15 @@ class FavouriteScreen extends StatelessWidget {
        listener: (context, state) {
          if (state is FavouriteError) {
            Get.snackbar(
-             "Error",
-             state.message ?? "An error occurred",
+             AppLocalizations.of(context)!.error,
+             state.message ?? AppLocalizations.of(context)!.an_error_occurred,
              backgroundColor: Colors.red,
              colorText: Colors.white,
            );
          }
        },
        child: Scaffold(
-         appBar: _buildAppBar(),
+         appBar: _buildAppBar( context ),
          body: BlocBuilder<FavouriteCubit, FavouriteState>(
            builder: (context, state) {
              if (state is FavouriteLoading) {
@@ -64,13 +65,16 @@ class FavouriteScreen extends StatelessWidget {
        ),
      );
    }
-  AppBar _buildAppBar() {
-    return AppBar(
-      backgroundColor: Color(0xff004BFE),
-      automaticallyImplyLeading: false,
-      title: Text('Favorites', style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white)),
-    );
-  }
+
+    AppBar _buildAppBar(BuildContext context) {
+      return AppBar(
+        backgroundColor: Color(0xff004BFE),
+        automaticallyImplyLeading: false,
+        title: Text(AppLocalizations.of(context)!.favorites,
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+      );
+    }
+
 //////////////
   Center _buildLoadingIndicator() {
     return Center(child: CircularProgressIndicator());
@@ -89,7 +93,7 @@ class FavouriteScreen extends StatelessWidget {
     Bottomnavigationbar(),
       ],
     );
-      
+
   }
 
   GridView _buildFavoritesGrid(FavouriteCubit cubit,List<FavoriteItem> favouriteProductsList) {

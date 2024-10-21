@@ -5,6 +5,8 @@ import '../Cubit/login_cubit.dart';
 import '../Widgets/Custom Button Widget.dart';
 import '../Widgets/Custom_Text_Form_Field.dart';
 import 'LoginScreen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../language_cubit/language_cubit.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
   final currentPasswordController = TextEditingController();
@@ -19,7 +21,7 @@ class ChangePasswordScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is ChangePasswordSuccessState) {
           Get.snackbar(
-            "Success",
+            AppLocalizations.of(context)!.success,
             state.msg,
             backgroundColor: Colors.green,
             colorText: Colors.white,
@@ -38,7 +40,8 @@ class ChangePasswordScreen extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Color(0xff004BFE),
-          title: Text("Change Password",style: TextStyle(
+          title: Text(AppLocalizations.of(context)!.change_Password
+            ,style: TextStyle(
             color: Colors.white,
             fontFamily: "Raleway",
             fontSize: 22,
@@ -53,7 +56,7 @@ class ChangePasswordScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomTextFromField(
-                  label: Text('Current Password'),
+                  label: Text(AppLocalizations.of(context)!.current_Password),
                   controller: currentPasswordController,
                   icon: Icons.lock_outline,
                   isPassword: true,
@@ -68,7 +71,7 @@ class ChangePasswordScreen extends StatelessWidget {
                   textInputType: TextInputType.visiblePassword,  // Add this
                 ),
                 CustomTextFromField(
-                  label: Text('New Password'),
+                  label: Text(AppLocalizations.of(context)!.new_Password),
                   controller: newPasswordController,
                   icon: Icons.lock_outline,
                   isPassword: true,
@@ -83,7 +86,7 @@ class ChangePasswordScreen extends StatelessWidget {
                   textInputType: TextInputType.visiblePassword,  // Add this
                 ),
                 CustomTextFromField(
-                  label: Text('Confirm New Password'),/////
+                  label: Text(AppLocalizations.of(context)!.confirm_New_Password),/////
                   controller: confirmPasswordController,
                   icon: Icons.lock_outline,
                   isPassword: true,
@@ -110,7 +113,7 @@ class ChangePasswordScreen extends StatelessWidget {
                     }
 
                     return CustomButton(
-                      text: 'Change Password',
+                      text: AppLocalizations.of(context)!.change_Password,
                       fontsize: 22,
                       width: 400,
                       height: 60,

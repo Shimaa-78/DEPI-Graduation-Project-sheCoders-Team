@@ -3,7 +3,7 @@ import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart';
 
 import 'endScreen.dart';
@@ -45,7 +45,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Payment', style: TextStyle(
+        title:  Text(AppLocalizations.of(context)!.payment, style: TextStyle(
           fontFamily: "Raleway",
           fontWeight: FontWeight.bold,
           fontSize: 28,
@@ -78,8 +78,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Total Amount',
+                      Text(
+                        AppLocalizations.of(context)!.total_Amount,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -102,15 +102,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   // Card Number Input
                   TextFormField(
                     focusNode: cardNumberFocusNode,
-                    decoration: const InputDecoration(
-                      labelText: 'Card Number',
+                    decoration:  InputDecoration(
+                      labelText: AppLocalizations.of(context)!.card_Number,
                     ),
                     keyboardType: TextInputType.number,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter a valid card number';
+                        return AppLocalizations.of(context)!.please_enter_a_valid_card_number;
                       } else if (value.length != 16) {
-                        return   'Please enter a valid card number';
+                        return   AppLocalizations.of(context)!.please_enter_a_valid_card_number;
                       }
                       return null;
                     },
@@ -125,8 +125,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   // Card Holder Input
                   TextFormField(
                     focusNode: cardHolderFocusNode,
-                    decoration: const InputDecoration(
-                      labelText: 'Card Holder Name',
+                    decoration:  InputDecoration(
+                      labelText: AppLocalizations.of(context)!.card_Holder_Name,
 
                     ),
                     validator: (value) {
@@ -148,8 +148,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       Expanded(
                         child: TextFormField(
                           focusNode: expiryDateFocusNode,
-                          decoration: const InputDecoration(
-                            labelText: 'Expiry Date (MM/YY)',
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context)!.expiryDateYyMm,
 
                           ),
                           keyboardType: TextInputType.datetime,
@@ -180,7 +180,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             if (value == null || value.isEmpty || value.length < 3) {
-                              return 'Please enter a valid CVV';
+                              return AppLocalizations.of(context)!.please_enter_a_valid_CVV;
                             }
                             return null;
                           },
@@ -201,7 +201,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       if (_formKey.currentState!.validate()) {
                         Get.offAll(CongratulatoryScreen());
                       }
-                    }, width: 250, text: "Confirm", height: 60, fontsize: 18),
+                    }, width: 250, text: AppLocalizations.of(context)!.confirm,
+                        height: 60, fontsize: 18),
                   )
                 ],
               ),

@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/search_cubit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import '../Screens/productSearch.dart';// Make sure to import the correct cubit
 
 
@@ -21,7 +23,7 @@ class _TextfieldsearchState extends State<Textfieldsearch> {
       child: TextField(
         controller: _controller, // ربط الـ TextField بالـ controller
         decoration: InputDecoration(
-          hintText: 'Search...',
+          hintText: AppLocalizations.of(context)!.search,
           border: InputBorder.none, // إزالة الحدود
           suffixIcon: InkWell(
             onTap: () {

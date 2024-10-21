@@ -3,7 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:shoppe/Consts/Kcolors.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../language_cubit/language_cubit.dart';
 import 'package:shoppe/Screens/LoginScreen.dart';
 import 'package:shoppe/Screens/onBoardingScreen.dart';
 import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart';
@@ -57,7 +58,7 @@ class StartScreen extends StatelessWidget {
                   fontWeight: FontWeight.w400),
             ),
             Text(
-              "Beautiful eCommerce UI Kit for your online store",
+              AppLocalizations.of(context)!.beautiful_eCommerce_UI_Kit_for_your_online_store,
               style: TextStyle(
                   fontFamily: "NunitoSans",
                   fontSize: 19,
@@ -71,7 +72,7 @@ class StartScreen extends StatelessWidget {
             CustomButton(
               fontsize: 22,
               height: 60,
-              text: "Let's get started",
+              text: AppLocalizations.of(context)!.let_us_get_started,
               width: 400,
               ontap: () {
 
