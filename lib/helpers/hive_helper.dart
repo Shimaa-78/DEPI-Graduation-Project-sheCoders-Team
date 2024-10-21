@@ -75,10 +75,17 @@ class HiveHelper {
     Hive.box(KEY_BOX_APP_LANGUAGE).put(KEY_BOX_APP_LANGUAGE, langCode);
   }
 
-  static String? getLanguage() {
-    print(
-        "=========" + Hive.box(KEY_BOX_APP_LANGUAGE).get(KEY_BOX_APP_LANGUAGE));
-    return Hive.box(KEY_BOX_APP_LANGUAGE).get(KEY_BOX_APP_LANGUAGE);
+  static String getLanguage() {
+    return Hive.box(KEY_BOX_APP_LANGUAGE).get(KEY_BOX_APP_LANGUAGE) ?? "en";
   }
+
+  // static String? getToken() {
+  //   if (Hive.box(token).isNotEmpty) {
+  //     return Hive.box(token).get(
+  //       token,
+  //     );
+  //   }
+  //   return null;
+  // }
 
 }

@@ -13,7 +13,7 @@ class DioHelper {
         receiveTimeout: const Duration(seconds: 60),
         headers: {
           "Authorization":"${HiveHelper.getToken()}",
-          "lang": HiveHelper.getLanguage(),
+          "lang": HiveHelper.getLanguage() ?? 'en',
           "Content-Type": "application/json",
         },
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -198,7 +199,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   Center(
                     child: CustomButton(ontap:  () {
                       if (_formKey.currentState!.validate()) {
-                                Get.offAll(CongratulatoryScreen());
+                        Get.offAll(CongratulatoryScreen());
                       }
                     }, width: 250, text: "Confirm", height: 60, fontsize: 18),
                   )

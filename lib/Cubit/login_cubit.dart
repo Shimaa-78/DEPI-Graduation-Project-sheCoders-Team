@@ -52,6 +52,7 @@ class LoginCubit extends Cubit<LoginState> {
         emit(LoginErrorState(model.message ?? ""));
       }
     } catch (e) {
+      print("======================$e");
       emit(LoginErrorState("Connection is bad"));
     }
   }

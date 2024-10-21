@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shoppe/Screens/SignUp.dart';
 import 'package:shoppe/Screens/startScreen.dart';
 import 'package:shoppe/cubit/category_cubit.dart';
@@ -22,6 +22,7 @@ import 'helpers/dio_helper.dart';
 import 'helpers/hive_helper.dart';
 
 import 'Screens/home.dart';
+import 'language_cubit/language_cubit.dart';
 
 
 
@@ -33,6 +34,7 @@ void main() async {
   await Hive.openBox('USER_BOX');
   await Hive.openBox(HiveHelper.userPhoneNumber);
   await Hive.openBox(HiveHelper.onboardingBox);
+  await Hive.openBox(HiveHelper.KEY_BOX_APP_LANGUAGE);
   DioHelper.inint();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -58,7 +60,11 @@ class MyApp extends StatelessWidget {
           create: (context) => FavouriteCubit()..getFavouriteList(),
 
         ),
+        BlocProvider(
+          create: (context) => LanguageCubit(),
 
+        ),
+//
         BlocProvider(
           create: (context) => ProfileCubit(),
         ),
@@ -75,14 +81,20 @@ class MyApp extends StatelessWidget {
 
         ),
       ],
-      child: Center(
-        child: GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: Scaffold(
-            body: StartScreen(),
-          ),
+        child: BlocBuilder<LanguageCubit, LanguageState>(
+          builder: (context, state) {
+            return GetMaterialApp(
+              locale: state.locale,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              debugShowCheckedModeBanner: false,
+              home: Scaffold(
+                body: StartScreen(),
+              ),
+            );
+          },
         ),
-      ),
+
     );
   }
 }
