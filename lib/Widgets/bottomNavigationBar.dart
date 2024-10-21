@@ -19,7 +19,7 @@ class  Bottomnavigationbar extends StatelessWidget {
               Get.to(HomeScreen());
             },child: Icon(Icons.home)),
             label: '',
-          ),
+          ),/////////////////////
           BottomNavigationBarItem(
             icon: InkWell(child: Icon(Icons.favorite),onTap: (){
               Get.to(FavouriteScreen());
