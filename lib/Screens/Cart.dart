@@ -86,10 +86,10 @@ class CartScreen extends StatelessWidget {
         _buildCartHeader(cartProductsList, cartCubit, context ),
         Expanded(
           child: cartProductsList.isEmpty
-              ? _buildEmptyCartMessage(cartCubit)
+              ? _buildEmptyCartMessage(cartCubit,context)
               : _buildCartItemsList(cartProductsList),
         ),
-        _buildTotalAndCheckoutButton(cartCubit,buttonText),
+        _buildTotalAndCheckoutButton(cartCubit,buttonText,context),
       ],
     );
   }
@@ -163,7 +163,7 @@ class CartScreen extends StatelessWidget {
           const Spacer(flex: 3),
           CircleLogo("assets/images/Logo_for_emty_Cart.png"),
           const SizedBox(height: 20),
-           Text(
+          Text(
             AppLocalizations.of(context)!.your_cart_is_empty,
             style: const TextStyle(
               color: Color(0xff004BFE),
@@ -217,7 +217,7 @@ class CartScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-            AppLocalizations.of(context)!.total + " \$${cartCubit.total?.toStringAsFixed(1) ?? "0.0"}", // Format total to 1 decimal place
+              AppLocalizations.of(context)!.total + " \$${cartCubit.total?.toStringAsFixed(1) ?? "0.0"}", // Format total to 1 decimal place
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

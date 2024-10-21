@@ -9,6 +9,7 @@ import 'package:shoppe/Screens/LoginScreen.dart';
 import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart';
 import '../Helpers/hive_helper.dart';
 import '../Widgets/Custom_Text_Form_Field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class SignUp extends StatelessWidget {
@@ -25,7 +26,7 @@ class SignUp extends StatelessWidget {
       listener: (context, state) {
         if (state is LoginErrorState) {
           Get.snackbar(
-            "Error",
+            AppLocalizations.of(context)!.error,
             state.msg,
             backgroundColor: Colors.red,
             colorText: Colors.white,
@@ -33,7 +34,7 @@ class SignUp extends StatelessWidget {
         }
         if (state is LoginSuccessState) {
           Get.snackbar(
-            "Success",
+            AppLocalizations.of(context)!.success,
             state.msg,
             backgroundColor: Colors.green,
             colorText: Colors.white,
@@ -60,7 +61,7 @@ class SignUp extends StatelessWidget {
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height * 0.36),
                   Text(
-                    "Sign Up",
+                    AppLocalizations.of(context)!.sign_up,
                     style: TextStyle(
                         fontFamily: "Raleway",
                         fontSize: 52,
@@ -68,19 +69,19 @@ class SignUp extends StatelessWidget {
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   CustomTextFromField(
-                    label: Text('UserName'),
+                    label: Text(AppLocalizations.of(context)!.user_Name),
                     controller: nameController,
                     textInputType: TextInputType.text,
                     icon: Icons.person,
                     validator: (text) {
                       if (text == null || text.trim().isEmpty) {
-                        return 'please enter username';
+                        return AppLocalizations.of(context)!.please_enter_user_name;
                       }
                       return null;
                     },
                   ),
                   CustomTextFromField(
-                    label: Text('Email address'),
+                    label: Text(AppLocalizations.of(context)!.email_address),
                     textInputType: TextInputType.emailAddress,
                     controller: emailController,
                     color: Color(0xff004BFE),
@@ -93,7 +94,7 @@ class SignUp extends StatelessWidget {
                               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                           .hasMatch(text!);
                       if (!emailValid) {
-                        return "This field should be a valid email";
+                        return AppLocalizations.of(context)!.this_field_should_be_a_valid_email;
                       }
 
                       return null;
@@ -102,7 +103,7 @@ class SignUp extends StatelessWidget {
                   BlocBuilder<LoginCubit, LoginState>(
                     builder: (context, state) {
                       return CustomTextFromField(
-                        label: Text('password'),
+                        label: Text(AppLocalizations.of(context)!.password),
                         textInputType: TextInputType.visiblePassword,
                         controller: passwordController,
                         isPassword: true,
@@ -118,10 +119,10 @@ class SignUp extends StatelessWidget {
                         ),
                         validator: (text) {
                           if (text == null || text.trim().isEmpty) {
-                            return 'please enter password';
+                            return AppLocalizations.of(context)!.please_enter_password;
                           }
                           if (text.length < 6) {
-                            return 'password should be at least 6';
+                            return AppLocalizations.of(context)!.password_should_be_at_least_6;
                           }
                           return null;
                         },
@@ -129,13 +130,13 @@ class SignUp extends StatelessWidget {
                     },
                   ),
                   CustomTextFromField(
-                    label: Text('PhoneNumber'),
+                    label: Text(AppLocalizations.of(context)!.phone_number),
                     controller: phoneController,
                     textInputType: TextInputType.visiblePassword,
                     icon: Icons.phone,
                     validator: (text) {
                       if (text == null || text.trim().isEmpty) {
-                        return 'please enter your number';
+                        return AppLocalizations.of(context)!.please_enter_your_number;
                       }
                       return null;
                     },
@@ -165,7 +166,7 @@ class SignUp extends StatelessWidget {
                               HiveHelper.setUserPhoneNumber(phoneController.text); // Saving phone number
                             }
                           },
-                          text: 'Sign up',
+                          text: AppLocalizations.of(context)!.sign_up,
                           fontsize: 22,
                           width: 400,
                           height: 60,
@@ -182,7 +183,7 @@ class SignUp extends StatelessWidget {
                       indent: 30,
                     )),
                     Text(
-                      "Or Sign In With",
+                      AppLocalizations.of(context)!.or_Sign_In_With,
                       style: TextStyle(color: Color(0xFF878787)),
                     ),
                     Expanded(
@@ -208,7 +209,7 @@ class SignUp extends StatelessWidget {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Already have an account?",
+                            Text(AppLocalizations.of(context)!.already_have_an_account,
                                 style: TextStyle(
                                     color: Color(0xFF878787), fontSize: 16)),
                             TextButton(
@@ -216,7 +217,7 @@ class SignUp extends StatelessWidget {
                                   Get.off(LoginScreen());
                                 },
                                 child: Text(
-                                  'Login',
+                                  AppLocalizations.of(context)!.login,
                                   style: TextStyle(
                                       fontSize: 16, color: Color(0xff004BFE)),
                                 ))

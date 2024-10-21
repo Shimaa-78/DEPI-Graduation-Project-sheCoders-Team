@@ -28,7 +28,7 @@ class FavouriteScreen extends StatelessWidget {
             child: Text('Error: ${snapshot.error}'),
           );
         } else {
-          return _buildScreen(cubit);
+          return _buildScreen(cubit,context);
         }
       },
     );
@@ -38,42 +38,42 @@ class FavouriteScreen extends StatelessWidget {
 
     await cubit.getFavouriteList(); // Wait for the cart data to load
   }
-   Widget _buildScreen(FavouriteCubit cubit){
-     return BlocListener<FavouriteCubit, FavouriteState>(
-       listener: (context, state) {
-         if (state is FavouriteError) {
-           Get.snackbar(
-             AppLocalizations.of(context)!.error,
-             state.message ?? AppLocalizations.of(context)!.an_error_occurred,
-             backgroundColor: Colors.red,
-             colorText: Colors.white,
-           );
-         }
-       },
-       child: Scaffold(
-         appBar: _buildAppBar( context ),
-         body: BlocBuilder<FavouriteCubit, FavouriteState>(
-           builder: (context, state) {
-             if (state is FavouriteLoading) {
-               return _buildLoadingIndicator();
-             }
-             print(state);
+  Widget _buildScreen(FavouriteCubit cubit,BuildContext context){
+    return BlocListener<FavouriteCubit, FavouriteState>(
+      listener: (context, state) {
+        if (state is FavouriteError) {
+          Get.snackbar(
+            AppLocalizations.of(context)!.error,
+            state.message ?? AppLocalizations.of(context)!.an_error_occurred,
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: _buildAppBar( context ),
+        body: BlocBuilder<FavouriteCubit, FavouriteState>(
+          builder: (context, state) {
+            if (state is FavouriteLoading) {
+              return _buildLoadingIndicator();
+            }
+            print(state);
 
-             return _buildCartFavouriteContent(cubit);
-           },
-         ),
-       ),
-     );
-   }
+            return _buildCartFavouriteContent(cubit);
+          },
+        ),
+      ),
+    );
+  }
 
-    AppBar _buildAppBar(BuildContext context) {
-      return AppBar(
-        backgroundColor: Color(0xff004BFE),
-        automaticallyImplyLeading: false,
-        title: Text(AppLocalizations.of(context)!.favorites,
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-      );
-    }
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: Color(0xff004BFE),
+      automaticallyImplyLeading: false,
+      title: Text(AppLocalizations.of(context)!.favorites,
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+    );
+  }
 
 //////////////
   Center _buildLoadingIndicator() {
@@ -87,10 +87,10 @@ class FavouriteScreen extends StatelessWidget {
       children: [
         Expanded(
           child: favouriteProductsList.length == 0
-          ? EmptyFavourite()
-          : _buildFavoritesGrid(cubit,favouriteProductsList),
+              ? EmptyFavourite()
+              : _buildFavoritesGrid(cubit,favouriteProductsList),
         ),
-    Bottomnavigationbar(),
+        Bottomnavigationbar(),
       ],
     );
 

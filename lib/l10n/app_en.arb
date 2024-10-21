@@ -70,7 +70,29 @@
   "adding_to_cart" : "Adding_to_cart",
   "add_some_products_to_your_favorites" : "Add_some_products_to_your_favorites",
   "please_enter_a_valid_date_MmYy" : "please_enter_a_valid_date_MmYy",
-  "please_enter_the_name_of_cart_holder" : "please_enter_the_name_of_cart_holder"
-
-
+  "please_enter_the_name_of_cart_holder" : "please_enter_the_name_of_cart_holder",
+  "sign_up" : "sign_up",
+  "user_Name" : "user_Name",
+  "please_enter_user_name" : "please_enter_user_name",
+  "email_address" : "email_address",
+  "please_enter_email_address" : "please_enter_email_address",
+  "this_field_should_be_a_valid_email" : "this_field_should_be_a_valid_email",
+  "password": "password",
+  "please_enter_password" : "please_enter_password",
+  "password_should_be_at_least_6" : "password_should_be_at_least_6",
+  "please_enter_your_number" : "please_enter_your_number",
+  "or_Sign_In_With" : "or_Sign_In_With",
+  "already_have_an_account" : "already_have_an_account",
+  "login" : "login",
+  "good_to_see_you_back" : "good_to_see_you_back",
+  "create_Now" : "create_Now",
+  "forget_password" : "forget_password",
+  "do_not_have_an_account" : "do_not_have_an_account",
+  "ready" : "Ready",
+  "unlock_special_deals_discounts_and_exclusive_offers_available_only_to_our_app_users" : "unlock_special_deals_discounts_and_exclusive_offers_available_only_to_our_app_users",
+  "exclusive_Offers" : "exclusive_Offers",
+  "get_your_orders_delivered_quickly_to_your_doorstep_with_real_time_tracking_available_for_your_convenience" : "get_your_orders_delivered_quickly_to_your_doorstep_with_real_time_tracking_available_for_your_convenience",
+  "fast_Delivery" : "fast_Delivery",
+  "hello" : "hello",
+  "browse_through_a_wide_range_of_products_across_various_categories_and_find_exactly_what_you_are_looking_for" : "browse_through_a_wide_range_of_products_across_various_categories_and_find_exactly_what_you_are_looking_for"
 }

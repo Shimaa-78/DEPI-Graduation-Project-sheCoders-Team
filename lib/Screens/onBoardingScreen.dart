@@ -3,16 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-
-import 'package:shoppe/Screens/LoginScreen.dart';
-import 'package:shoppe/Screens/profile_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../Helpers/hive_helper.dart';
 import '../Models/OnboardingModel.dart';
 import 'SignUp.dart';
 
-/////////
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
 
@@ -22,12 +18,18 @@ class OnBoardingScreen extends StatefulWidget {
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   int currentIndex = 0;
+
+  @override
   void initState() {
     HiveHelper.setValueInOnboardingBox();
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
+    // Accessing the localized strings with context
+    List<OnBoardingModel> onboardingList = getOnboardingList(context);
+
     return Scaffold(
       body: Stack(
         children: [
@@ -47,33 +49,34 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               children: [
                 CarouselSlider(
                   items: List.generate(
-                    OnboardingList.length,
+                    onboardingList.length,
                         (index) => Container(
                       child: Column(
                         children: [
                           ClipRRect(
-                              borderRadius: BorderRadius.circular(30),
-                              child: Image.asset(
-                                "${OnboardingList[index].imagePath}",
-                                fit: BoxFit.cover,
-                              )),
-                          SizedBox(height: 20,),
+                            borderRadius: BorderRadius.circular(30),
+                            child: Image.asset(
+                              onboardingList[index].imagePath,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          SizedBox(height: 20),
                           Text(
-                            "${OnboardingList[index].title}",
+                            onboardingList[index].title,
                             style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "Raleway"),
                           ),
-                          SizedBox(height: 20,),
+                          SizedBox(height: 20),
                           Text(
-                            "${OnboardingList[index].Discreption}",
+                            onboardingList[index].description,
                             style: TextStyle(
                                 fontFamily: "NunitoSans",
                                 fontSize: 19,
                                 fontWeight: FontWeight.w300),
                             textAlign: TextAlign.center,
-                          )
+                          ),
                         ],
                       ),
                       width: 306,
@@ -110,21 +113,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       });
 
                       // Check if the last screen is reached
-                      if (currentIndex == OnboardingList.length - 1) {
-
+                      if (currentIndex == onboardingList.length - 1) {
                         Future.delayed(Duration(seconds: 3), () {
                           Get.offAll(SignUp());
-
                         });
                       }
                     },
                   ),
                 ),
-
                 SizedBox(height: 30),
                 AnimatedSmoothIndicator(
                   activeIndex: currentIndex,
-                  count: OnboardingList.length,
+                  count: onboardingList.length,
                   effect: WormEffect(
                     dotColor: Colors.grey,
                     activeDotColor: Colors.blue,

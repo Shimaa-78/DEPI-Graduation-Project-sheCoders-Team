@@ -66,12 +66,34 @@
   "check_out" : "تحقق من",
   "remove_from_cart": "حذف من العربه",
   "removing_from_cart" : "يتم الحذف من العربه",
-  "add_to_cart" : "add_to_cart",
+  "add_to_cart" : "اضف الي العربه",
   "adding_to_cart" : "يتم الاضافه الي العربه",
   "add_some_products_to_your_favorites": "اضف بعض المنتجات الي مفضلتك",
   "please_enter_a_valid_date_MmYy": "من فضلم ادخل تاريخ صالح",
-  "please_enter_the_name_of_cart_holder" : "من فضلك ادخل اسم حامل البطاقه"
-
-
+  "please_enter_the_name_of_cart_holder" : "من فضلك ادخل اسم حامل البطاقه",
+  "sign_up" : "انشاء حساب",
+  "user_Name" : "اسم المستخدم",
+  "please_enter_user_name" : "من فضلك ادخل اسم المستخدم",
+  "email_address" : "البريد الالكتروني",
+  "please_enter_email_address" : "من فضلك ادخل البريد الالكتروني",
+  "this_field_should_be_a_valid_email" : "يجب ان يكون البريد الالكتروني صالحا",
+  "password": "كلمه المرور",
+  "please_enter_password" : "من فضلك ادخل كلمه المرور",
+  "password_should_be_at_least_6" : "كلمه المرور يجب ان تكون 6 احرف علي الاقل",
+  "please_enter_your_number" : "من فضلك ادخل رقم الهاتف",
+  "or_Sign_In_With" : "او تسجيل الدخول عن طريق",
+  "already_have_an_account" : "لدي حساب بالفعل",
+  "login" : "تسجيل الدخول",
+  "good_to_see_you_back" : "من الجيد رؤيتك مره اخرى",
+  "create_Now" : "انشاء حساب",
+  "forget_password" : "نسيت كلمه المرور",
+  "do_not_have_an_account" : "ليس لديك حساب",
+  "ready" : "جاهز!",
+  "unlock_special_deals_discounts_and_exclusive_offers_available_only_to_our_app_users" : "احصل على العروض الخاصة والخصومات والعروض الحصرية المتاحة فقط لمستخدمي التطبيق لدينا",
+  "exclusive_Offers": "عروض حصرية",
+  "get_your_orders_delivered_quickly_to_your_doorstep_with_real_time_tracking_available_for_your_convenience":"احصل على طلباتك يتم تسليمها بسرعة إلى عتبة داركم، مع إمكانية التتبع في الوقت الفعلي لراحتك",
+  "fast_Delivery" : "التوصيل السريع",
+  "hello" : "مرحبا",
+  "browse_through_a_wide_range_of_products_across_various_categories_and_find_exactly_what_you_are_looking_for": "تصفح مجموعة واسعة من المنتجات عبر فئات مختلفة واعثر على ما تبحث عنه بالضبط"
 
 }

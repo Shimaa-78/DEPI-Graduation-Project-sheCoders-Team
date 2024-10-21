@@ -8,6 +8,8 @@ import 'package:shoppe/Screens/SignUp.dart';
 import 'package:shoppe/Widgets/Custom%20Button%20Widget.dart';
 import '../Helpers/hive_helper.dart';
 import '../Widgets/Custom_Text_Form_Field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -23,7 +25,7 @@ class LoginScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is LoginErrorState) {
           Get.snackbar(
-            "Error",
+            AppLocalizations.of(context)!.error,
             state.msg,
             backgroundColor: Colors.red,
             colorText: Colors.white,
@@ -31,7 +33,7 @@ class LoginScreen extends StatelessWidget {
         }
         if (state is LoginSuccessState) {
           Get.snackbar(
-            "Success",
+            AppLocalizations.of(context)!.success,
             state.msg,
             backgroundColor: Colors.green,
             colorText: Colors.white,
@@ -59,14 +61,14 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     SizedBox(height: MediaQuery.of(context).size.height * 0.45),
                     Text(
-                      "Login",
+                      AppLocalizations.of(context)!.login,
                       style: TextStyle(
                           fontFamily: "Raleway",
                           fontSize: 52,
                           fontWeight: FontWeight.w400),
                     ),
                     Text(
-                      "Good to see you back! 🖤",
+                      AppLocalizations.of(context)!.good_to_see_you_back ,
                       style: TextStyle(
                           fontFamily: "NunitoSans",
                           fontSize: 19,
@@ -76,20 +78,20 @@ class LoginScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 12),
                     CustomTextFromField(
-                      label: Text('Email address'),
+                      label: Text(AppLocalizations.of(context)!.email_address),
                       controller: emailController,
                       textInputType: TextInputType.emailAddress,
                       icon: Icons.mail_outline_rounded,
                       validator: (text) {
                         if (text == null || text.trim().isEmpty) {
-                          return 'please enter email';
+                          return AppLocalizations.of(context)!.please_enter_your_address;
                         }
 
                         final bool emailValid = RegExp(
                                 r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(text!);
                         if (!emailValid) {
-                          return "This field should be a valid email";
+                          return AppLocalizations.of(context)!.this_field_should_be_a_valid_email;
                         }
                         /////////////new part menna /////////
                         HiveHelper.setUserEmail(emailController.text);
@@ -101,7 +103,7 @@ class LoginScreen extends StatelessWidget {
                     BlocBuilder<LoginCubit, LoginState>(
                       builder: (context, state) {
                         return CustomTextFromField(
-                          label: Text('password'),
+                          label: Text(AppLocalizations.of(context)!.password),
                           controller: passwordController,
                           icon: Icons.lock_outline,
                           isPassword: true,
@@ -117,10 +119,10 @@ class LoginScreen extends StatelessWidget {
                           textInputType: TextInputType.visiblePassword,
                           validator: (text) {
                             if (text == null || text.trim().isEmpty) {
-                              return 'please enter password';
+                              return AppLocalizations.of(context)!.please_enter_password;
                             }
                             if (text.length < 6) {
-                              return 'password should be at least 6';
+                              return AppLocalizations.of(context)!.password_should_be_at_least_6;
                             }
                             return null;
                           },
@@ -135,7 +137,7 @@ class LoginScreen extends StatelessWidget {
                               Get.offAll(ForgetPassword());
                             },
                             child: Text(
-                              'Forgot Password?',
+                              AppLocalizations.of(context)!.forget_password,
                               style: TextStyle(
                                   decoration: TextDecoration.underline,
                                   color: Colors.red,
@@ -152,7 +154,7 @@ class LoginScreen extends StatelessWidget {
                         }
 
                         return CustomButton(
-                          text: 'Login',
+                          text: AppLocalizations.of(context)!.login,
                           fontsize: 22,
                           width: 400,
                           height: 60,
@@ -172,7 +174,7 @@ class LoginScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Don't have an account?",
+                        Text(AppLocalizations.of(context)!.do_not_have_an_account,
                             style: TextStyle(
                                 fontSize: 17,
                                 fontFamily: "NunitoSans",
@@ -181,8 +183,8 @@ class LoginScreen extends StatelessWidget {
                             onPressed: () {
                               Get.off(SignUp());
                             },
-                            child: const Text(
-                              'Create Now',
+                            child:  Text(
+                              AppLocalizations.of(context)!.create_Now,
                               style: TextStyle(
                                   fontSize: 18, color: Color(0xff004BFE)),
                             ))
