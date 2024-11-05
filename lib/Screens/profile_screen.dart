@@ -132,7 +132,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               } else if (state is ProfileError) {
                 return Center(
-                  child: Text("An error occurred. Please try again."),
+                  child: Text(AppLocalizations.of(context)!.an_error_occurred),
                 );
               } else {
                 return Center(child: CircularProgressIndicator());
@@ -198,17 +198,17 @@ class _ProfilePageState extends State<ProfilePage> {
                 label: Text(
                   AppLocalizations.of(context)!.male,
                   style: TextStyle(
-                      color: selectedGender == "Male" ? Colors.white : Colors.black,
+                      color: selectedGender == AppLocalizations.of(context)!.male ? Colors.white : Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                       fontFamily: "Raleway"
                   ),
                 ),
-                selected: selectedGender == "Male",
+                selected: selectedGender == AppLocalizations.of(context)!.male,
                 selectedColor: Color(0xff004BFE),
                 backgroundColor: Colors.white,
                 onSelected: (bool selected) {
-                  context.read<ProfileCubit>().updateGender("Male");
+                  context.read<ProfileCubit>().updateGender(AppLocalizations.of(context)!.male);
                 },
               ),
               SizedBox(width: 10),
@@ -216,15 +216,15 @@ class _ProfilePageState extends State<ProfilePage> {
                 label: Text(
                   AppLocalizations.of(context)!.female,
                   style: TextStyle(
-                    color: selectedGender == "Female" ? Colors.white : Colors.black,
+                    color: selectedGender == AppLocalizations.of(context)!.female ? Colors.white : Colors.black,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                selected: selectedGender == "Female",
+                selected: selectedGender == AppLocalizations.of(context)!.female,
                 selectedColor: Color(0xff004BFE),
                 backgroundColor: Colors.white,
                 onSelected: (bool selected) {
-                  context.read<ProfileCubit>().updateGender("Female");
+                  context.read<ProfileCubit>().updateGender(AppLocalizations.of(context)!.female);
                 },
               ),
             ],
@@ -346,28 +346,28 @@ class _ProfilePageState extends State<ProfilePage> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ListTile(
-                title: Text("Cairo"),
+                title: Text(AppLocalizations.of(context)!.cairo),
                 onTap: () {
                   setState(() {
-                    selectedCity = "Cairo";
+                    selectedCity = AppLocalizations.of(context)!.cairo;
                   });
                   Navigator.of(context).pop();
                 },
               ),
               ListTile(
-                title: Text("Alexandria"),
+                title: Text(AppLocalizations.of(context)!.alexandria),
                 onTap: () {
                   setState(() {
-                    selectedCity = "Alexandria";
+                    selectedCity = AppLocalizations.of(context)!.alexandria;
                   });
                   Navigator.of(context).pop();
                 },
               ),
               ListTile(
-                title: Text("Giza"),
+                title: Text(AppLocalizations.of(context)!.giza),
                 onTap: () {
                   setState(() {
-                    selectedCity = "Giza";
+                    selectedCity = AppLocalizations.of(context)!.giza;
                   });
                   Navigator.of(context).pop();
                 },
